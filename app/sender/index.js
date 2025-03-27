@@ -76,7 +76,7 @@ export default class EmailSender extends WebSocket {
     }
 
     onData(data) {
-        
+
     }
 
     onClose() {
@@ -163,7 +163,14 @@ export default class EmailSender extends WebSocket {
     }
 
     sendMail(data) {
-
+        this.encrypt(JSON.stringify({action: 2, data}), this.currentKey).then(
+            enc => {
+                let res;
+                let prom = new Promise(resolve => res = resolve);
+                this.sendData({'en': enc});
+                this.promises.newMail = res;
+                return prom
+            }
+        )
     }
-
 }
