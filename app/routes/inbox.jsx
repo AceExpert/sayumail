@@ -14,6 +14,8 @@ export function meta({}) {
   ];
 }
 
+let EmailSender;
+
 export default class Home extends Component {
 
   constructor(props) {
@@ -25,7 +27,21 @@ export default class Home extends Component {
   }
 
   componentDidMount() {
-    
+    import("../sender/index").then(em => {
+      EmailSender = em.EmailSender;
+      this.connect()
+    })
+  }
+
+  connect() {
+    this.sender = EmailSender.start('ws://cybertron:3008/mail', this.connect.bind(this), () => {
+      this.sender.openChannel().then(() => {
+        console.log("opened");
+        this.sender.authorize("anshul", "Anshul@7329").then(() => {
+          console.log("Authorized");
+        });
+      })
+    });
   }
 
   saveDraft() {

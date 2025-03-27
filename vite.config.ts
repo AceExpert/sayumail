@@ -6,5 +6,8 @@ export default defineConfig({
   plugins: [reactRouter(), tsconfigPaths()],
   server: {
     allowedHosts: ['cybertron']
+  },
+  define: {
+    global: 'globalThis',
   }
 });

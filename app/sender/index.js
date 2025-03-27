@@ -1,10 +1,8 @@
-import ecc from "eccrypto";
+import {} from "../encrypter/bundle";
 
-import { publicKey, symm, symmRev } from "../constants";
+class EmailSender extends WebSocket {
 
-export default class EmailSender extends WebSocket {
-
-    constructor(url) {
+    constructor(url, onEnd, onOpen) {
         super(url);
         this.connUrl = url;
         this.promises = {
@@ -13,6 +11,8 @@ export default class EmailSender extends WebSocket {
             auth: null,
             newMail: null,
         }
+        this.onEnd = onEnd;
+        this.onOpenCB = onOpen;
         this.hbTimer = null;
         this.currentKey = null;
         this.privKey = null;
@@ -25,8 +25,8 @@ export default class EmailSender extends WebSocket {
         this.closeConnection = this.closeConnection.bind(this);
     }
 
-    static start(url) {
-        return new EmailSender(url);
+    static start(...args) {
+        return new EmailSender(...args);
     }
 
     onOpen() {
@@ -35,6 +35,7 @@ export default class EmailSender extends WebSocket {
             this.send(info[0]);
             info[1]();
         };
+        this.onOpenCB?.();
     }
 
     closeConnection() {
@@ -47,16 +48,18 @@ export default class EmailSender extends WebSocket {
             this.hbTimer = setTimeout(this.closeConnection, 70000)
         }
         try {
-            let data = JSON.parse(msg);
-            if('chan' in data) {
-                this.currentKey = Buffer.from(JSON.parse(this.decryptS1(data.chan)));
+            let data = JSON.parse(msg.data);
+            if(data['chan']) {
+                console.log(data);
+                this.currentKey = Buffer.from(JSON.parse(ecc.decryptS1(data.chan)));
                 this.promises.newChannel?.();
                 this.promises.newChannel = null;
-            } else if ('en' in data) {
-                this.decrypt(data.en, this.privKey).then(
+            } else if (data['en']) {
+                ecc.decrypt(data.en, this.privKey).then(
                     d => {
                         let fdata = JSON.parse(d);
-                        if('auth' in fdata) {
+                        console.log(fdata);
+                        if(Object.keys(fdata).includes("auth")) {
                             this.authorized = fdata.auth;
                             this.promises.auth?.(fdata.auth);
                             this.promises.auth = null;
@@ -88,7 +91,7 @@ export default class EmailSender extends WebSocket {
             clearTimeout(this.hbTimer);
             this.hbTimer = null;
         }
-        super(this.connUrl);
+        this.onEnd?.();
     };
 
     onError(err) {
@@ -96,9 +99,10 @@ export default class EmailSender extends WebSocket {
     }
 
     openChannel() {
-        this.privKey = ecc.generatePrivate();
-        let pubkey = ecc.getPublic(this.privKey);
-        return this.encrypt(JSON.stringify({"action": 0, "key": [...pubkey]}), publicKey).then(enc => {
+        let newKeys = ecc.generateKeys();
+        this.privKey = newKeys[0];
+        let pubkey = newKeys[1];
+        return ecc.encrypt(JSON.stringify({action: 0, key: [...pubkey]}), publicKey).then(enc => {
             let res;
             let prom = new Promise(resolve => res = resolve); 
             this.sendData({'en': enc});
@@ -107,39 +111,8 @@ export default class EmailSender extends WebSocket {
         })
     }
 
-    encrypt(data, key) {
-        return ecc.encrypt(key, Buffer.from(data)).then(encrypted => {
-            let d = JSON.stringify(Object.keys(encrypted).map(k => [...encrypted[k]]));
-            let d1 = [...d];
-            [...d].forEach((l, i) => d1[i] = symm[l]);
-            d1 = d1.join("");
-            return d1;
-        })
-    }
-
-    decryptS1(data) {
-        let ck1 = [...data];
-        [...data].forEach((l, i) => ck1[i] = symmRev[l]);
-        return ck1.join("");
-    }
-
-    decryptS2(data, key) {
-        let encOpt = JSON.parse(data);
-        let fd = {
-            iv: Buffer.from(encOpt[0]),
-            ephemPublicKey: Buffer.from(encOpt[1]),
-            ciphertext: Buffer.from(encOpt[2]),
-            mac: Buffer.from(encOpt[3])
-        }
-        return ecc.decrypt(key, fd).then(decrypted => decrypted.toString());
-    }
-
-    decrypt(data, key) {
-        return this.decryptS2(this.decryptS1(data), key)
-    }
-
     authorize(user, pswd) {
-        this.encrypt(JSON.stringify({action: 1, user, pswd}), this.currentKey).then(
+        return ecc.encrypt(JSON.stringify({action: 1, user, pswd}), this.currentKey).then(
             enc => {
                 let res;
                 let prom = new Promise(resolve => res = resolve);
@@ -151,19 +124,20 @@ export default class EmailSender extends WebSocket {
     }
 
     sendData(data) {
+        let fdata = JSON.stringify(data);
         let res;
         let promise = new Promise(resolve => res = resolve);
         if(this.readyState != WebSocket.OPEN) {
-            this.promises.sendQueue.push([JSON.stringify(data), res]);
+            this.promises.sendQueue.push([fdata, res]);
         } else {
-            this.send(data);
+            this.send(fdata);
             res();
         }
         return promise;
     }
 
     sendMail(data) {
-        this.encrypt(JSON.stringify({action: 2, data}), this.currentKey).then(
+        ecc.encrypt(JSON.stringify({action: 2, data}), this.currentKey).then(
             enc => {
                 let res;
                 let prom = new Promise(resolve => res = resolve);
@@ -174,3 +148,5 @@ export default class EmailSender extends WebSocket {
         )
     }
 }
+
+export {EmailSender}
