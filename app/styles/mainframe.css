@@ -1,0 +1,169 @@
+.mainhead {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    height: 65px;
+    background-color: rgba(255, 255, 255, 0.0); /*.2*/
+    box-shadow: 0px 2px 30px 5px rgba(0, 0, 0, 0.00); /*.08*/
+    margin: 10px 20px 0px 20px;
+    margin: 0px;
+    border-radius: 15px;
+    border-radius: 0px;
+    padding: 0px 10px 0px 10px;
+    gap: 10px;
+    justify-content: space-between;
+}
+
+.close-button {
+    user-select: none;
+    font-size: 24px;
+    padding: 3px;
+    border-radius: 50%;
+    background-color: rgb(3, 0, 5);
+    color: pink;
+    box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.2);
+}
+
+.close-button:hover {
+    cursor: pointer;
+}
+
+.control-holder {
+    gap: 10px;
+    height: 100%;
+    padding: 10px 10px 10px 0px;
+}
+
+.c0-holder {
+    width: 300px;
+}
+
+.navil-con {
+    width: 250px;
+    height: 100%;
+    box-shadow: 3px 0px 12px 0px rgba(0, 0, 0, 0.00);
+    z-index: 2;
+}
+
+.navil {
+    gap: 5px;
+    font-weight: 600;
+    padding: 0px 10px 10px 0px;
+    font-size: 18px;
+}
+
+.mails-con {
+    width: 100%;
+    height: fit-content;
+    border-radius: 0px 0px 0px 10px; /*15px 0px 0px 10px*/
+    align-items: flex-end;
+    box-shadow: 3px 3px 20px 0px rgba(0, 0, 0, 0.07), 6px 5px 0px 0px rgba(0, 0, 0, 1);
+    border: 1px dashed black;
+    border: 2px solid black;
+    border-right: 0px;
+}
+
+:nth-child(1 of div.mail-tab-class-1) {
+    border-top-left-radius: 0px; /*15px*/
+    border-top: 0px solid black;
+}
+
+:nth-last-child(1 of div.mail-tab-class-1) {
+    border-bottom-left-radius: 10px;
+    border-bottom: 0px solid black;
+}
+
+:nth-child(n + 1 of div.mail-tab-class-1) {
+    border-left: 0px solid black;
+}
+
+.mail-type-con {
+    width: 100%;
+    gap: 5px;
+}
+
+.compose-box {
+    position: absolute;
+    bottom: 30px;
+    right: 30px;
+    gap: 10px;
+    z-index: 5;
+    border-radius: 10px;
+    max-width: 600px;
+}
+
+.float-con {
+    background-color: rgba(252, 247, 255, 0.514);
+    height: 100%;
+    padding: 0px 10px;
+    font-weight: 600;
+    border-radius: 5px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0px 2px 20px 0px rgba(0, 0, 0, 0.07);
+    border: 1px dashed rgba(0, 0, 0, 0.438);
+}
+
+.float-con-2 {
+    border: 1px solid rgba(0, 0, 0, 0.438);
+    height: 45px;
+    border-top-right-radius: 0px;
+}
+
+.subject-con {
+    border-radius: 0px 10px 10px 0px;
+    border-radius: 0px 10px 0px 0px;
+    outline: none;
+    min-width: 0px;
+    border: 1px solid rgba(0, 0, 0, 0.438);
+    position: relative;
+    bottom: -6px;
+    min-height: 45px;
+    max-width: 550px;
+}
+
+.subject-input-placeholder {
+    font-size: 20px;
+    font-weight: 700;
+    border-radius: 0px 10px 10px 0px;
+    outline: none;
+    color: black;
+    padding: 0px;
+    min-width: 73px;
+}
+
+.compose-input {
+    border-radius: 0px 10px 0px 10px;
+    border: 1px solid rgba(0, 0, 0, 0.438);
+    transition: .6s min-width ease-in-out, .6s min-height ease-in-out, .6s bottom ease-in-out;
+}
+
+.float-con:nth-child(1 of div.float-con) {
+    border-bottom-left-radius: 0px;
+}
+
+.letter-paper-class-1 {
+    width: 100%;
+    height: calc(100%);
+    background: linear-gradient(45deg, rgb(248, 235, 210), rgb(255, 240, 213), rgb(250, 221, 226), rgb(255, 231, 235), rgb(255, 249, 254));
+    box-shadow: 0px 10px 30px 0px rgba(53, 0, 83, 0.15);
+    border: 1px solid rgba(177, 0, 162, 0.185);
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    padding: 20px 20px;
+    gap: 5px;
+}
+
+.letter-subject {
+    width: 100%;
+    text-align: center;
+    font-size: 25px;
+    font-weight: 700;
+}
+
+.letter-content {
+    margin-top: 30px;
+    font-weight: 500;
+    font-size: 15px;
+}

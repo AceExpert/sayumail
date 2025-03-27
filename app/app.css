@@ -1,15 +1,57 @@
-@import "tailwindcss";
-
-@theme {
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif,
-    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+@font-face {
+  font-family: 'SamsungFont';
+  src: local('SamsungFont'), url(./assets/fonts/SamsungSharpSans-Bold.ttf) format('truetype');
 }
 
-html,
-body {
-  @apply bg-white dark:bg-gray-950;
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: Figtree;
+}
 
-  @media (prefers-color-scheme: dark) {
-    color-scheme: dark;
-  }
+.material-symbols-outlined {
+  font-variation-settings:
+  'FILL' 1,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 24;
+  user-select: none;
+}
+
+html {
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  background: linear-gradient(90deg, rgb(241, 231, 236), rgb(255, 255, 255), rgb(243, 239, 234), white);
+  background: linear-gradient(90deg, rgb(253, 237, 255), rgb(224, 255, 242), white);
+  background: linear-gradient(90deg, rgb(228, 247, 255), white, rgb(255, 231, 235), white);
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+}
+
+.row-center {
+  display: flex;
+  flex-direction: row;
+  align-items: center; 
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+}
+
+.column-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center; 
 }
