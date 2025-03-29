@@ -34,6 +34,14 @@ body {
   overflow: hidden;
 }
 
+.hover-ptr:hover {
+  cursor: pointer;
+}
+
+.no-select {
+  user-select: none;
+}
+
 .row {
   display: flex;
   flex-direction: row;

@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 
+import { emailPat } from "../constants";
+
 import "./styles/inputs.css";
 
 export default function InputClass1({
@@ -86,35 +88,137 @@ export default function InputClass1({
 }
 
 export function SelectInputClass1({
+    style = {},
     defaults = [],
+    className = '',
+    check = null,
     ...props
 }) {
     
     let [chips, setChip] = useState(defaults);
+    let [data, setData] = useState([...defaults]);
     let [editing, setEdit] = useState(false);
+    let [arrowChange, setArrow] = useState(false);
     let selectInput = useRef(null);
+    let selectChips = useRef(null);
+
+    let saveData = (addNew = false) => {
+        let fdata = data.map(v => v.trim()).filter(v => v.length);
+        if(addNew) {
+            fdata.push("");
+        }
+        setData(fdata);
+        setChip(fdata);
+    }
 
     useEffect(() => {
         if(editing) {
-            setChip([...chips, ""]);
+            setData([...data, ""]);
+            setChip([...data, ""]);
+        } else {
+            saveData()
         }
     }, [editing])
 
+    let getSelectChips = () => {
+        if(!selectChips.current) {
+            selectChips.current = {};
+        };
+        return selectChips.current;
+    }
+
     useEffect(() => {
         if(selectInput.current && editing) {
-            window.getSelection().selectAllChildren([...selectInput.current.children].slice(-1)[0]?.children?.[0])
-            window.getSelection().collapseToEnd();
+            //getSelection().selectAllChildren([...selectInput.current.children].slice(-1)[0]?.children?.[0])
+            //getSelection().collapseToEnd();
+            let last = Math.max(...Object.keys(getSelectChips()).map(Number));
+            if (last !== -Infinity) {
+                let chip = getSelectChips()[last].childNodes?.[0];
+                if(chip) {
+                    getSelection().collapse(chip, chip.length);
+                } else {
+                    getSelection().collapse(getSelectChips()[last], getSelectChips()[last].innerText.length)
+                };
+            }
         }
     }, [chips])
 
+    let checkEmail = check || ((target, text) => {
+        if(!emailPat.test(text)) {
+            target.style.borderBottom = "2px dashed red";
+        } else {
+            target.style.borderBottom = "0px dashed black";
+        }
+    })
+
     return (
-        <div className="row-center float-con select-input-class-1" style={{fontWeight: "500", gap: "5px", outline: "none"}} contentEditable={false} tabIndex={1} onClick={
+        <div className={"row-center float-con select-input-class-1 " + (className ?? '')} style={{fontWeight: "500", gap: "5px", outline: "none", ...(style ?? {})}} contentEditable={false} onClick={
             () => {}
-        } ref={selectInput}>
+        } 
+            onKeyDown={evt => {
+                if(evt.keyCode === 13) {
+                    evt.preventDefault();
+                    if(!editing) {
+                        saveData();
+                        setEdit(true)
+                    } else {
+                        saveData(true);
+                    }
+                } else if (evt.keyCode === 8) {
+                    let selec = getSelection();
+                    if(selec.anchorOffset === 0 && (selec.anchorNode?.innerText?.trim()?.length === 0) || (selec.anchorNode?.length === 0)) {
+                        evt.preventDefault();
+                        saveData();
+                    } 
+                } else if (evt.code === 'ArrowLeft' || evt.code === 'ArrowRight') {
+                    let selec = getSelection();
+                    arrowChange = true;
+                    console.log(selec.anchorOffset, selec.anchorNode?.length)
+                    if((selec.anchorOffset === 0 && evt.code === 'ArrowLeft') || (selec.anchorOffset === selec.anchorNode?.length && evt.code === 'ArrowRight')) {
+                        evt.preventDefault();
+                        for(let ind of Object.keys(getSelectChips())) {
+                            ind = Number(ind);
+                            if(selec.anchorNode === getSelectChips()[ind].childNodes?.[0] || selec.anchorNode === getSelectChips()[ind]) {
+                                if(ind - 1 >= 0 && evt.code === 'ArrowLeft') {
+                                    let node = getSelectChips()[ind - 1].childNodes?.[0];
+                                    getSelection().collapse(node, node.length);
+                                } else if (Math.max(...Object.keys(getSelectChips()).map(Number)) >= ind + 1 && evt.code === 'ArrowRight') {
+                                    console.log('ok')
+                                    console.log(getSelectChips(), ind)
+                                    let node = getSelectChips()[ind + 1].childNodes?.[0] ?? getSelectChips()[ind + 1];
+                                    getSelection().collapse(node, 0)
+                                }
+                                break
+                            }
+                        }
+                    }
+                }
+            }}
+            onKeyUp = {
+                evt => {
+                    if(['ArrowLeft', 'ArrowRight'].includes(evt.code)) {
+                        arrowChange = false;
+                    }
+                }
+            }
+        ref={selectInput}>
             {chips.map((v, i, a) => 
+            
             <div className="row-center" style={{gap: "5px"}} key={Math.random()}>
-                <div style={{outline: "none"}} className="chip-class-1" contentEditable={true} tabIndex={1} onInput={({target}) => setChip(chips.map((val, ind) => i === ind? target.innerText : val))} onBlur={({target}) => {
-                    setEdit(false)
+                <div style={{outline: "none", borderBottom: emailPat.test(v)? "0px solid black" : "2px dashed red"}} className="chip-class-1" contentEditable={true} spellCheck={false} tabIndex={1} onInput={({target}) => {data[i] = target.innerText.trim(); checkEmail(target, target.innerText.trim());}} onBlur={({target}) => {
+                    if(!arrowChange) {
+                        if(editing) {
+                            setEdit(false);
+                        } else {
+                            saveData();
+                        }
+                    };
+                }} ref={(chip) => {
+                    getSelectChips()[i] = chip;
+
+                    return () => {
+                        delete getSelectChips()[i]
+                    }
                 }}>{v}</div>
                 {editing && i === a.length - 1? null : <div style={{color: "rgba(0, 0, 0, 0.4)"}}>|</div>}
             </div>

@@ -1,8 +1,10 @@
-import { Component } from "react";
+import { Component, createRef } from "react";
 
 import InputClass1, { SelectInputClass1 } from "../components/input";
 import SelectClass1 from "../components/select";
 import Tab, { MailTab, Tab2 } from "../components/tab";
+
+import { emailPat } from "../constants";
 
 import "../styles/mainframe.css";
 import "../styles/inbox.css";
@@ -22,8 +24,10 @@ export default class Home extends Component {
     super(props);
     this.props = props;
     this.state = {
-      composing: false,
+      composing: true,
+      toAddr: null,
     };
+    this.toInputCon = createRef();
   }
 
   componentDidMount() {
@@ -48,30 +52,46 @@ export default class Home extends Component {
     this.setState({composing: false});
   }
 
+  sendMail() {
+
+  }
+
   render = () =>
     <div style={{width: "100%", height: "100%", display: "flex", flexDirection: "column"}}>
       <div className="compose-box column">
         <div className="column" style={{gap: "5px", display: this.state.composing? "flex" : "none"}}>
           <div className="row-center" style={{height: "35px", gap: "5px"}}>
             <div className="row-center float-con">To</div>
-            <div className="row-center float-con" style={{fontWeight: "500", gap: "5px"}} contentEditable={false}>
-              <div style={{outline: "none"}} className="chip-class-1" contentEditable="true">very.anshul@gmail.com</div>
+            <div className="row-center float-con" style={{fontWeight: "500", gap: "5px"}} contentEditable={false} ref={this.toInputCon}>
+              <div style={{outline: "none"}} className="chip-class-1" contentEditable="true" spellCheck={false} onInput={({target}) => {
+                this.state.toAddr = target.innerText.trim();
+                if(!emailPat.test(this.state.toAddr)) {
+                  this.toInputCon.target.style.borderColor = 'red';
+                } else {
+                  this.toInputCon.target.style.borderColor = 'rgba(0, 0, 0, 0.438)'
+                }
+              }}>very.anshul@gmail.com</div>
             </div>
           </div>
-          <div className="row-center" style={{height: "35px", gap: "5px"}}>
-            <div className="row-center float-con">CC</div>
-            <SelectInputClass1 />
+          <div className="row-center" style={{minHeight: "35px", gap: "5px"}}>
+            <div className="row-center float-con" style={{height: "35px"}}>CC</div>
+            <SelectInputClass1 className="cc-bcc-input"/>
           </div>
-          <div className="row-center" style={{height: "35px", gap: "5px"}}>
-            <div className="row-center float-con">BCC</div>
-            <SelectInputClass1 />
+          <div className="row-center" style={{gap: "5px", justifyContent: "space-between"}}>
+            <div className="row-center" style={{gap: "5px"}}>
+              <div className="row-center float-con" style={{height: "35px"}}>BCC</div>
+              <SelectInputClass1 className="cc-bcc-input"/>
+            </div>
+            <div className="row-center" style={{gap: "5px", paddingRight: "5px"}}>
+              <span className="material-symbols-outlined close-button" style={{}} onClick={this.saveDraft.bind(this)}>close</span>
+            </div>
           </div>
         </div>
         <div style={{gap: "5px", marginTop: "-7px"}} className="column">
           <div className="row-center" style={{minHeight: "45px", gap: "5px", display: this.state.composing? "flex" : "none", justifyContent: "space-between"}}>
             <InputClass1 placeholder={"Subject"} className={"float-con subject-con"} placeholderClassName={"subject-input-placeholder"} inputClassName={"subject-input-placeholder"}/>
-            <div className="row-center">
-                <span className="material-symbols-outlined close-button" style={{}} onClick={this.saveDraft.bind(this)}>close</span>
+            <div className="row-center" style={{gap: "5px"}}>
+                <span className="material-symbols-outlined send-button hover-ptr" style={{}} onClick={this.sendMail.bind(this)}>send</span>
             </div>
           </div>
           <InputClass1 

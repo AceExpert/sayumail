@@ -43,4 +43,6 @@ const symmRev = {
     ']': '8'
 };
 
-export {publicKey, symm, symmRev};
+const emailPat =  /[a-zA-Z0-9\$%\-#&\.]+@(?:[a-zA-Z0-9\-]+\.)*[a-zA-Z0-9\-]+\.(?:[a-zA-Z0-9\-]+\.)?[a-zA-Z0-9\-]+/;
+
+export {publicKey, symm, symmRev, emailPat};

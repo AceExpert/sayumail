@@ -37,6 +37,14 @@
     z-index: -1;
 }
 
+.chip-class-1 {
+    word-break: break-all;
+}
+
+.select-input-class-1 {
+    flex-wrap: wrap;
+}
+
 .select-input-class-1:hover {
     cursor: pointer;
 }
