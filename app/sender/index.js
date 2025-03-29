@@ -1,4 +1,4 @@
-import {} from "../encrypter/bundle";
+import {} from "../encrypter/bundle2";
 
 class EmailSender extends WebSocket {
 
@@ -125,6 +125,7 @@ class EmailSender extends WebSocket {
 
     sendData(data) {
         let fdata = JSON.stringify(data);
+        console.log(fdata)
         let res;
         let promise = new Promise(resolve => res = resolve);
         if(this.readyState != WebSocket.OPEN) {
