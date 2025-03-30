@@ -92,6 +92,7 @@ export function SelectInputClass1({
     defaults = [],
     className = '',
     check = null,
+    onInput = null,
     ...props
 }) {
     
@@ -173,7 +174,6 @@ export function SelectInputClass1({
                 } else if (evt.code === 'ArrowLeft' || evt.code === 'ArrowRight') {
                     let selec = getSelection();
                     arrowChange = true;
-                    console.log(selec.anchorOffset, selec.anchorNode?.length)
                     if((selec.anchorOffset === 0 && evt.code === 'ArrowLeft') || (selec.anchorOffset === selec.anchorNode?.length && evt.code === 'ArrowRight')) {
                         evt.preventDefault();
                         for(let ind of Object.keys(getSelectChips())) {
@@ -183,8 +183,6 @@ export function SelectInputClass1({
                                     let node = getSelectChips()[ind - 1].childNodes?.[0];
                                     getSelection().collapse(node, node.length);
                                 } else if (Math.max(...Object.keys(getSelectChips()).map(Number)) >= ind + 1 && evt.code === 'ArrowRight') {
-                                    console.log('ok')
-                                    console.log(getSelectChips(), ind)
                                     let node = getSelectChips()[ind + 1].childNodes?.[0] ?? getSelectChips()[ind + 1];
                                     getSelection().collapse(node, 0)
                                 }
@@ -205,7 +203,16 @@ export function SelectInputClass1({
             {chips.map((v, i, a) => 
             
             <div className="row-center" style={{gap: "5px"}} key={Math.random()}>
-                <div style={{outline: "none", borderBottom: emailPat.test(v)? "0px solid black" : "2px dashed red"}} className="chip-class-1" contentEditable={true} spellCheck={false} tabIndex={1} onInput={({target}) => {data[i] = target.innerText.trim(); checkEmail(target, target.innerText.trim());}} onBlur={({target}) => {
+                <div style={{outline: "none", borderBottom: emailPat.test(v)? "0px solid black" : "2px dashed red"}} className="chip-class-1" contentEditable={true} spellCheck={false} tabIndex={1} 
+                onInput={
+                    ({target}) => {
+                        data[i] = target.innerText.trim(); 
+                        checkEmail(target, target.innerText.trim());
+                        onInput?.(data, i, target.innerText.trim());
+                    }
+                } 
+                
+                onBlur={({target}) => {
                     if(!arrowChange) {
                         if(editing) {
                             setEdit(false);

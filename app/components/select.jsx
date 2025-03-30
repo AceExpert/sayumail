@@ -37,7 +37,9 @@ export default function SelectClass1({label, values = {}, icon = 'keyboard_arrow
                 {selected.map(selectValue => (
                 <div className="select-option-class-1 " onClick={() => {
                     selMenu.current?.focus();
-                    selectNow(selected.map(v => { v.selected = multi ? (selectValue.value !== v.value? v.selected : required? (selected.filter(sel => sel.selected).length === 1 ? true : !v.selected) : !v.selected) : (selectValue.value !== v.value? false : required ? true : !v.selected); return v }))
+                    let newSelected = selected.map(v => { v.selected = multi ? (selectValue.value !== v.value? v.selected : required? (selected.filter(sel => sel.selected).length === 1 ? true : !v.selected) : !v.selected) : (selectValue.value !== v.value? false : required ? true : !v.selected); return v });
+                    selectNow(newSelected);
+                    onSelect?.(newSelected.filter(v => v.selected).map(v => v.value));
                 }} key={Math.random()}>
                     <div className="row-center" style={{gap: "8px"}}>
                         <span className="material-symbols-outlined" style={{fontSize: "22px", color: selectValue.selected? "rgba(77, 17, 105, 0.8)" : "transparent", userSelect: "none"}}>{selectIcon}</span>
