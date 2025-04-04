@@ -16,6 +16,12 @@
     box-shadow: -7px 5px 25px 0px rgba(0, 0, 0, 0.10);
 }
 
+.divider-class-1 {
+    height: 1px;
+    background-color: rgba(177, 0, 162, 0.185);
+    width: 100%;
+}
+
 .mail-tab-class-1 {
     width: 100%;
     gap: 30px;
@@ -24,7 +30,8 @@
     backdrop-filter: blur(10px);
     padding: 0px 0px 0px 10px;
     border-bottom: 1px solid rgba(82, 82, 82, 0.116);
-    border-bottom: 1px dashed rgba(97, 97, 97, 0.274);
+    border-bottom: 1px dashed rgb(221, 168, 255);
+    border-bottom: 1px dashed rgba(70, 70, 70, 0.288);
     box-shadow: 0px 2px 7px 0px rgba(0, 0, 0, 0.1);
     box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.08);
     box-shadow: 10px 9px 0px 0px black;
@@ -96,4 +103,12 @@
 .tab-class-2:hover {
     background-color: rgba(0, 0, 0, 0.10);
     cursor: pointer;
+}
+
+.tab-class-1-selected:hover {
+    background-color: rgb(71, 0, 112);
+}
+
+.tab-class-2-selected:hover {
+    background-color: rgb(71, 0, 112);
 }

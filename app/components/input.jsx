@@ -6,8 +6,10 @@ import "./styles/inputs.css";
 
 export default function InputClass1({
     placeholder,
+    ref,
     icon,
     style,
+    defaultValue,
     onInput,
     onKeyDown,
     onKeyUp,
@@ -30,6 +32,13 @@ export default function InputClass1({
     useEffect(() => {
         if(inputCon.current && mainParent.current) {
             inputCon.current.style.minHeight = mainParent.current.clientHeight + 'px';
+        }
+        if(ref) {
+            ref.current = [inputCon.current, (text) => {
+                setText(text.trim());
+                inputCon.current.innerHTML = text.trim();
+                setVisible(!text.trim());
+            }]
         }
     }, [])
 
@@ -80,7 +89,7 @@ export default function InputClass1({
                         setVisible(false);
                     }
                 }}>
-                    
+                    {defaultValue}
                 </div>
             </div>
         </div>
@@ -89,6 +98,7 @@ export default function InputClass1({
 
 export function SelectInputClass1({
     style = {},
+    ref,
     defaults = [],
     className = '',
     check = null,
@@ -118,6 +128,9 @@ export function SelectInputClass1({
             setChip([...data, ""]);
         } else {
             saveData()
+        }
+        if(ref) {
+            ref.current = [getSelectChips(), (newchips) => {setChip(newchips); setData(newchips);}]
         }
     }, [editing])
 

@@ -1,0 +1,14 @@
+.no-mails-class-1 {
+    height: 100%;
+    width: 100%;
+    justify-content: center;
+    gap: 5px;
+}
+
+.emptybox-tagline {
+    font-size: 30px;
+    text-align: center;
+    width: calc(100% - 30px);
+    font-weight: 600;
+    color: rgba(0, 0, 0, 0.637);
+}

@@ -1,5 +1,7 @@
 import {} from "../encrypter/bundle2";
 
+const connection = { server: null }
+
 class EmailSender extends WebSocket {
 
     constructor(url, onEnd, onOpen) {
@@ -9,11 +11,13 @@ class EmailSender extends WebSocket {
             sendQueue: [],
             newChannel: null,
             auth: null,
-            newMail: null,
+            custom: [],
         }
+        this.mailData = {}
         this.onEnd = onEnd;
         this.onOpenCB = onOpen;
         this.hbTimer = null;
+        this.hbSendTimer = null;
         this.currentKey = null;
         this.privKey = null;
         this.authorized = false;
@@ -36,6 +40,14 @@ class EmailSender extends WebSocket {
             info[1]();
         };
         this.onOpenCB?.();
+        this.hbSendTimer = setInterval(() => {
+            try {
+                this.send(".");
+            } catch {
+                clearInterval(this.hbSendTimer);
+                this.hbSendTimer = null;
+            }
+        }, 120000);
     }
 
     closeConnection() {
@@ -45,12 +57,11 @@ class EmailSender extends WebSocket {
     onMessage(msg) {
         if(this.authorized && this.hbTimer) {
             clearTimeout(this.hbTimer);
-            this.hbTimer = setTimeout(this.closeConnection, 70000)
+            this.hbTimer = setTimeout(this.closeConnection, 150000)
         }
         try {
             let data = JSON.parse(msg.data);
             if(data['chan']) {
-                console.log(data);
                 this.currentKey = Buffer.from(JSON.parse(ecc.decryptS1(data.chan)));
                 this.promises.newChannel?.();
                 this.promises.newChannel = null;
@@ -58,14 +69,13 @@ class EmailSender extends WebSocket {
                 ecc.decrypt(data.en, this.privKey).then(
                     d => {
                         let fdata = JSON.parse(d);
-                        console.log(fdata);
                         if(Object.keys(fdata).includes("auth")) {
                             this.authorized = fdata.auth;
                             this.promises.auth?.(fdata.auth);
                             this.promises.auth = null;
                             if(this.authorized) {
                                 this.sessionToken = fdata.token;
-                                this.hbTimer = setTimeout(this.closeConnection, 70000)
+                                this.hbTimer = setTimeout(this.closeConnection, 150000)
                             }
                         } else {
                             this.onData(fdata);
@@ -74,12 +84,37 @@ class EmailSender extends WebSocket {
                 )
             };
         } catch (e) {
-            console.error(e)
+            //console.error(e)
         }
     }
 
     onData(data) {
+        if(Object.keys(data).includes('resp')) {
+            this.clearCustomPromise(data.resp, data)
+        }
+        if(Object.keys(data).includes('mails')) {
+            if(!this.mailData[data.folder]) {
+                this.mailData[data.folder] = {'all': []}
+            }
+            for(let i = 0; i < data.count; i++) {
+                if(data.category === 'all') {
+                    this.mailData[data.folder]['all'][data.offset + i] = data.mails[i]
+                }
+            }
+            this.clearCustomPromise(data.fetch_id, data.mails)
+        }
+    }
 
+    clearCustomPromise(nid, data) {
+        let i = 0;
+        for(let [id, res] of this.promises.custom) {
+            if(id === nid) {
+                res(data);
+                this.promises.custom.splice(i, 1);
+                break;
+            }
+            i++;
+        }
     }
 
     onClose() {
@@ -87,6 +122,10 @@ class EmailSender extends WebSocket {
         this.promises.newChannel = null;
         this.promises.newMail = null;
         this.authorized = false;
+        if(this.hbSendTimer) {
+            clearInterval(this.hbSendTimer);
+            this.hbSendTimer = null;
+        }
         if(this.hbTimer) {
             clearTimeout(this.hbTimer);
             this.hbTimer = null;
@@ -123,9 +162,36 @@ class EmailSender extends WebSocket {
         )
     }
 
+    getMailFromCache(folder, category, limit, offset) {
+        let mails = []
+        if(this.mailData[folder]?.[category]) {
+            for(let i = 0; i < limit; i++) {
+                let mail = this.mailData[folder][category][offset + i];
+                if(!mail) {
+                    break;
+                } else {
+                    mails[i] = mail
+                }
+                i++;
+            }
+        }
+        return mails.length? new Promise(resolve => resolve(mails)) : null;
+    }
+
+    fetchMails(folder, category, limit = 50, offset = 0, id = Math.random().toString()) {
+        return this.getMailFromCache(folder, category, limit, offset) || ecc.encrypt(JSON.stringify({action: 3, data: {folder, category, limit, offset, id}}), this.currentKey).then(
+            enc => {
+                let res;
+                let prom = new Promise(resolve => res = resolve);
+                this.sendData({'en': enc});
+                this.promises.custom.push([id, res])
+                return prom
+            }
+        )
+    }
+
     sendData(data) {
         let fdata = JSON.stringify(data);
-        console.log(fdata)
         let res;
         let promise = new Promise(resolve => res = resolve);
         if(this.readyState != WebSocket.OPEN) {
@@ -143,11 +209,11 @@ class EmailSender extends WebSocket {
                 let res;
                 let prom = new Promise(resolve => res = resolve);
                 this.sendData({'en': enc});
-                this.promises.newMail = res;
+                this.promises.custom.push([data.id, res])
                 return prom
             }
         )
     }
 }
 
-export {EmailSender}
+export {EmailSender, connection}

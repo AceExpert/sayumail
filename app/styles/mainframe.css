@@ -67,8 +67,12 @@
     border-radius: 0px 0px 0px 10px; /*15px 0px 0px 10px*/
     align-items: flex-end;
     box-shadow: 3px 3px 20px 0px rgba(0, 0, 0, 0.07), 6px 5px 0px 0px rgba(0, 0, 0, 1);
+    box-shadow: 3px 3px 50px 0px rgb(169 21 255 / 23%);
+    box-shadow: 3px 3px 50px 0px rgba(30, 0, 48, 0.23);
     border: 1px dashed black;
-    border: 2px dashed black;
+    border: 0px dashed black;
+    border: 1px solid rgba(185, 150, 255, 0.452);
+    border: 0px dashed black;
     border-right: 0px;
 }
 
@@ -156,16 +160,65 @@
     border-bottom-left-radius: 0px;
 }
 
+.notification-panel {
+    position: absolute;
+    right: 0px;
+    top: 100px;
+    z-index: 5;
+}
+
 .letter-paper-class-1 {
     width: 100%;
     height: calc(100%);
     background: linear-gradient(45deg, rgb(248, 235, 210), rgb(255, 240, 213), rgb(250, 221, 226), rgb(255, 231, 235), rgb(255, 249, 254));
+    background: linear-gradient(0deg, rgba(255, 240, 223, 0.89), rgba(255, 233, 192, 0.562), rgba(250, 221, 226, 0.726), rgba(255, 231, 235, 0.582));
     box-shadow: 0px 10px 30px 0px rgba(53, 0, 83, 0.15);
+    box-shadow: 0px 10px 30px 0px rgba(186, 10, 255, 0.144);
     border: 1px solid rgba(177, 0, 162, 0.185);
+    border: 0px;
     border-radius: 20px;
     display: flex;
     flex-direction: column;
-    padding: 20px 20px;
+    padding: 20px 0px;
+    gap: 5px;
+    backdrop-filter: blur(10px);
+    position: relative;
+    border-top-right-radius: 0px;
+}
+
+.letter-window-controls {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    display: none;
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.781);
+    backdrop-filter: blur(10px);
+    box-shadow: 0px 10px 40px 0px rgba(96, 0, 116, 0.205);
+}
+
+.letter-paper-class-1:hover {
+    .letter-window-controls {
+        display: flex;
+    }
+}
+
+.window-ctrl-icon {
+    user-select: none;
+    padding: 5px;
+    border-radius: 50%;
+}
+
+.window-ctrl-icon:hover {
+    cursor: pointer;
+    background-color: black;
+    color: wheat !important;
+    
+}
+
+.letter-padded-block {
+    padding: 0px 20px;
+    width: 100%;
     gap: 5px;
 }
 
@@ -177,7 +230,7 @@
 }
 
 .letter-content {
-    margin-top: 30px;
+    margin-top: 10px;
     font-weight: 500;
     font-size: 15px;
 }
