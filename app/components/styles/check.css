@@ -1,0 +1,28 @@
+.checkbox-class-1 {
+    background-color: transparent;
+    height: 21px;
+    width: 21px;
+    border-radius: 3px;
+    border: 2px solid rgb(220, 203, 255);
+}
+
+.checkbox-check {
+    color: transparent;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    font-size: 18px;
+}
+
+.checkbox-class-1:hover {
+    cursor: pointer;
+}
+
+.checkbox-class-1-selected {
+    background-color: mediumpurple;
+    border: 0px;
+}
+
+.checkbox-check-selected {
+    color: white;
+}

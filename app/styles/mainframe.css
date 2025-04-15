@@ -4,7 +4,7 @@
     align-items: center;
     width: 100%;
     height: 65px;
-    background-color: rgba(255, 255, 255, 0.0); /*.2*/
+    background-color: rgba(255, 255, 255, 0.2); /*.2*/
     box-shadow: 0px 2px 30px 5px rgba(0, 0, 0, 0.00); /*.08*/
     margin: 10px 20px 0px 20px;
     margin: 0px;
@@ -13,6 +13,19 @@
     padding: 0px 10px 0px 10px;
     gap: 10px;
     justify-content: space-between;
+    box-shadow: 0px 10px 30px 0px rgba(20, 0, 0, 0.08); /*0.8 -> 0.5*/
+    background-color: rgba(241, 233, 255, 0.342);
+    /*box-shadow: 0px 7px 7px 0px rgba(0, 0, 0, 0.1);*/
+    border-bottom: 0px solid rgba(184, 149, 255, 0.288);
+}
+
+.header-avatar {
+    height: 100%;
+    border-radius: 50%;
+}
+
+.search-input {
+    border-radius: 5px;
 }
 
 .close-button {
@@ -50,15 +63,35 @@
 .navil-con {
     width: 250px;
     height: 100%;
-    box-shadow: 3px 0px 12px 0px rgba(0, 0, 0, 0.00);
+    box-shadow: 3px 0px 12px 0px rgba(0, 0, 0, 0);
     z-index: 2;
+    padding-top: 20px;
 }
 
 .navil {
     gap: 5px;
     font-weight: 600;
-    padding: 0px 10px 10px 0px;
+    padding: 0px 10px 0px 10px;
+    padding: 5px;
     font-size: 18px;
+    box-shadow: 0px 15px 30px 0px #7200b421;
+    background: linear-gradient(45deg, rgba(182, 225, 245, 0.178), white, rgba(255, 247, 230, 0.37), rgba(255, 160, 160, 0.144));
+    background: #fff8fd;
+    align-self: center;
+    width: calc(100% - 20px);
+    border: 1px solid rgba(97, 51, 189, 0.171); /* 0px */
+    border: 0px dashed black;
+    border-radius: 10px;
+    border-radius: 0px;
+    background: none;
+    box-shadow: none;
+    width: calc(100% - 10px);
+    backdrop-filter: blur(10px);
+    /*border: 1px solid rgba(223, 94, 255, 0.438);
+    background: linear-gradient(45deg, rgba(255, 223, 228, 0.658), rgba(236, 255, 236, 0.521));
+    background: rgba(254, 249, 255, 0.74);
+    box-shadow: 0px 7px 7px 0px rgba(0, 0, 0, 0.1);
+    border-radius: 7px;*/
 }
 
 .mails-con {
@@ -68,7 +101,7 @@
     align-items: flex-end;
     box-shadow: 3px 3px 20px 0px rgba(0, 0, 0, 0.07), 6px 5px 0px 0px rgba(0, 0, 0, 1);
     box-shadow: 3px 3px 50px 0px rgb(169 21 255 / 23%);
-    box-shadow: 3px 3px 50px 0px rgba(30, 0, 48, 0.23);
+    box-shadow: 3px 3px 50px 0px rgba(30, 0, 48, 0.151); /*.23*/
     border: 1px dashed black;
     border: 0px dashed black;
     border: 1px solid rgba(185, 150, 255, 0.452);
@@ -82,7 +115,7 @@
 }
 
 :nth-last-child(1 of div.mail-tab-class-1) {
-    border-bottom-left-radius: 10px;
+    border-bottom-left-radius: 0px;
     border-bottom: 0px solid black;
 }
 
@@ -92,7 +125,8 @@
 
 .mail-type-con {
     width: 100%;
-    gap: 5px;
+    gap: 15px;
+    justify-content: start;
 }
 
 .compose-box {
@@ -152,8 +186,27 @@
 
 .compose-input {
     border-radius: 0px 10px 0px 10px;
-    border: 1px solid rgba(0, 0, 0, 0.438);
+    border: 1px solid rgba(106, 0, 206, 0.185);
+    background-color: transparent;
+    background: linear-gradient(90deg, rgba(255, 228, 233, 0.568), rgba(255, 245, 225, 0.747));
     transition: .6s min-width ease-in-out, .6s min-height ease-in-out, .6s bottom ease-in-out;
+    box-shadow: 5px 5px 10px 0px rgba(47, 0, 85, 0.151);
+    position: relative;
+    right: -30px;
+    border-radius: 5px 0px 0px 5px;
+    border-right: 0px;
+}
+
+.compose-input:hover {
+    cursor: pointer;
+}
+
+.compose-input-on {
+    border: 1px solid rgba(0, 0, 0, 0.438);
+    background: none;
+    background-color: rgba(253, 249, 255, 0.486);
+    box-shadow: 0px 3px 30px 10px rgb(0, 0, 0, 0.08);
+    right: 0px;
 }
 
 .float-con:nth-child(1 of div.float-con) {
@@ -175,15 +228,16 @@
     box-shadow: 0px 10px 30px 0px rgba(53, 0, 83, 0.15);
     box-shadow: 0px 10px 30px 0px rgba(186, 10, 255, 0.144);
     border: 1px solid rgba(177, 0, 162, 0.185);
-    border: 0px;
-    border-radius: 20px;
+    border: 0px dashed purple;
+    border: 1px solid rgba(199, 171, 255, 0.521);
+    box-shadow: 0px 10px 20px 4px rgba(28, 0, 51, 0.116);
+    border-radius: 10px;
     display: flex;
     flex-direction: column;
     padding: 20px 0px;
-    gap: 5px;
+    gap: 0px;
     backdrop-filter: blur(10px);
     position: relative;
-    border-top-right-radius: 0px;
 }
 
 .letter-window-controls {
@@ -233,4 +287,99 @@
     margin-top: 10px;
     font-weight: 500;
     font-size: 15px;
+    border: 0px;
+    outline: 0px;
+    height: 100%;
+    width: 100%;
+}
+
+.letter-block-one {
+    padding: 10px 20px 10px 20px;
+    border-left: 0px solid mediumpurple;
+    box-shadow: 0px 3px 5px 0px rgba(0, 0, 0, 0.00);
+}
+
+.letter-action-bar {
+    padding: 0px 0px;
+    border-radius: 5px 5px 0px 0px;
+    align-self: flex-start;
+    border: 0px dashed black;
+    border: 1px solid rgba(146, 92, 255, 0.301);
+    box-shadow: 0px 5px 5px 0px rgba(67, 0, 129, 0.08);
+    background-color: white;
+    margin-left: 10px;
+    border-bottom: 0px;
+}
+
+.letter-action-icon {
+    padding: 4px 6px;
+    color: rgb(8, 8, 8) !important;
+    height: 100%;
+    font-variation-settings:
+        'FILL' 0,
+        'wght' 400,
+        'GRAD' 0,
+        'opsz' 24;
+    color: rgb(17, 17, 17) !important;
+    border-radius: 3px;
+    border: 0px solid rgba(235, 154, 255, 0.479);
+    border-bottom: 0px;
+    border-radius: 3px 3px 0px 0px;
+}
+
+.display-none {
+    display: none;
+}
+
+.divider-class-2 {
+    width: 1px;
+    height: 100%;
+    background-color: rgba(199, 171, 255, 0);
+    margin: 0px;
+}
+
+:nth-child(1 of span.letter-action-icon) {
+    /*border-radius: 5px 0px 0px 5px;*/
+}
+
+
+:nth-child(1 of span.letter-action-icon) {
+    color: white !important;
+    color: rgba(255, 65, 185, 0.979) !important;
+}
+
+:nth-child(2 of span.letter-action-icon) {
+    color: white !important;
+    color: mediumpurple !important;
+}
+
+:nth-child(3 of span.letter-action-icon) {
+    color: white !important;
+    color: mediumaquamarine !important;
+}
+
+:nth-child(4 of span.letter-action-icon) {
+    color: white !important;
+    color: mediumorchid !important;
+}
+
+:nth-child(5 of span.letter-action-icon) {
+    color: white !important;
+    color: mediumturquoise !important;
+}
+
+:nth-child(6 of span.letter-action-icon) {
+    color: white !important;
+    color: orange !important;
+}
+
+
+:nth-last-child(1 of span.letter-action-icon) {
+    /*border-radius: 0px 5px 5px 0px;*/
+}
+
+span.letter-action-icon:hover {
+    background-color: black !important;
+    color: white !important;
+    cursor: pointer;
 }

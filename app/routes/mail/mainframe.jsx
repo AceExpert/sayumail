@@ -36,19 +36,20 @@ class Home extends Component {
       sign: ['cytroid.in'],
       notifications: [],
       viewMail: {
-        from: "Anshul Singh",
-        fromAddr: "anshul@sayutel.com",
-        to: "Subhajit Sidhanta",
-        toAddr: 'subhajit@iem.iitkgp.ac.in',
+        from_name: "Anshul Singh",
+        from_addr: "anshul@sayutel.com",
+        to_name: "Subhajit Sidhanta",
+        to_addr: 'subhajit@iem.iitkgp.ac.in',
         domain: 'sayutel.com',
         sign: 'sayutel.com',
         subject: 'Leave Application due to release of Cytroid [24IM10016]',
         tls: true,
-        html: <div>Dear sir<br></br><br></br>I am Anshul Singh, roll number 24IM10016 from the Department of Industrial and Systems Engineering. I request you to grant me leave for 12th, 13th, 14th and 15th of July as I was unable to attend classes that day due to the opening ceremony of Cytroid.<br></br><br></br>I hope that you will grant me leave for the same as well give blessings for my company.<br></br><br></br>Thank you<br></br><br></br>Yours Sincerely<br></br>Anshul Singh<br></br><br></br><p style={{color: "gray"}}>Sent using SayuMail by Sayutel</p></div>
+        body: '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&display=swap"/><style>*{margin:0px;padding:0px;box-sizing:border-box;}</style><div style="font-family:Figtree, Calibri;font-size:15px;font-weight:400;"><div>Dear sir</br></br>I am Anshul Singh, roll number 24IM10016 from the Department of Industrial and Systems Engineering. I request you to grant me leave for 12th, 13th, 14th and 15th of July as I was unable to attend classes that day due to the opening ceremony of Cytroid.</br></br>I hope that you will grant me leave for the same as well give blessings for my company.</br></br>Thank you</br></br>Yours Sincerely</br>Anshul Singh</br></br><p style="color: mediumpurple; margin:5px 0px;">Sent using SayuMail by Sayutel</p></div></div>'
       },
-      showingMail: false,
+      showingMail: true,
       _loaderprom: new Promise(res => _loaderres = res),
     };
+    this.letterContent = createRef();
     this.toInputCon = createRef();
 
     this.toInput = createRef()
@@ -116,6 +117,7 @@ class Home extends Component {
   }
 
   showMail(mail) {
+    this.letterContent.current.innerHTML = mail.body;
     this.setState({viewMail: mail, showingMail: true})
   }
 
@@ -233,7 +235,7 @@ class Home extends Component {
           </div>
           <InputClass1 
             icon={this.state.composing? undefined : "edit"} placeholder={"Compose"} 
-            className={"compose-input"} textArea={true} 
+            className={"compose-input " + (this.state.composing? " compose-input-on": "")} textArea={true} 
             style={{minHeight: this.state.composing? "200px" : "50px", minWidth: this.state.composing? "600px" : "140px"}} 
             enabled={this.state.composing}
             ref={this.composeInput}
@@ -281,9 +283,9 @@ class Home extends Component {
         <div className="c0-holder"></div>
         <p style={{letterSpacing: "2px", fontWeight: "600", fontSize: '23px'}}>Sputh Mail</p>
         <div className="row-center control-holder">
-          <InputClass1 icon={"search"} placeholder={"Search"}/>
+          <InputClass1 icon={"search"} placeholder={"Search"} className={"search-input"}/>
           <div style={{height: "100%"}}>
-            <img src="https://cdn-icons-png.freepik.com/512/168/168720.png" style={{height: "100%", borderRadius: "50%", border: "0px solid black", boxShadow: "0px 0px 30px 0px rgba(116, 9, 158, 0.32)"}}/>
+            <img src="https://cdn-icons-png.freepik.com/512/168/168720.png" className="header-avatar"/>
           </div>
         </div>
       </div>
@@ -302,7 +304,22 @@ class Home extends Component {
           <div style={{width: "100%", gap: "0px", boxShadow: '10px 20px 20px 0px rgba(0, 0, 0, 0.05)'}} className="column">   
             <Outlet context={{loader: this.state._loaderprom}}/>
           </div>
-          <div className="column-center" style={{width: "100%", height: "100%", borderLeft: "0px solid rgba(0, 0, 0, 0.5)", padding: "20px 30px", display: this.state.showingMail? "flex" : "none"}}>
+          <div className="column-center" style={{width: "100%", height: "100%", borderLeft: "0px solid rgba(0, 0, 0, 0.5)", padding: "20px 30px", display: this.state.showingMail? "flex" : "none", gap: "0px"}}>
+            <div className="letter-action-bar column-center">
+              <div className="row-center letter-actions" style={{gap: "10px"}}>
+                <span className="material-symbols-outlined letter-action-icon" style={{fontSize: "22px", color: "black"}}>star</span>
+                <div style={{}} className="divider-class-2 display-none"></div>
+                <span className="material-symbols-outlined letter-action-icon" style={{fontSize: "20px", color: "black"}}>save</span>
+                <div style={{}} className="divider-class-2 display-none"></div>
+                <span className="material-symbols-outlined letter-action-icon" style={{fontSize: "20px", color: "black"}}>download</span>
+                <div style={{}} className="divider-class-2 display-none"></div>
+                <span className="material-symbols-outlined letter-action-icon" style={{fontSize: "20px", color: "black"}}>reply</span>
+                <div style={{}} className="divider-class-2 display-none"></div>
+                <span className="material-symbols-outlined letter-action-icon" style={{fontSize: "20px", color: "black"}}>forward</span>
+                <div style={{}} className="divider-class-2 display-none"></div>
+                <span className="material-symbols-outlined letter-action-icon" style={{fontSize: "20px", color: "black"}}>label_important</span>
+              </div>
+            </div>
             <div className="letter-paper-class-1">
               <div className="row-center letter-window-controls">
                 <div className="column-center" style={{gap: "10px"}}>
@@ -319,8 +336,8 @@ class Home extends Component {
                 </div>
               </div>
               <Divider style={{marginTop: "10px"}}/>
-              <div className="letter-padded-block column">
-                <div className="row-center" style={{width: "100%", marginTop: "10px"}}>
+              <div className="letter-padded-block column letter-block-one">
+                <div className="row-center" style={{width: "100%", marginTop: "0px"}}>
                   <div className="row-center" style={{gap: "10px"}}>
                     <p style={{fontWeight: "700"}}>From</p>
                     <div className="row-center" style={{gap: "5px"}}>
@@ -357,10 +374,9 @@ class Home extends Component {
                   </div>
                 </div>
               </div>
-              <Divider style={{marginTop: "10px"}}/>
-              <div className="letter-padded-block column">
-                <div className="letter-content">
-                  {this.state.viewMail?.body}
+              <Divider style={{marginTop: "0px"}}/>
+              <div className="letter-padded-block column" style={{height: "100%"}}>
+                <div className="letter-content" ref={this.letterContent}>
                 </div>
               </div>
             </div>

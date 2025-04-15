@@ -1,8 +1,9 @@
 .tab-class-1 {
-    gap: 20px;
+    gap: 10px; /* 20px */ 
     padding: 7px 10px 7px 35px;
+    padding: 7px 7px 7px 20px;
     width: 100%;
-    font-size: 16px;
+    font-size: 14px;
 }
 
 .tab-class-1-selected {
@@ -11,6 +12,7 @@
     border-left: 0px;
     background: rgb(20, 0, 24);
     border-radius: 0px 0px 5px 0px;
+    border-radius: 5px;
     padding-right: 30px;
     /*box-shadow: 5px 5px 20px 10px rgba(0, 0, 0, 0.15);*/
     box-shadow: -7px 5px 25px 0px rgba(0, 0, 0, 0.10);
@@ -25,7 +27,7 @@
 .mail-tab-class-1 {
     width: 100%;
     gap: 30px;
-    height: 40px;
+    height: 45px;
     background-color: rgba(255, 255, 255, 0.61);
     backdrop-filter: blur(10px);
     padding: 0px 0px 0px 10px;
@@ -73,6 +75,10 @@
     }
 }
 
+.mail-tab-controls-class-1 {
+    gap: 5px
+}
+
 .tab-class-1:hover {
     cursor: pointer;
     background-color: rgba(0, 0, 0, 0.062);
@@ -87,12 +93,22 @@
     width: 200px;
     box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.00);
     border-radius: 10px 10px 0px 0px;
+    border-radius: 5px;
+    box-shadow: 0px 5px 10px 0px rgba(22, 0, 48, 0.11);
+    box-shadow: 0px 5px 15px 0px rgba(22, 0, 48, 0.1);
+    justify-content: center;
+    background: rgb(255, 255, 255);
+    border: 0px solid rgba(145, 126, 255, 0.274);
+    border: 1px solid rgba(180, 143, 255, 0.363);
+    border-bottom: 0px;
+    border-radius: 5px 5px 0px 0px;
 }
 
 .tab-class-2-selected {
     background: rgb(20, 0, 24);
     justify-content: center;
-    border-bottom: 0px solid pink;
+    border-bottom: 3px solid mediumpurple;
+    border-radius: 5px 5px 0px 0px;
 }
 
 .tab-icon-class-2-selected {

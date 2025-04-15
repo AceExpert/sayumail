@@ -1,4 +1,4 @@
-import {} from "../encrypter/bundle2";
+import "../encrypter/bundle2";
 
 const connection = { server: null }
 
@@ -12,6 +12,9 @@ class EmailSender extends WebSocket {
             newChannel: null,
             auth: null,
             custom: [],
+        }
+        this.eventListeners = {
+            'newMail': []
         }
         this.mailData = {}
         this.onEnd = onEnd;
@@ -102,6 +105,32 @@ class EmailSender extends WebSocket {
                 }
             }
             this.clearCustomPromise(data.fetch_id, data.mails)
+        }
+        if(data.event === 1) {
+            this.mailData[data.folder].unshift(data.mail);
+
+            for(let cb of this.eventListeners.newMail) {
+                if(cb.folder === data.folder && (cb.category === data.category || cb.category === 'all')) {
+                    cb.callback(data.mail);
+                    break;
+                }
+            }
+        }
+    }
+
+    onNewMail({folder, category, id = Math.random()}, callback) {
+        this.eventListeners.newMail.push({
+            folder, category, id, callback
+        })
+        return id;
+    }
+
+    removeNewMail(id) {
+        for(let i = 0; i < this.eventListeners.newMail.length; i++) {
+            if(this.eventListeners.newMail[i].id === id) {
+                this.eventListeners.newMail.splice(i, 1);
+                break;
+            }
         }
     }
 

@@ -1,5 +1,7 @@
 import { useNavigate } from "react-router";
 
+import CheckBox from "./checkbox";
+
 import "./styles/tab.css";
 
 export default function Tab({name, icon, style, selected, onClick, link, ...props}) {
@@ -11,7 +13,7 @@ export default function Tab({name, icon, style, selected, onClick, link, ...prop
             navigate(link ?? '/'+name.toLowerCase())
         }}>
             <div className="row-center">
-                <span className={"material-symbols-outlined " + (selected ? 'tab-icon-class-1-selected' : '')} style={{fontSize: "22px", color: selected ? 'transparent' : "rgba(77, 17, 105, 0.8)"}}>{icon}</span>
+                <span className={"material-symbols-outlined " + (selected ? 'tab-icon-class-1-selected' : '')} style={{fontSize: "19px", color: selected ? 'transparent' : "rgba(77, 17, 105, 0.8)"}}>{icon}</span>
             </div>
             <div>
                 <p style={{color: selected? 'white' : 'black'}}>{name}</p>
@@ -33,6 +35,9 @@ export function MailTab({from, avatar, subject, selected, style, content, date =
              onClick={evt => {
                 onClick?.(evt);
              }}>
+            <div className="row-center mail-tab-controls-class-1">
+                <CheckBox />
+            </div>
             <div className="row-center mail-from-class-1">
                 <p style={{fontWeight: "600"}}>{from}</p>
             </div>

@@ -14,9 +14,17 @@ export default function MailView({ params }) {
     let [mails, setMail] = useState(null);
     let [loaded, setLoaded] = useState({});
     let [connection, setConnection] = useState({});
+    let [callbackIds, setCBIds] = useState({});
 
     let loadMails = () => {
         if(connection.server) {
+            if(callbackIds.newMail) {
+                connection.server.removeNewMail(callbackIds.newMail);
+            }
+            setCBIds({newMail: connection.server.onNewMail({ folder: params.folder, category: 'all'}, mail => {
+                mails.unshift(mail);
+                setMail(mails);
+            })});
             connection.server.fetchMails(params.folder, 'all').then(newMails => {
                 setMail(newMails);
             })
@@ -30,6 +38,8 @@ export default function MailView({ params }) {
                 setLoaded(data)
             })
         })
+
+        //setMail([{from_name: "anshul", subject: "Regarding your order", body: "Your order is here"}, {from_name: "IIT Kharagpur", subject: "Regarding your marks", body: "Your CGPA is posted in the erp"}, {from_name: "joe", subject: "Regarding your photos", body: "check out the attachments"}, {from_name: "anshul", subject: "Regarding your order", body: "Your order is here"}, {from_name: "IIT Kharagpur", subject: "Regarding your marks", body: "Your CGPA is posted in the erp"}, {from_name: "joe", subject: "Regarding your photos", body: "check out the attachments"}, {from_name: "anshul", subject: "Regarding your order", body: "Your order is here"}, {from_name: "IIT Kharagpur", subject: "Regarding your marks", body: "Your CGPA is posted in the erp"}, {from_name: "joe", subject: "Regarding your photos", body: "check out the attachments"}]);
     }, [])
 
     useEffect(() => {
@@ -40,22 +50,37 @@ export default function MailView({ params }) {
         loadMails()
     }, [location])
 
+    let getBodyContent = element => {
+        if(element.nodeName !== 'BODY') {
+            for(let child of element.children) {
+                let content = getBodyContent(child);
+                if (content) return content;
+            }
+        } else {
+            return element.innerText;
+        }
+    }
+
     return (
-    <div style={{width: "100%", height: "100%"}} className="column">
+    <div style={{width: "100%", height: "100%", padding: "20px 0px 0px 0px"}} className="column">
         <div className="row-center mail-type-con">
             <Tab2 name={"Primary"} icon={"inbox"} selected={!params.type || params.type === 'primary'} link={`/${params.folder}/primary`}/>
             <Tab2 name={"Social"} icon={"groups"} selected={params.type === 'social'} link={`/${params.folder}/social`}/>
             <Tab2 name={"Updates"} icon={"update"} selected={params.type === 'updates'} link={`/${params.folder}/updates`}/>
         </div>
-        <div style={{width: "100%", overflowY: "auto", overflowX: "visible", height: "calc(100% - 65px - 65px)"}}>
+        <div style={{width: "100%", overflowY: "auto", overflowX: "visible", height: "calc(100% - 65px - 65px)", marginTop: "0px"}}>
             <div style={{...(mails?.length? {} : {height: "100%", boxShadow: "none"})}} className="mails-con column">
                 <div className="column" style={{width: "100%", height: mails?.length? undefined : "100%"}}>
                     {mails?.length? 
                     mails.map(mail => {
+                        let parser = new DOMParser();
+                        let parsed = parser.parseFromString(mail.body, 'text/html');
+                        let content = parsed.querySelector("body")
+                        console
                         return (
-                            <MailTab from={mail.from_name || mail.from_addr.split("@")[0]} subject={mail.subject} key={mail.index} content={mail.body} onClick={() => {
+                            <MailTab from={mail.from_name || mail.from_addr.split("@")[0]} subject={mail.subject} key={mail.index} content={content.innerText} onClick={() => {
                                 if(loaded.showMail) {
-                                    loaded.showMail(mail);
+                                    loaded.showMail({...mail, body: content.innerHTML});
                                 }
                             }}/>
                         )
