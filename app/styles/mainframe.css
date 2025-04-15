@@ -23,6 +23,15 @@
     border-radius: 0px 0px 15px 15px;
 }
 
+.c0-holder {
+    display: none;
+}
+
+.app-name {
+    font-size: 23px;
+    padding-left: 20px;
+}
+
 .header-avatar {
     height: 100%;
     border-radius: 50%;
@@ -199,6 +208,7 @@
     right: -30px;
     border-radius: 5px 0px 0px 5px;
     border-right: 0px;
+    display: none;
 }
 
 .compose-input:hover {
@@ -248,16 +258,17 @@
     border-radius: 10px;
     display: flex;
     flex-direction: column;
-    padding: 0px 0px 20px 0px;
+    padding: 0px 0px 0px 0px;
     gap: 0px;
     backdrop-filter: blur(10px);
     position: relative;
     border: 3px solid black;
+
+    overflow: clip;
 }
 
 .letter-camera {
     position: absolute;
-    right: 8px;
     top: 8px;
     height: 20px;
     width: 20px;
@@ -339,6 +350,12 @@
     gap: 5px;
 }
 
+.letter-padded-block-2 {
+    padding: 0px 0px 0px 0px;
+    width: 100%;
+    gap: 5px;
+}
+
 .letter-subject {
     width: 100%;
     text-align: center;
@@ -347,13 +364,101 @@
 }
 
 .letter-content {
-    margin-top: 10px;
+    margin-top: 0px; /*10px*/
     font-weight: 500;
     font-size: 15px;
     border: 0px;
-    outline: 0px;
-    height: 100%;
+    outline: 0px; /*height: 738px*/
+    height: 738px;
     width: 100%;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(37, 0, 107, 0.397) transparent;
+    padding-bottom: 0px; /*20px*/
+    border-radius: 0px 0px 10px 10px;
+    position: relative;
+}
+
+.letter-content-backdrop {
+    position: absolute;
+    bottom: 0px;
+    height: 738px;
+    width: 100%;
+    z-index: -2;
+    display: none;
+}
+
+.letter-content-backdrop-active {
+    background-color: rgba(0, 0, 0, 0.288);
+    backdrop-filter: blur(3px);
+    z-index: 0;
+    display: flex;
+}
+
+.letter-bottom-bar-con {
+    width: 100%;
+    position: absolute;
+    bottom: 0px;
+    border-radius: 0px 0px 10px 10px;
+}
+
+.letter-bottom-bar {
+    width: 100%;
+    justify-content: flex-end;
+    padding-right: 20px;
+    border-radius: 0px 0px 10px 10px;
+    background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.075), rgba(0, 0, 0, 0.089));
+    background: transparent;
+}
+
+.attach-open {
+    font-size: 25px;
+    position: relative;
+    bottom: 20px;
+    background: linear-gradient(45deg, rgba(255, 241, 243, 0.822), rgb(238, 231, 255));
+    border: 1px solid rgba(185, 150, 255, 0.541);
+    background: rgba(255, 255, 255, 0.87);
+    padding: 10px;
+    border-radius: 8px;
+    backdrop-filter: blur(15px);
+    box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.164);
+    color: rgb(118, 0, 197);
+}
+
+.attach-open:hover {
+    cursor: pointer;
+}
+
+.letter-attachment-view {
+    width: 100%;
+    position: absolute;
+    bottom: -150px;
+    outline: none;
+    gap: 5px;
+    transition: bottom .1s ease-in-out;
+}
+
+.letter-attachments {
+    min-height: 100px;
+    max-height: 150px;
+    backdrop-filter: blur(10px);
+    background: #ffffffbe;
+    border-top: 1px solid rgba(193, 162, 255, 0.384);
+    border-radius: 0px 0px 10px 10px;
+}
+
+.letter-content::-webkit-scrollbar {
+    background-color: transparent;
+    width: 6px;
+}
+
+.letter-content:hover {
+    .letter-content::-webkit-scrollbar {}
+}
+
+.letter-content::-webkit-scrollbar-thumb {
+    background-color: rgba(186, 68, 255, 0.432);
+    border-radius: 5px;
 }
 
 .letter-block-one {
@@ -450,4 +555,96 @@ span.letter-action-icon:hover {
     background-color: black !important;
     color: white !important;
     cursor: pointer;
+}
+
+.notification-class-1-frame {
+    justify-content: center;
+    padding: 5px 5px 5px 5px;
+    background: rgb(255, 150, 250);
+    margin-right: 10px;
+    border-radius: 10px;
+    box-shadow: -10px 10px 10px 0px rgba(0, 0, 0, 0.219);
+}
+
+.notification-class-1-con-in-frame {
+    border: 3px solid black;
+    backdrop-filter: blur(10px);
+    background: linear-gradient(180deg, rgb(255, 187, 210), rgb(255, 239, 216), rgb(248, 237, 255));
+    padding: 7px;
+}
+
+.notification-class-1-in-frame {
+    border-right-width: 1px;
+    border-radius: 5px;
+}
+
+.attachment-screen-frame {
+    background: linear-gradient(180deg, blueviolet, mediumorchid, mediumpurple);
+    height: fit-content;
+    max-height: 185px;
+    display: none;
+}
+
+.attachment-screen {
+    background: linear-gradient(180deg, white, rgba(248, 255, 241, 0.918), rgba(255, 230, 234, 0.959));
+}
+
+.attachment-con {
+    padding: 10px;
+    flex-wrap: wrap;
+    gap: 10px 10px;
+    width: 100%;
+    overflow-y: auto;
+    border-radius: 10px;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(94, 0, 202, 0.685) transparent;
+}
+
+@media (max-width: 1300px) {
+    .mainhead {
+        width: 100%;
+        border-radius: 0px;
+        border-left-width: 0px;
+        border-right-width: 0px;
+    }
+}
+
+@media (max-width: 1100px) {
+    .navil-con {
+        display: none;
+    }
+
+    .c0-holder {
+        display: flex;
+    }
+
+    .app-name {
+        display: none;
+    }
+
+    .mail-type-con {
+        padding-left: 10px;
+    }
+}
+
+@media (max-width: 900px) {
+    .search-input {
+        min-width: 300px;
+    }
+}
+
+@media (max-width: 700px) {
+    .search-input {
+        min-width: 200px;
+    }
+
+    .search-input-placeholder {
+        font-size: 15px;
+    }
+}
+
+@media (max-width: 500px) {
+    .search-input {
+        min-width: 130px;
+    }
 }

@@ -12,3 +12,37 @@
     font-weight: 600;
     color: rgba(0, 0, 0, 0.637);
 }
+
+.mail-categ-button {
+    width: 200px;
+}
+
+@media (max-width: 1100px) {
+    .mail-categ-button {
+        width: fit-content;
+        padding: 10px 14px; 
+    };
+}
+
+@media (max-width: 900px) {
+    .mail-select-tab {
+        flex-direction: column;
+        height: fit-content;
+        gap: 5px;
+        justify-content: flex-start;
+        align-items: flex-start;
+        padding: 10px 10px 10px 10px;
+    }
+
+    .mail-date-select {
+        align-self: flex-end;
+        width: fit-content;
+        padding-right: 0px;
+    }
+}
+
+@media (max-width: 500px) {
+    .mail-categ-button {
+        padding: 7px 10px;
+    }
+}

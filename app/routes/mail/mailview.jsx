@@ -64,9 +64,9 @@ export default function MailView({ params }) {
     return (
     <div style={{width: "100%", height: "100%", padding: "20px 0px 0px 0px"}} className="column">
         <div className="row-center mail-type-con">
-            <Tab2 name={"Primary"} icon={"inbox"} selected={!params.type || params.type === 'primary'} link={`/${params.folder}/primary`}/>
-            <Tab2 name={"Social"} icon={"groups"} selected={params.type === 'social'} link={`/${params.folder}/social`}/>
-            <Tab2 name={"Updates"} icon={"update"} selected={params.type === 'updates'} link={`/${params.folder}/updates`}/>
+            <Tab2 name={"Primary"} icon={"inbox"} selected={!params.type || params.type === 'primary'} link={`/${params.folder}/primary`} className="mail-categ-button"/>
+            <Tab2 name={"Social"} icon={"groups"} selected={params.type === 'social'} link={`/${params.folder}/social`} className="mail-categ-button"/>
+            <Tab2 name={"Updates"} icon={"update"} selected={params.type === 'updates'} link={`/${params.folder}/updates`} className="mail-categ-button"/>
         </div>
         <div style={{width: "100%", overflowY: "auto", overflowX: "visible", height: "calc(100% - 65px - 65px)", marginTop: "0px"}}>
             <div style={{...(mails?.length? {} : {height: "100%", boxShadow: "none"})}} className="mails-con column">
@@ -76,9 +76,9 @@ export default function MailView({ params }) {
                         let parser = new DOMParser();
                         let parsed = parser.parseFromString(mail.body, 'text/html');
                         let content = parsed.querySelector("body")
-                        console
+                        
                         return (
-                            <MailTab from={mail.from_name || mail.from_addr.split("@")[0]} subject={mail.subject} key={mail.index} content={content.innerText} onClick={() => {
+                            <MailTab from={mail.from_name || mail.from_addr.split("@")[0]} subject={mail.subject} key={mail.index} content={content.innerText} className={"mail-select-tab"} dateClassName={"mail-date-select"} onClick={() => {
                                 if(loaded.showMail) {
                                     loaded.showMail({...mail, body: content.innerHTML});
                                 }

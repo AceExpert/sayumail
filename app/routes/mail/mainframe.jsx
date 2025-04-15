@@ -5,8 +5,9 @@ import InputClass1, { SelectInputClass1 } from "../../components/input";
 import SelectClass1 from "../../components/select";
 import Tab, { Divider, Tab2 } from "../../components/tab";
 import NotificationClass1 from "../../components/notification";
+import Attachment from "../../components/attachment";
 
-import { emailPat } from "../../constants";
+import { emailPat, testHTML } from "../../constants";
 
 import "../../styles/mainframe.css";
 import "../../styles/inbox.css";
@@ -44,11 +45,14 @@ class Home extends Component {
         sign: 'sayutel.com',
         subject: 'Leave Application due to release of Cytroid [24IM10016]',
         tls: true,
-        body: '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&display=swap"/><style>*{margin:0px;padding:0px;box-sizing:border-box;}</style><div style="font-family:Figtree, Calibri;font-size:15px;font-weight:400;"><div>Dear sir</br></br>I am Anshul Singh, roll number 24IM10016 from the Department of Industrial and Systems Engineering. I request you to grant me leave for 12th, 13th, 14th and 15th of July as I was unable to attend classes that day due to the opening ceremony of Cytroid.</br></br>I hope that you will grant me leave for the same as well give blessings for my company.</br></br>Thank you</br></br>Yours Sincerely</br>Anshul Singh</br></br><p style="color: mediumpurple; margin:5px 0px;">Sent using SayuMail by Sayutel</p></div></div>'
+        body: '<div style="padding: 10px 20px;"><div>Dear sir</br></br>I am Anshul Singh, roll number 24IM10016 from the Department of Industrial and Systems Engineering. I request you to grant me leave for 12th, 13th, 14th and 15th of July as I was unable to attend classes that day due to the opening ceremony of Cytroid.</br></br>I hope that you will grant me leave for the same as well give blessings for my company.</br></br>Thank you</br></br>Yours Sincerely</br>Anshul Singh</br></br><p style="color: mediumpurple; margin:5px 0px;">Sent using SayuMail by Sayutel</p></div></div>'
       },
       showingMail: true,
       _loaderprom: new Promise(res => _loaderres = res),
+      attachmentShowing: false,
     };
+    this.attachmentView = createRef();
+
     this.letterContent = createRef();
     this.toInputCon = createRef();
 
@@ -65,6 +69,13 @@ class Home extends Component {
     import("../../sender/index").then(({ EmailSender, connection }) => {
       this.connect(EmailSender, connection)
     })
+    
+    let parser = new DOMParser();
+    let html = parser.parseFromString(testHTML && this.state.viewMail.body, "text/html");
+    let body = html.querySelector("body");
+
+    this.letterContent.current.innerHTML = body.innerHTML;
+    this.letterContent.current.style.cssText = body.style.cssText;
   }
 
   connect(EmailSender, connection) {
@@ -118,7 +129,18 @@ class Home extends Component {
 
   showMail(mail) {
     this.letterContent.current.innerHTML = mail.body;
+    if(['gmail.com', 'sayutel.com', 'outlook.com', 'live.com', 'sst.scaler.com', 'iitkgp.ac.in'].some(v => mail.domain.includes(v))) {
+      this.letterContent.current.style.padding = "10px 20px";
+    } else {
+      this.letterContent.current.style.padding = "0px";
+    }
     this.setState({viewMail: mail, showingMail: true})
+  }
+
+  openAttachments() {
+    this.setState({attachmentShowing: true}, () => {
+      this.attachmentView.current.focus();
+    })
   }
 
   fireNotification({title, description}) {
@@ -281,9 +303,9 @@ class Home extends Component {
       </div>
       <div className="mainhead">
         <div className="c0-holder"></div>
-        <p style={{letterSpacing: "2px", fontWeight: "600", fontSize: '23px'}}>Sputh Mail</p>
+        <p style={{letterSpacing: "2px", fontWeight: "600"}} className="app-name">Sputh Mail</p>
         <div className="row-center control-holder">
-          <InputClass1 icon={"search"} placeholder={"Search"} className={"search-input"}/>
+          <InputClass1 icon={"search"} placeholder={"Search"} className={"search-input"} placeholderClassName={"search-input-placeholder"}/>
           <div style={{height: "100%"}}>
             <img src="https://cdn-icons-png.freepik.com/512/168/168720.png" className="header-avatar"/>
           </div>
@@ -304,7 +326,7 @@ class Home extends Component {
           <div style={{width: "100%", gap: "0px", boxShadow: '10px 20px 20px 0px rgba(0, 0, 0, 0.05)'}} className="column">   
             <Outlet context={{loader: this.state._loaderprom}}/>
           </div>
-          <div className="column-center" style={{width: "100%", height: "100%", borderLeft: "0px solid rgba(0, 0, 0, 0.5)", padding: "20px 30px", display: this.state.showingMail? "flex" : "none", gap: "0px"}}>
+          <div className="column-center" style={{width: "100%", height: "100%", borderLeft: "0px solid rgba(0, 0, 0, 0.5)", padding: "20px 30px", display: this.state.showingMail? "flex" : "none", gap: "10px"}}>
             <div className="letter-action-bar column-center" style={{display: "none"}}>
               <div className="row-center letter-actions" style={{gap: "10px"}}>
                 <span className="material-symbols-outlined letter-action-icon" style={{fontSize: "22px", color: "black"}}>star</span>
@@ -358,7 +380,7 @@ class Home extends Component {
                     <p style={{fontWeight: "600", color: "purple"}}>Standard TLS Encryption</p>
                   </div>
                 </div>
-                <Divider style={{marginTop: "10px"}}/>
+                <Divider style={{marginTop: "10px", backgroundColor: "transparent"}}/>
                 <div className="letter-padded-block column letter-block-one">
                   <div className="row-center" style={{width: "100%", marginTop: "0px"}}>
                     <div className="row-center" style={{gap: "10px"}}>
@@ -397,13 +419,54 @@ class Home extends Component {
                     </div>
                   </div>
                 </div>
-                <Divider style={{marginTop: "0px"}}/>
-                <div className="letter-padded-block column" style={{height: "100%"}}>
-                  <div className="letter-content" ref={this.letterContent}>
+                <Divider style={{marginTop: "0px", backgroundColor: "transparent"}}/>
+                <div className="letter-padded-block-2 column" style={{height: "100%"}}>
+                  <div className="letter-content" style={{}}>
+                    <div ref={this.letterContent} className="letter-content-main">
+
+                    </div>
+                    <div className={"letter-content-backdrop "+(this.state.attachmentShowing? "letter-content-backdrop-active" : "")}>
+
+                    </div>
+                  </div>
+                </div>
+                <div className="column letter-attachment-view" ref={this.attachmentView} tabIndex={1} onBlur={() => this.setState({attachmentShowing: false})}  style={{bottom: this.state.attachmentShowing? "0px" : "-150px"}}>
+                  <div className="row-center">
+                    <p style={{color: "white", fontWeight: "600", fontSize: "23px", paddingLeft: "10px", textShadow: "0px 0px 5px rgba(0, 0, 0, 0.08)"}}>Attachments</p>
+                  </div>
+                  <div className="column-center letter-attachments">
+                    <div className="attachment-con row-center">
+                      <Attachment />
+                      <Attachment />
+                      <Attachment />
+                    </div>
+                  </div>
+                </div>
+                <div className="letter-bottom-bar-con row-center" style={{display: this.state.attachmentShowing? "none" : "flex"}}>
+                  <div className="row-center letter-bottom-bar">
+                    <span className="material-symbols-outlined row-center attach-open" style={{}} onClick={this.openAttachments.bind(this)}>attach_file</span>
                   </div>
                 </div>
               </div>
             </div>
+
+            <div className="letter-paper-class-1-con attachment-screen-frame column-center">
+              <div className="letter-paper-class-1 column-center attachment-screen">
+                <div className="attachment-con row-center">
+                  <Attachment />
+                  <Attachment />
+                  <Attachment />
+                  <Attachment />
+                  <Attachment />
+                  <Attachment />
+                  <Attachment />
+                  <Attachment />
+                  <Attachment />
+
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
       </div>

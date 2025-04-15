@@ -9,7 +9,7 @@
     border: 1px dashed rgba(0, 128, 0, 0.801);
     border: 1px dashed rgba(87, 0, 128, 0.801);
     border: 1px solid rgba(87, 0, 128, 0.233);
-    border-right: 0px;
+    border-right-width: 0px;
 }
 
 .notif-class-1-title {
@@ -23,6 +23,7 @@
 .notification-class-1-con {
     gap: 7px;
     transition: .5s right ease-in-out;
+    border-radius: 7px;
 }
 
 .notification-action-grid-class-1 {
@@ -31,6 +32,7 @@
     display: grid;
     gap: 5px 5px;
     padding-right: 5px;
+
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr;
 }
@@ -42,6 +44,7 @@
     background-color: black;
     box-shadow: 0px 10px 30px 0px rgba(126, 0, 138, 0.212);
     border-radius: 0px 0px 0px 0px;
+    border-radius: 3px !important;
     transition: .05s background-color ease-in-out;
 }
 
