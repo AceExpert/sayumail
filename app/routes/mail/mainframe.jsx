@@ -305,7 +305,7 @@ class Home extends Component {
             <Outlet context={{loader: this.state._loaderprom}}/>
           </div>
           <div className="column-center" style={{width: "100%", height: "100%", borderLeft: "0px solid rgba(0, 0, 0, 0.5)", padding: "20px 30px", display: this.state.showingMail? "flex" : "none", gap: "0px"}}>
-            <div className="letter-action-bar column-center">
+            <div className="letter-action-bar column-center" style={{display: "none"}}>
               <div className="row-center letter-actions" style={{gap: "10px"}}>
                 <span className="material-symbols-outlined letter-action-icon" style={{fontSize: "22px", color: "black"}}>star</span>
                 <div style={{}} className="divider-class-2 display-none"></div>
@@ -320,63 +320,87 @@ class Home extends Component {
                 <span className="material-symbols-outlined letter-action-icon" style={{fontSize: "20px", color: "black"}}>label_important</span>
               </div>
             </div>
-            <div className="letter-paper-class-1">
-              <div className="row-center letter-window-controls">
-                <div className="column-center" style={{gap: "10px"}}>
-                  <span className="material-symbols-outlined window-ctrl-icon" style={{fontSize: "20px", color: "rgba(138, 0, 172, 0.84)"}} onClick={() => this.setState({showingMail: false})}>close</span>
-                  <span className="material-symbols-outlined window-ctrl-icon" style={{fontSize: "16px", marginTop: "-4px", color: "rgba(80, 0, 172, 0.84)"}}>check_box_outline_blank</span>
-                  <span className="material-symbols-outlined window-ctrl-icon" style={{fontSize: "16px", color: "rgba(172, 0, 120, 0.9)"}}>open_in_new</span>
+            <div className="letter-paper-class-1-con">
+              <div className="letter-paper-class-1 column-center">
+                <div className="letter-camera row-center">
+                  <div className="letter-camera-eyes column-center">
+                    <div className="letter-camera-eye eye-1"></div>
+                    <div className="letter-camera-eye eye-2"></div>
+                    <div className="letter-camera-eye eye-3"></div>
+                  </div>
                 </div>
-              </div>
-              <div className="letter-padded-block column">
-                <p className="letter-subject">{this.state.viewMail?.subject}</p>
-                <div className="row-center" style={{alignSelf: "center", gap: "5px"}}>
-                  <span className="material-symbols-outlined" style={{fontSize: "20px", color: "rgba(77, 17, 105, 0.8)", textShadow: "0px 0px 0px rgba(199, 0, 199, 0.36)", userSelect: "none"}}>lock</span>
-                  <p style={{fontWeight: "600", color: "purple"}}>Standard TLS Encryption</p>
+                <div className="row-center letter-window-controls">
+                  <div className="column-center" style={{gap: "10px"}}>
+                    <span className="material-symbols-outlined window-ctrl-icon" style={{fontSize: "20px", color: "rgba(138, 0, 172, 0.84)"}} onClick={() => this.setState({showingMail: false})}>close</span>
+                    <span className="material-symbols-outlined window-ctrl-icon" style={{fontSize: "16px", marginTop: "-4px", color: "rgba(80, 0, 172, 0.84)"}}>check_box_outline_blank</span>
+                    <span className="material-symbols-outlined window-ctrl-icon" style={{fontSize: "16px", color: "rgba(172, 0, 120, 0.9)"}}>open_in_new</span>
+                  </div>
                 </div>
-              </div>
-              <Divider style={{marginTop: "10px"}}/>
-              <div className="letter-padded-block column letter-block-one">
-                <div className="row-center" style={{width: "100%", marginTop: "0px"}}>
-                  <div className="row-center" style={{gap: "10px"}}>
-                    <p style={{fontWeight: "700"}}>From</p>
-                    <div className="row-center" style={{gap: "5px"}}>
-                      <p style={{fontWeight: "500"}}>{this.state.viewMail?.from_name}</p>
-                      <p>•</p>
-                      <p style={{color: "purple"}}>{this.state.viewMail?.from_addr}</p>
+                <div className="letter-action-bar column-center">
+                  <div className="row-center letter-actions" style={{gap: "10px"}}>
+                    <span className="material-symbols-outlined letter-action-icon" style={{fontSize: "22px", color: "black"}}>star</span>
+                    <div style={{}} className="divider-class-2 display-none"></div>
+                    <span className="material-symbols-outlined letter-action-icon" style={{fontSize: "20px", color: "black"}}>save</span>
+                    <div style={{}} className="divider-class-2 display-none"></div>
+                    <span className="material-symbols-outlined letter-action-icon" style={{fontSize: "20px", color: "black"}}>download</span>
+                    <div style={{}} className="divider-class-2 display-none"></div>
+                    <span className="material-symbols-outlined letter-action-icon" style={{fontSize: "20px", color: "black"}}>reply</span>
+                    <div style={{}} className="divider-class-2 display-none"></div>
+                    <span className="material-symbols-outlined letter-action-icon" style={{fontSize: "20px", color: "black"}}>forward</span>
+                    <div style={{}} className="divider-class-2 display-none"></div>
+                    <span className="material-symbols-outlined letter-action-icon" style={{fontSize: "20px", color: "black"}}>label_important</span>
+                  </div>
+                </div>
+                <div className="letter-padded-block column">
+                  <p className="letter-subject">{this.state.viewMail?.subject}</p>
+                  <div className="row-center" style={{alignSelf: "center", gap: "5px"}}>
+                    <span className="material-symbols-outlined" style={{fontSize: "20px", color: "rgba(77, 17, 105, 0.8)", textShadow: "0px 0px 0px rgba(199, 0, 199, 0.36)", userSelect: "none"}}>lock</span>
+                    <p style={{fontWeight: "600", color: "purple"}}>Standard TLS Encryption</p>
+                  </div>
+                </div>
+                <Divider style={{marginTop: "10px"}}/>
+                <div className="letter-padded-block column letter-block-one">
+                  <div className="row-center" style={{width: "100%", marginTop: "0px"}}>
+                    <div className="row-center" style={{gap: "10px"}}>
+                      <p style={{fontWeight: "700"}}>From</p>
+                      <div className="row-center" style={{gap: "5px"}}>
+                        <p style={{fontWeight: "500"}}>{this.state.viewMail?.from_name}</p>
+                        <p>•</p>
+                        <p style={{color: "purple"}}>{this.state.viewMail?.from_addr}</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="row-center" style={{width: "100%"}}>
+                    <div className="row-center" style={{gap: "10px"}}>
+                      <p style={{fontWeight: "700"}}>To</p>
+                      <div className="row-center" style={{gap: "5px"}}>
+                        <p style={{fontWeight: "500"}}>{this.state.viewMail?.to_name}</p>
+                        <p>•</p>
+                        <p style={{color: "purple"}}>{this.state.viewMail?.to_addr}</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="row-center" style={{width: "100%"}}>
+                    <div className="row-center" style={{gap: "10px"}}>
+                      <p style={{fontWeight: "700"}}>Mailed by</p>
+                      <div className="row-center" style={{gap: "5px"}}>
+                        <p style={{color: "purple", fontWeight: "700"}}>{this.state.viewMail?.domain}</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="row-center" style={{width: "100%"}}>
+                    <div className="row-center" style={{gap: "10px"}}>
+                      <p style={{fontWeight: "700"}}>Signed by</p>
+                      <div className="row-center" style={{gap: "5px"}}>
+                        <p style={{color: "purple", fontWeight: "700"}}>{this.state.viewMail?.sign}</p>
+                      </div>
                     </div>
                   </div>
                 </div>
-                <div className="row-center" style={{width: "100%"}}>
-                  <div className="row-center" style={{gap: "10px"}}>
-                    <p style={{fontWeight: "700"}}>To</p>
-                    <div className="row-center" style={{gap: "5px"}}>
-                      <p style={{fontWeight: "500"}}>{this.state.viewMail?.to_name}</p>
-                      <p>•</p>
-                      <p style={{color: "purple"}}>{this.state.viewMail?.to_addr}</p>
-                    </div>
+                <Divider style={{marginTop: "0px"}}/>
+                <div className="letter-padded-block column" style={{height: "100%"}}>
+                  <div className="letter-content" ref={this.letterContent}>
                   </div>
-                </div>
-                <div className="row-center" style={{width: "100%"}}>
-                  <div className="row-center" style={{gap: "10px"}}>
-                    <p style={{fontWeight: "700"}}>Mailed by</p>
-                    <div className="row-center" style={{gap: "5px"}}>
-                      <p style={{color: "purple", fontWeight: "700"}}>{this.state.viewMail?.domain}</p>
-                    </div>
-                  </div>
-                </div>
-                <div className="row-center" style={{width: "100%"}}>
-                  <div className="row-center" style={{gap: "10px"}}>
-                    <p style={{fontWeight: "700"}}>Signed by</p>
-                    <div className="row-center" style={{gap: "5px"}}>
-                      <p style={{color: "purple", fontWeight: "700"}}>{this.state.viewMail?.sign}</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <Divider style={{marginTop: "0px"}}/>
-              <div className="letter-padded-block column" style={{height: "100%"}}>
-                <div className="letter-content" ref={this.letterContent}>
                 </div>
               </div>
             </div>
