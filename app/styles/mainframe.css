@@ -389,8 +389,7 @@
 }
 
 .letter-content-backdrop-active {
-    background-color: rgba(0, 0, 0, 0.288);
-    backdrop-filter: blur(3px);
+    background-color: rgba(255, 255, 255, 0);
     z-index: 0;
     display: flex;
 }
@@ -436,15 +435,19 @@
     outline: none;
     gap: 5px;
     transition: bottom .1s ease-in-out;
+    z-index: 4;
 }
 
 .letter-attachments {
     min-height: 100px;
     max-height: 150px;
     backdrop-filter: blur(10px);
-    background: #ffffffbe;
-    border-top: 1px solid rgba(193, 162, 255, 0.384);
+    background: #00000049;
+    border-top: 0px solid rgba(193, 162, 255, 0.384);
     border-radius: 0px 0px 10px 10px;
+    
+    border-radius: 10px;
+    margin: 0px 7px 7px 7px;
 }
 
 .letter-content::-webkit-scrollbar {
@@ -475,6 +478,7 @@
     border: 1px solid rgba(146, 92, 255, 0.301);
     box-shadow: -5px 5px 5px 0px rgba(67, 0, 129, 0.1); /*.08 -> .13*/
     background-color: white;
+
     margin-left: 10px;
     border-bottom-width: 0px;
 
@@ -482,6 +486,11 @@
     border-radius: 7px;
     border-bottom-width: 1px;
     margin-bottom: 10px;
+
+    box-shadow: none;
+    border-width: 0px;
+    background-color: rgba(0, 0, 0, 0.637);
+
 }
 
 .letter-action-icon {
@@ -490,7 +499,7 @@
     height: 100%;
     font-variation-settings:
         'FILL' 0,
-        'wght' 400,
+        'wght' 300,
         'GRAD' 0,
         'opsz' 24;
     color: rgb(17, 17, 17) !important;
@@ -498,6 +507,7 @@
     border: 0px solid rgba(235, 154, 255, 0.479);
     border-bottom: 0px;
     border-radius: 3px 3px 0px 0px;
+    border-radius: 0px;
 }
 
 .display-none {
@@ -519,36 +529,46 @@
 :nth-child(1 of span.letter-action-icon) {
     color: white !important;
     color: rgba(255, 65, 185, 0.979) !important;
+    color: rgba(255, 135, 211, 0.979) !important;
+    border-radius: 7px 0px 0px 7px;
 }
 
 :nth-child(2 of span.letter-action-icon) {
     color: white !important;
     color: mediumpurple !important;
+    color: rgb(195, 166, 252) !important;
 }
 
 :nth-child(3 of span.letter-action-icon) {
     color: white !important;
     color: mediumaquamarine !important;
+    color: rgb(112, 253, 206) !important;
+
 }
 
 :nth-child(4 of span.letter-action-icon) {
     color: white !important;
     color: mediumorchid !important;
+    color: rgb(232, 142, 255) !important;
+
 }
 
 :nth-child(5 of span.letter-action-icon) {
     color: white !important;
     color: mediumturquoise !important;
+    color: rgb(108, 218, 214) !important;
+
 }
 
 :nth-child(6 of span.letter-action-icon) {
     color: white !important;
     color: orange !important;
+    color: rgb(255, 194, 82) !important;
 }
 
 
 :nth-last-child(1 of span.letter-action-icon) {
-    /*border-radius: 0px 5px 5px 0px;*/
+    border-radius: 0px 7px 7px 0px;
 }
 
 span.letter-action-icon:hover {

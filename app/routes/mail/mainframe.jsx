@@ -7,6 +7,8 @@ import Tab, { Divider, Tab2 } from "../../components/tab";
 import NotificationClass1 from "../../components/notification";
 import Attachment from "../../components/attachment";
 
+import Phone from "../../miniscreens/phone";
+
 import { emailPat, testHTML } from "../../constants";
 
 import "../../styles/mainframe.css";
@@ -49,7 +51,7 @@ class Home extends Component {
       },
       showingMail: true,
       _loaderprom: new Promise(res => _loaderres = res),
-      attachmentShowing: false,
+      attachmentShowing: true,
     };
     this.attachmentView = createRef();
 
@@ -204,6 +206,9 @@ class Home extends Component {
           }
         )}
       </div>
+      
+      <Phone/>
+
       <div className="compose-box column">
         <div className="column" style={{gap: "5px", display: this.state.composing? "flex" : "none"}}>
           <div className="row-center" style={{height: "35px", gap: "5px"}}>
@@ -432,7 +437,7 @@ class Home extends Component {
                 </div>
                 <div className="column letter-attachment-view" ref={this.attachmentView} tabIndex={1} onBlur={() => this.setState({attachmentShowing: false})}  style={{bottom: this.state.attachmentShowing? "0px" : "-150px"}}>
                   <div className="row-center">
-                    <p style={{color: "white", fontWeight: "600", fontSize: "23px", paddingLeft: "10px", textShadow: "0px 0px 5px rgba(0, 0, 0, 0.08)"}}>Attachments</p>
+                    <p style={{color: "rgba(0, 0, 0, 0.79)", fontWeight: "600", fontSize: "23px", paddingLeft: "10px", textShadow: "0px 0px 5px rgba(0, 0, 0, 0.08)"}}>Attachments</p>
                   </div>
                   <div className="column-center letter-attachments">
                     <div className="attachment-con row-center">
@@ -453,15 +458,6 @@ class Home extends Component {
             <div className="letter-paper-class-1-con attachment-screen-frame column-center">
               <div className="letter-paper-class-1 column-center attachment-screen">
                 <div className="attachment-con row-center">
-                  <Attachment />
-                  <Attachment />
-                  <Attachment />
-                  <Attachment />
-                  <Attachment />
-                  <Attachment />
-                  <Attachment />
-                  <Attachment />
-                  <Attachment />
 
                 </div>
               </div>
