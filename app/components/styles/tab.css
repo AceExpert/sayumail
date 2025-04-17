@@ -134,6 +134,12 @@
     background-color: rgb(71, 0, 112);
 }
 
+@media (max-width: 1700px) {
+    .main-body-class-1 {
+        display: none;
+    }
+}
+
 @media (max-width: 700px) {
     .tab-class-2 {
         font-size: 15px;

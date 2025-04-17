@@ -7,7 +7,7 @@
     padding: 6px;
     border-radius: 4px;
 
-    background-color: rgba(100, 100, 100, 0.363);
+    background-color: rgba(49, 49, 49, 0.493);
 }
 
 .appcon-title {
@@ -22,6 +22,6 @@
     .appcon-icon-main {
         background-color: rgba(255, 255, 255, 0.719) !important;
 
-        background-color: black !important;
+        background-color: rgba(0, 0, 0, 0.596) !important;
     }
 }

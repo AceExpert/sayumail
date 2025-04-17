@@ -276,6 +276,10 @@
     background: white;
 }
 
+.letter-paper-fullscreen {
+    border-radius: 8px;
+}
+
 .letter-camera {
     position: absolute;
     top: 8px;
@@ -629,6 +633,16 @@ span.letter-action-icon:hover {
     border-radius: 10px;
     scrollbar-width: thin;
     scrollbar-color: rgba(94, 0, 202, 0.685) transparent;
+}
+
+.mailview-main-no-show {
+    display: flex;
+}
+
+@media (max-width: 1500px) {
+    .mailview-main-no-show {
+        display: none;
+    }
 }
 
 @media (max-width: 1300px) {

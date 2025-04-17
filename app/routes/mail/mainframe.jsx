@@ -53,7 +53,7 @@ class Home extends Component {
       showingMail: true,
       _loaderprom: new Promise(res => _loaderres = res),
       attachmentShowing: true,
-      phoneShowing: true,
+      phoneShowing: false,
     };
     this.phone = createRef();
     this.attachmentView = createRef();
@@ -76,7 +76,7 @@ class Home extends Component {
     })
     
     let parser = new DOMParser();
-    let html = parser.parseFromString(testHTML && this.state.viewMail.body, "text/html");
+    let html = parser.parseFromString(testHTML || this.state.viewMail.body, "text/html");
     let body = html.querySelector("body");
 
     this.letterContent.current.innerHTML = body.innerHTML;
@@ -210,7 +210,7 @@ class Home extends Component {
         )}
       </div>
       
-      <Phone style={{left: this.state.phoneShowing? "20px" : "-450px"}} ref={this.phone} onBlur={() => this.setState({phoneShowing: false})}/>
+      <Phone style={{left: this.state.phoneShowing? "0px" : "-500px"}} ref={this.phone} onBlur={() => this.setState({phoneShowing: false})}/>
 
       <Fab onClick={() => this.setState({phoneShowing: true}, () => this.phone.current.focus())}/>
 
@@ -333,7 +333,7 @@ class Home extends Component {
           </div>
         </div>
         <div style={{width: "100%"}} className="row">
-          <div style={{width: "100%", gap: "0px", boxShadow: '10px 20px 20px 0px rgba(0, 0, 0, 0.05)'}} className="column">   
+          <div style={{width: "100%", gap: "0px", boxShadow: '10px 20px 20px 0px rgba(0, 0, 0, 0.05)', display: !this.state.showingMail? "flex" : this.state.mailFullScreen === true? "none" : undefined}} className={"column mailview-main-no-show " + this.state.showingMail?  'mailview-main-no-show' : ''}>
             <Outlet context={{loader: this.state._loaderprom}}/>
           </div>
           <div className="column-center" style={{width: "100%", height: "100%", borderLeft: "0px solid rgba(0, 0, 0, 0.5)", padding: "20px 30px", display: this.state.showingMail? "flex" : "none", gap: "0px"}}>
@@ -353,7 +353,7 @@ class Home extends Component {
               </div>
             </div>
             <div className="letter-paper-class-1-con">
-              <div className="letter-paper-class-1 column-center">
+              <div className={"letter-paper-class-1 column-center " + (this.state.mailFullScreen? "letter-paper-fullscreen" : "")}>
                 <div className="letter-camera row-center">
                   <div className="letter-camera-eyes column-center">
                     <div className="letter-camera-eye eye-1"></div>
@@ -364,7 +364,7 @@ class Home extends Component {
                 <div className="row-center letter-window-controls">
                   <div className="column-center" style={{gap: "10px"}}>
                     <span className="material-symbols-outlined window-ctrl-icon" style={{fontSize: "20px", color: "rgba(138, 0, 172, 0.84)"}} onClick={() => this.setState({showingMail: false})}>close</span>
-                    <span className="material-symbols-outlined window-ctrl-icon" style={{fontSize: "16px", marginTop: "-4px", color: "rgba(80, 0, 172, 0.84)"}}>check_box_outline_blank</span>
+                    <span className="material-symbols-outlined window-ctrl-icon" style={{fontSize: "16px", marginTop: "-4px", color: "rgba(80, 0, 172, 0.84)"}} onClick={() => this.setState({mailFullScreen: !this.state.mailFullScreen})}>{this.state.mailFullScreen? 'close_fullscreen' : 'check_box_outline_blank'}</span>
                     <span className="material-symbols-outlined window-ctrl-icon" style={{fontSize: "16px", color: "rgba(172, 0, 120, 0.9)"}}>open_in_new</span>
                   </div>
                 </div>

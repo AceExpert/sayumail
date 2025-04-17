@@ -45,7 +45,7 @@ export function MailTab({from, avatar, subject, selected, style, content, date =
             </div>
             <div className="mail-content-class-1 row-center">
                 <p style={{fontWeight: "700"}}>{subject}</p>
-                <p style={{}}>{content}</p>
+                <p style={{}} className="main-body-class-1">{content}</p>
             </div>
             <div className={"row-center mail-date-class-1 "+(dateClassName ?? '')} style={{}}>
                 <p>{date}</p>
