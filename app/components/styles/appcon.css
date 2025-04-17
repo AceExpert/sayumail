@@ -21,5 +21,7 @@
 
     .appcon-icon-main {
         background-color: rgba(255, 255, 255, 0.719) !important;
+
+        background-color: black !important;
     }
 }

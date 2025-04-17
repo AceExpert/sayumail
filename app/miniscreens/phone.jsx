@@ -2,10 +2,10 @@ import AppCon from "../components/appcon";
 
 import "../styles/miniscreens.css";
 
-export default function Phone({...props}) {
+export default function Phone({className, style, onBlur, ref, ...props}) {
 
     return (
-    <div className="mini-phone column-center">
+    <div className={"mini-phone column-center" + (className ?? "")} style={{...(style ?? {})}} ref={ref} tabIndex={0} onBlur={onBlur}>
         <div className="mini-phone-con column-center">
           
             <div className="phone-camera-island row-center">

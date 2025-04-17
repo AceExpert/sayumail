@@ -9,16 +9,16 @@
     box-shadow: -10px 10px 10px 0px rgba(0, 0, 0, 0.349);
     padding: 3px;
     z-index: 10;
-
     transition: left .2s ease-in-out;
+    outline: none;
 
-    height: 100%;
-    bottom: 0px;
+    height: calc(100% - 20px);
+    bottom: 10px;
     left: -450px;
     width: 450px;
-    border-radius: 0px;
+    border-radius: 10px !important;
     padding: 0px;
-    background: linear-gradient(180deg, rgba(255, 93, 255, 0.699), rgba(0, 0, 255, 0.37), rgba(255, 166, 0, 0.397), rgba(153, 0, 255, 0.459));
+    /*background: linear-gradient(180deg, rgba(255, 93, 255, 0.699), rgba(0, 0, 255, 0.37), rgba(255, 166, 0, 0.397), rgba(153, 0, 255, 0.459));*/
 }
 
 .mini-phone-con {
@@ -30,9 +30,12 @@
     position: relative;
 
     border-width: 0px;
-    border-radius: 0px;
+    border-radius: 10px;
     backdrop-filter: blur(10px);
-    background: rgba(0, 0, 0, 0.527);
+
+    /*background: rgba(0, 0, 0, 0.527);*/
+
+    background: rgba(73, 0, 70, 0.349);
 }
 
 .mini-phone-main-frame {

@@ -6,6 +6,7 @@ import SelectClass1 from "../../components/select";
 import Tab, { Divider, Tab2 } from "../../components/tab";
 import NotificationClass1 from "../../components/notification";
 import Attachment from "../../components/attachment";
+import Fab from "../../components/fab";
 
 import Phone from "../../miniscreens/phone";
 
@@ -52,7 +53,9 @@ class Home extends Component {
       showingMail: true,
       _loaderprom: new Promise(res => _loaderres = res),
       attachmentShowing: true,
+      phoneShowing: true,
     };
+    this.phone = createRef();
     this.attachmentView = createRef();
 
     this.letterContent = createRef();
@@ -207,7 +210,9 @@ class Home extends Component {
         )}
       </div>
       
-      <Phone/>
+      <Phone style={{left: this.state.phoneShowing? "20px" : "-450px"}} ref={this.phone} onBlur={() => this.setState({phoneShowing: false})}/>
+
+      <Fab onClick={() => this.setState({phoneShowing: true}, () => this.phone.current.focus())}/>
 
       <div className="compose-box column">
         <div className="column" style={{gap: "5px", display: this.state.composing? "flex" : "none"}}>
@@ -331,8 +336,8 @@ class Home extends Component {
           <div style={{width: "100%", gap: "0px", boxShadow: '10px 20px 20px 0px rgba(0, 0, 0, 0.05)'}} className="column">   
             <Outlet context={{loader: this.state._loaderprom}}/>
           </div>
-          <div className="column-center" style={{width: "100%", height: "100%", borderLeft: "0px solid rgba(0, 0, 0, 0.5)", padding: "20px 30px", display: this.state.showingMail? "flex" : "none", gap: "10px"}}>
-            <div className="letter-action-bar column-center" style={{display: "none"}}>
+          <div className="column-center" style={{width: "100%", height: "100%", borderLeft: "0px solid rgba(0, 0, 0, 0.5)", padding: "20px 30px", display: this.state.showingMail? "flex" : "none", gap: "0px"}}>
+            <div className="letter-action-bar column-center" style={{display: "flex", margin: "0px 0px 0px 15px", borderRadius: "7px 7px 0px 0px"}}>
               <div className="row-center letter-actions" style={{gap: "10px"}}>
                 <span className="material-symbols-outlined letter-action-icon" style={{fontSize: "22px", color: "black"}}>star</span>
                 <div style={{}} className="divider-class-2 display-none"></div>
@@ -364,7 +369,7 @@ class Home extends Component {
                   </div>
                 </div>
                 <div className="letter-action-bar column-center">
-                  <div className="row-center letter-actions" style={{gap: "10px"}}>
+                  <div className="row-center letter-actions" style={{gap: "10px", display: "none"}}>
                     <span className="material-symbols-outlined letter-action-icon" style={{fontSize: "22px", color: "black"}}>star</span>
                     <div style={{}} className="divider-class-2 display-none"></div>
                     <span className="material-symbols-outlined letter-action-icon" style={{fontSize: "20px", color: "black"}}>save</span>
