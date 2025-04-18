@@ -12,10 +12,10 @@ export default function Tab({name, icon, style, selected, onClick, link, ...prop
         <div className={"tab-class-1 row-center "+(selected ? 'tab-class-1-selected' : '')} onClick={() => {
             navigate(link ?? '/'+name.toLowerCase())
         }}>
-            <div className="row-center">
-                <span className={"material-symbols-outlined " + (selected ? 'tab-icon-class-1-selected' : '')} style={{fontSize: "19px", color: selected ? 'transparent' : "rgba(77, 17, 105, 0.8)"}}>{icon}</span>
+            <div className="row-center tab-icon-class-1-con">
+                <span className={"material-symbols-outlined tab-icon-class-1 " + (selected ? 'tab-icon-class-1-selected' : '')} style={{fontSize: "19px", color: selected ? 'transparent' : "rgba(77, 17, 105, 0.8)"}}>{icon}</span>
             </div>
-            <div>
+            <div className="tab-class-1-title">
                 <p style={{color: selected? 'white' : 'black'}}>{name}</p>
             </div>
         </div>

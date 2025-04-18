@@ -52,8 +52,8 @@ class Home extends Component {
       },
       showingMail: true,
       _loaderprom: new Promise(res => _loaderres = res),
-      attachmentShowing: true,
-      phoneShowing: false,
+      attachmentShowing: false,
+      phoneShowing: true,
     };
     this.phone = createRef();
     this.attachmentView = createRef();

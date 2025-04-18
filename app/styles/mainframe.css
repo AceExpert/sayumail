@@ -242,9 +242,7 @@
     border-radius: 10px;
     box-shadow: -5px 5px 10px 2px rgba(0, 0, 0, 0.199);
 
-    padding: 0px;
-    box-shadow: none;
-    background: transparent;
+    padding: 2px;
 }
 
 .letter-paper-class-1 {
@@ -270,10 +268,10 @@
 
     overflow: clip;
 
-    border-width: 0px;
+    /*border-width: 0px;
     border: 1px solid rgba(99, 99, 99, 0.301);
     box-shadow: none;
-    background: white;
+    background: white;*/
 }
 
 .letter-paper-fullscreen {
