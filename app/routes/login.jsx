@@ -1,10 +1,16 @@
+import { redirect } from "react-router";
+
 import InputClass1 from "../components/input";
 
 import "../styles/login.css";
 
+export async function clientLoader(params) {
+    return redirect("http://cybertron:3500/?continue=http://cybertron:4000/inbox")
+}
+
 export default function LoginView({}) {
 
-
+    /*
     return (
         <div style={{width: "100%", height: "100%", justifyContent: "center"}} className="column-center">
             <div className="column-center login-box-class-1">
@@ -30,4 +36,5 @@ export default function LoginView({}) {
             </div>
         </div>
     )
+    */
 }

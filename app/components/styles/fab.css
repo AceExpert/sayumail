@@ -4,9 +4,10 @@
     left: 20px;
     padding: 15px;
     background: linear-gradient(45deg, pink, rgb(255, 162, 243));
+    background: rgba(179, 134, 224, 0.363);
     justify-content: center;
     border-radius: 50%;
-    box-shadow: 0px 5px 15px 0px rgba(10, 0, 17, 0.349), 0px 0px 0px 0px rgba(0, 0, 0, 0.288);
+    /* box-shadow: 0px 5px 15px 0px rgba(10, 0, 17, 0.349), 0px 0px 0px 0px rgba(0, 0, 0, 0.288); */
     border: 0px solid rgba(255, 134, 255, 0.822);
     z-index: 5;
 }
@@ -14,14 +15,17 @@
 .sayutel-fab-icon {
     font-size: 25px;
     color: rgba(98, 0, 117, 0.774);
+    color: rebeccapurple;
 }
 
 .sayutel-fab:hover {
     cursor: pointer;
     background: rgb(255, 80, 202);
+    background: rgba(179, 134, 224, 0.712);
+
     border: 0px solid rgba(218, 123, 255, 0.253);
 
     .sayutel-fab-icon {
-        color: rgba(255, 255, 255, 0.842);
+        /* color: rgba(255, 255, 255, 0.842); */
     }
 }

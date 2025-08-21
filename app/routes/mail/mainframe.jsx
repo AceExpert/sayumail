@@ -53,7 +53,7 @@ class Home extends Component {
       showingMail: true,
       _loaderprom: new Promise(res => _loaderres = res),
       attachmentShowing: false,
-      phoneShowing: true,
+      phoneShowing: false,
     };
     this.phone = createRef();
     this.attachmentView = createRef();
@@ -76,7 +76,7 @@ class Home extends Component {
     })
     
     let parser = new DOMParser();
-    let html = parser.parseFromString(testHTML || this.state.viewMail.body, "text/html");
+    let html = parser.parseFromString(testHTML && this.state.viewMail.body, "text/html");
     let body = html.querySelector("body");
 
     this.letterContent.current.innerHTML = body.innerHTML;
@@ -268,7 +268,7 @@ class Home extends Component {
           <InputClass1 
             icon={this.state.composing? undefined : "edit"} placeholder={"Compose"} 
             className={"compose-input " + (this.state.composing? " compose-input-on": "")} textArea={true} 
-            style={{minHeight: this.state.composing? "200px" : "50px", minWidth: this.state.composing? "600px" : "140px"}} 
+            style={{minHeight: this.state.composing? "200px" : "50px", minWidth: this.state.composing? "600px" : "140px", display: "none"}} 
             enabled={this.state.composing}
             ref={this.composeInput}
             onClick={() => {
@@ -313,9 +313,11 @@ class Home extends Component {
       </div>
       <div className="mainhead">
         <div className="c0-holder"></div>
-        <p style={{letterSpacing: "2px", fontWeight: "600"}} className="app-name">Sputh Mail</p>
-        <div className="row-center control-holder">
+        <div className="row-center" style={{gap: "70px", height: "100%", padding: "7px 0px 7px 0px"}}>
+          <p style={{}} className="app-name">Sputh Mail</p>
           <InputClass1 icon={"search"} placeholder={"Search"} className={"search-input"} placeholderClassName={"search-input-placeholder"}/>
+        </div>
+        <div className="row-center control-holder">
           <div style={{height: "100%"}}>
             <img src="https://cdn-icons-png.freepik.com/512/168/168720.png" className="header-avatar"/>
           </div>
@@ -333,11 +335,11 @@ class Home extends Component {
           </div>
         </div>
         <div style={{width: "100%"}} className="row">
-          <div style={{width: "100%", gap: "0px", boxShadow: '10px 20px 20px 0px rgba(0, 0, 0, 0.05)', display: !this.state.showingMail? "flex" : this.state.mailFullScreen === true? "none" : undefined}} className={"column mailview-main-no-show " + this.state.showingMail?  'mailview-main-no-show' : ''}>
+          <div style={{width: "calc(100% - 20px)", gap: "0px", boxShadow: '10px 20px 20px 0px rgba(0, 0, 0, 0.05)' && 'none', display: !this.state.showingMail? "flex" : this.state.mailFullScreen === true? "none" : undefined}} className={"column mailview-main-no-show " + this.state.showingMail?  'mailview-main-no-show' : ''}>
             <Outlet context={{loader: this.state._loaderprom}}/>
           </div>
           <div className="column-center" style={{width: "100%", height: "100%", borderLeft: "0px solid rgba(0, 0, 0, 0.5)", padding: "20px 30px", display: this.state.showingMail? "flex" : "none", gap: "0px"}}>
-            <div className="letter-action-bar column-center" style={{display: "flex", margin: "0px 0px 0px 15px", borderRadius: "7px 7px 0px 0px"}}>
+            <div className="letter-action-bar column-center" style={{display: "none", margin: "0px 0px 0px 15px", borderRadius: "7px 7px 0px 0px"}}>
               <div className="row-center letter-actions" style={{gap: "10px"}}>
                 <span className="material-symbols-outlined letter-action-icon" style={{fontSize: "22px", color: "black"}}>star</span>
                 <div style={{}} className="divider-class-2 display-none"></div>
@@ -369,7 +371,7 @@ class Home extends Component {
                   </div>
                 </div>
                 <div className="letter-action-bar column-center">
-                  <div className="row-center letter-actions" style={{gap: "10px", display: "none"}}>
+                  <div className="row-center letter-actions" style={{gap: "10px", display: "flex"}}>
                     <span className="material-symbols-outlined letter-action-icon" style={{fontSize: "22px", color: "black"}}>star</span>
                     <div style={{}} className="divider-class-2 display-none"></div>
                     <span className="material-symbols-outlined letter-action-icon" style={{fontSize: "20px", color: "black"}}>save</span>
@@ -383,48 +385,48 @@ class Home extends Component {
                     <span className="material-symbols-outlined letter-action-icon" style={{fontSize: "20px", color: "black"}}>label_important</span>
                   </div>
                 </div>
-                <div className="letter-padded-block column">
+                <div className="letter-padded-block column" style={{marginTop: "7px"}}>
                   <p className="letter-subject">{this.state.viewMail?.subject}</p>
                   <div className="row-center" style={{alignSelf: "center", gap: "5px"}}>
-                    <span className="material-symbols-outlined" style={{fontSize: "20px", color: "rgba(77, 17, 105, 0.8)", textShadow: "0px 0px 0px rgba(199, 0, 199, 0.36)", userSelect: "none"}}>lock</span>
-                    <p style={{fontWeight: "600", color: "purple"}}>Standard TLS Encryption</p>
+                    <span className="material-symbols-outlined" style={{fontSize: "15px", color: "rebeccapurple", textShadow: "0px 0px 0px rgba(199, 0, 199, 0.36)", userSelect: "none"}}>lock</span>
+                    <p style={{fontWeight: "600", color: "rebeccapurple", fontSize: "15px"}}>Standard TLS Encryption</p>
                   </div>
                 </div>
                 <Divider style={{marginTop: "10px", backgroundColor: "transparent"}}/>
                 <div className="letter-padded-block column letter-block-one">
                   <div className="row-center" style={{width: "100%", marginTop: "0px"}}>
                     <div className="row-center" style={{gap: "10px"}}>
-                      <p style={{fontWeight: "700"}}>From</p>
+                      <p style={{fontWeight: "700", fontSize: "14px"}}>From</p>
                       <div className="row-center" style={{gap: "5px"}}>
-                        <p style={{fontWeight: "500"}}>{this.state.viewMail?.from_name}</p>
+                        <p style={{fontWeight: "500", fontSize: "14px"}}>{this.state.viewMail?.from_name}</p>
                         <p>•</p>
-                        <p style={{color: "purple"}}>{this.state.viewMail?.from_addr}</p>
+                        <p style={{color: "rebeccapurple", fontSize: "14px"}}>{this.state.viewMail?.from_addr}</p>
                       </div>
                     </div>
                   </div>
                   <div className="row-center" style={{width: "100%"}}>
                     <div className="row-center" style={{gap: "10px"}}>
-                      <p style={{fontWeight: "700"}}>To</p>
+                      <p style={{fontWeight: "700", fontSize: "14px"}}>To</p>
                       <div className="row-center" style={{gap: "5px"}}>
-                        <p style={{fontWeight: "500"}}>{this.state.viewMail?.to_name}</p>
+                        <p style={{fontWeight: "500", fontSize: "14px"}}>{this.state.viewMail?.to_name}</p>
                         <p>•</p>
-                        <p style={{color: "purple"}}>{this.state.viewMail?.to_addr}</p>
+                        <p style={{color: "rebeccapurple", fontSize: "14px"}}>{this.state.viewMail?.to_addr}</p>
                       </div>
                     </div>
                   </div>
                   <div className="row-center" style={{width: "100%"}}>
                     <div className="row-center" style={{gap: "10px"}}>
-                      <p style={{fontWeight: "700"}}>Mailed by</p>
+                      <p style={{fontWeight: "700", fontSize: "15px"}}>Mailed by</p>
                       <div className="row-center" style={{gap: "5px"}}>
-                        <p style={{color: "purple", fontWeight: "700"}}>{this.state.viewMail?.domain}</p>
+                        <p style={{color: "rebeccapurple", fontWeight: "700", fontSize: "15px"}}>{this.state.viewMail?.domain}</p>
                       </div>
                     </div>
                   </div>
                   <div className="row-center" style={{width: "100%"}}>
                     <div className="row-center" style={{gap: "10px"}}>
-                      <p style={{fontWeight: "700"}}>Signed by</p>
+                      <p style={{fontWeight: "700", fontSize: "15px"}}>Signed by</p>
                       <div className="row-center" style={{gap: "5px"}}>
-                        <p style={{color: "purple", fontWeight: "700"}}>{this.state.viewMail?.sign}</p>
+                        <p style={{color: "rebeccapurple", fontWeight: "700", fontSize: "15px"}}>{this.state.viewMail?.sign}</p>
                       </div>
                     </div>
                   </div>

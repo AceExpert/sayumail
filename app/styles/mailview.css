@@ -14,7 +14,73 @@
 }
 
 .mail-categ-button {
-    width: 200px;
+    /* width: 200px; */
+}
+
+.mail-type-float-con {
+    position: absolute;
+    bottom: 30px;
+    align-self: center;
+    gap: 25px;
+    padding: 6px 8px;
+    border: 1px solid rgba(255, 255, 255, 0.699);
+    border-radius: 40px;
+    /* background: rgba(251, 202, 255, 0.048); */
+    box-shadow: 0px 15px 40px 5px rgba(0, 0, 0, 0.09);
+    /* background-color: rgba(240, 232, 255, 0.582); */
+}
+
+.mail-type-tab {
+    background: rgb(255, 255, 255);
+    border: 0px solid rgba(176, 80, 255, 0.164);
+    padding: 10px 25px;
+    border-radius: 30px;
+    font-size: 15px;
+    font-weight: 500;
+    color: rgba(0, 0, 0, 0.897);
+    gap: 10px;
+}
+
+.mail-tab-selected {
+    background: rebeccapurple;
+    color: rgba(255, 255, 255, 0.966);
+}
+
+.mail-tab-selected-icon {
+    color: rgb(255, 255, 255) !important;
+}
+
+.mail-type-tab:hover {
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.651);
+}
+
+.mail-tab-selected:hover {
+    background: rgb(133, 66, 199);
+    color: rgba(255, 255, 255, 0.897);
+}
+
+.mail-view-control {
+    background: rgba(255, 255, 255, 0.678);
+    border-radius: 10px 10px 0px 0px;
+    width: 100%;
+    padding: 15px 10px;
+}
+
+.mail-view-arrow {
+    font-size: 13px;
+    padding: 8px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rebeccapurple;
+    background: rgba(183, 115, 238, 0.158);
+}
+
+.mail-view-arrow:hover {
+    background: rgba(183, 115, 238, 0.329);
+    cursor: pointer;
 }
 
 @media (max-width: 1100px) {

@@ -27,8 +27,10 @@ html {
 
 body {
   background: linear-gradient(90deg, rgb(241, 231, 236), rgb(255, 255, 255), rgb(243, 239, 234), white);
-  background: linear-gradient(90deg, rgb(253, 237, 255), rgb(224, 255, 242), white);
-  background: linear-gradient(90deg, rgb(228, 247, 255), white, rgb(255, 231, 235), white);
+  background: linear-gradient(90deg, rgb(241, 231, 236), rgba(251, 241, 255, 0.788), rgba(245, 235, 223, 0.63), rgba(165, 36, 86, 0.103));
+  /* background: linear-gradient(90deg, rgb(253, 237, 255), rgb(224, 255, 242), white); */
+  /* background: linear-gradient(90deg, rgb(228, 247, 255), white, rgb(255, 231, 235), white); */
+  /* background: rgb(245, 245, 245); */
   height: 100%;
   width: 100%;
   overflow: hidden;

@@ -11,10 +11,12 @@
     border: 0px solid rgba(109, 109, 109, 0.288);
     border-left: 0px;
     background: rgb(20, 0, 24);
+    background: rgb(68, 30, 105);
     border-radius: 0px 0px 5px 0px;
-    border-radius: 5px;
+    border-radius: 25px;
     /*box-shadow: 5px 5px 20px 10px rgba(0, 0, 0, 0.15);*/
     box-shadow: -7px 5px 25px 0px rgba(0, 0, 0, 0.10);
+    border: 0px solid rgba(0, 0, 0, 0.021);
 
 }
 
@@ -30,10 +32,11 @@
     height: 45px;
     background-color: rgba(255, 255, 255, 0.61);
     backdrop-filter: blur(10px);
-    padding: 0px 0px 0px 10px;
+    padding: 0px 10px 0px 10px;
     border-bottom: 1px solid rgba(82, 82, 82, 0.116);
-    border-bottom: 1px dashed rgb(221, 168, 255);
-    border-bottom: 1px dashed rgba(70, 70, 70, 0.288);
+    border-bottom: 1px solid rgba(82, 82, 82, 0.089);
+    /* border-bottom: 1px dashed rgb(221, 168, 255); */
+    /* border-bottom: 1px dashed rgba(70, 70, 70, 0.288); */
     box-shadow: 0px 2px 7px 0px rgba(0, 0, 0, 0.1);
     box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.08);
     box-shadow: 10px 9px 0px 0px black;
@@ -45,14 +48,23 @@
 .mail-content-class-1 {
     gap: 10px;
     width: 100%;
+    font-size: 14px;
+}
+
+.main-body-class-1 {
+    color: gray;
+    font-weight: 500;
+    font-size: 13px;
 }
 
 .mail-from-class-1 {
     width: 150px;
+    font-size: 13.5px;
 }
 
 .tab-icon-class-1-selected {
     background: linear-gradient(90deg, pink 0% 50%, wheat 50% 100%);
+    /* background: rgb(122, 26, 233); */
     background-clip: text;
 }
 
@@ -62,7 +74,7 @@
     cursor: pointer;
     background-color: rgb(14, 0, 41);
     color: white;
-    box-shadow: -3px 3px 20px 0px rgba(0, 0, 0, 0.233);
+    /* box-shadow: -3px 3px 20px 0px rgba(0, 0, 0, 0.233); */
     z-index: 2;
     border-bottom: 0px;
 
@@ -92,28 +104,34 @@
 }
 
 .tab-class-2 {
-    padding: 15px 10px;
-    gap: 15px;
+    padding: 13px 32px;
+    gap: 10px;
     font-weight: 700;
-    font-size: 18px;
+    font-size: 14px;
     box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.00);
     border-radius: 10px 10px 0px 0px;
     border-radius: 5px;
     box-shadow: 0px 5px 10px 0px rgba(22, 0, 48, 0.11);
     box-shadow: 0px 5px 15px 0px rgba(22, 0, 48, 0.1);
+    box-shadow: 0px 5px 35px 0px rgba(22, 0, 48, 0);
     justify-content: center;
     background: rgb(255, 255, 255);
     border: 0px solid rgba(145, 126, 255, 0.274);
-    border: 1px solid rgba(180, 143, 255, 0.363);
-    border-bottom: 0px;
-    border-radius: 5px 5px 0px 0px;
+    border: 0px solid rgba(180, 143, 255, 0.363);
+    /* border: 1px solid rgba(180, 143, 255, 0.11); */
+    /* border-bottom: 0px; */
+    border-radius: 10px 10px 0px 0px;
+    /* margin-bottom: 10px; */
 }
 
 .tab-class-2-selected {
     background: rgb(20, 0, 24);
     justify-content: center;
     border-bottom: 3px solid mediumpurple;
-    border-radius: 5px 5px 0px 0px;
+    border-bottom-width: 0px;
+    /* border-radius: 5px 5px 0px 0px; */
+    border-radius: 15px 15px 0px 0px;
+    border-radius: 10px 10px 0px 0px;
 }
 
 .tab-icon-class-2-selected {

@@ -107,7 +107,12 @@ class EmailSender extends WebSocket {
             this.clearCustomPromise(data.fetch_id, data.mails)
         }
         if(data.event === 1) {
-            this.mailData[data.folder].unshift(data.mail);
+            if (data.category) {
+                this.mailData[data.folder][data.category].unshift(data.mail);
+            }
+
+            this.mailData[data.folder]['all'].unshift(data.mail);
+
 
             for(let cb of this.eventListeners.newMail) {
                 if(cb.folder === data.folder && (cb.category === data.category || cb.category === 'all')) {
