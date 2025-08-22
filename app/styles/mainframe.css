@@ -18,6 +18,7 @@
     /* box-shadow: 0px 10px 30px 0px rgba(20, 0, 0, 0.08); 0.8 -> 0.5 */
     background-color: rgba(241, 233, 255, 0.342);
     background-color: rgba(240, 232, 255, 0.582);
+    background-color: rgba(240, 232, 255, 0);
     /*box-shadow: 0px 7px 7px 0px rgba(0, 0, 0, 0.1);*/
     border-bottom: 0px solid rgba(184, 149, 255, 0.288);
     border: 0px solid rgba(162, 80, 255, 0.233);
@@ -30,9 +31,15 @@
     display: none;
 }
 
+.header-logo-icon {
+    height: calc(100% - 15px);
+    padding-left: 20px;
+    filter: drop-shadow(0px 0px 5px rgba(0, 0, 0, 0.0));
+}
+
 .app-name {
     font-size: 23px;
-    padding-left: 20px;
+    padding-left: 10px;
     font-weight: 600;
     font-family: 'Figtree';
     letter-spacing: .5px;
@@ -72,9 +79,26 @@
 }
 
 .control-holder {
-    gap: 10px;
+    gap: 15px;
     height: 100%;
     padding: 10px 10px 10px 0px;
+}
+
+.settings-icon {
+    color: rgba(102, 51, 153, 0.699);
+    font-size: 22px;
+    align-items: center;
+    padding: 6px;
+    justify-content: center;
+    display: flex;
+    /* background: rgba(86, 42, 129, 0.164); */
+    border-radius: 50%;
+    font-variation-settings: 'wght' 500, 'FILL' 1, 'opsz' 0;
+}
+
+.settings-icon:hover {
+    background: rgba(86, 42, 129, 0.164);
+    cursor: pointer;
 }
 
 .c0-holder {
@@ -83,10 +107,12 @@
 
 .navil-con {
     width: 250px;
+    /* width: 300px; */
     height: 100%;
     box-shadow: 3px 0px 12px 0px rgba(0, 0, 0, 0);
     z-index: 2;
     padding-top: 20px;
+    justify-content: space-between;
 }
 
 .navil {
@@ -103,11 +129,15 @@
     border: 1px solid rgba(97, 51, 189, 0.171); /* 0px */
     border: 0px dashed black;
     border-radius: 10px;
-    border-radius: 0px;
+    /* border-radius: 0px; */
+    background: rgba(255, 255, 255, 0.541);
     background: none;
+    padding: 10px 7px;
     box-shadow: none;
-    width: calc(100% - 10px);
+    width: calc(100% - 20px);
+    width: 100%;
     backdrop-filter: blur(10px);
+    /* margin-left: 10px; */
     /*border: 1px solid rgba(223, 94, 255, 0.438);
     background: linear-gradient(45deg, rgba(255, 223, 228, 0.658), rgba(236, 255, 236, 0.521));
     background: rgba(254, 249, 255, 0.74);
@@ -280,7 +310,7 @@
     position: relative;
     /* border: 3px solid black; */
     border: 0px;
-    border: 1px solid rgba(0, 0, 0, 0);
+    border: 0px solid rgba(0, 0, 0, 0);
 
     overflow: clip;
 
@@ -517,20 +547,24 @@
     border-radius: 5px 5px 0px 0px;
     align-self: flex-start;
     border: 0px dashed black;
-    border: 1px solid rgba(146, 92, 255, 0.301);
-    box-shadow: -5px 5px 5px 0px rgba(67, 0, 129, 0.1); /*.08 -> .13*/
-    background-color: white;
+    border: 0px solid rgba(146, 92, 255, 0.301);
+    box-shadow: -3px 3px 5px 0px rgba(67, 0, 129, 0.1); /*.08 -> .13*/
+    background-color: rgb(255, 255, 255);
+    background-color: rgba(240, 232, 255, 0.623);
+    background-color: rgba(236, 236, 236, 0.568);
 
     margin-left: 10px;
-    border-bottom-width: 0px;
 
-    margin: 5px;
+    margin: 3px;
+    /* align-self: center; */
     border-radius: 7px;
-    border-bottom-width: 1px;
+    /* border-bottom-width: 1px; */
     margin-bottom: 10px;
+    /* position: relative;
+    bottom: 10px; */
 
     box-shadow: none;
-    border-width: 0px;
+    /* border-width: 0px; */
     background-color: rgba(0, 0, 0, 0.637);
 
 }
@@ -543,7 +577,7 @@
         'FILL' 0,
         'wght' 300,
         'GRAD' 0,
-        'opsz' 24;
+        'opsz' 0;
     color: rgb(17, 17, 17) !important;
     border-radius: 3px;
     border: 0px solid rgba(235, 154, 255, 0.479);
@@ -585,6 +619,7 @@
     color: white !important;
     color: mediumaquamarine !important;
     color: rgb(112, 253, 206) !important;
+    color: rgb(63, 223, 169) !important;
 
 }
 
@@ -611,6 +646,10 @@
 
 :nth-last-child(1 of span.letter-action-icon) {
     border-radius: 0px 7px 7px 0px;
+}
+
+span.letter-action-icon {
+    /* color: rebeccapurple !important; */
 }
 
 span.letter-action-icon:hover {

@@ -1,9 +1,15 @@
 .tab-class-1 {
     gap: 10px; /* 20px */ 
-    padding: 7px 10px 7px 35px;
-    padding: 7px 7px 7px 20px;
+    /* padding: 7px 10px 7px 35px; */
+    /* padding: 7px 7px 7px 0px; */
+    padding-right: 7px;
     width: 100%;
-    font-size: 14px;
+    font-size: 13px;
+    border-radius: 25px;
+}
+
+.tab-class-1-title {
+    /* font-size: 15px; */
 }
 
 .tab-class-1-selected {
@@ -12,10 +18,11 @@
     border-left: 0px;
     background: rgb(20, 0, 24);
     background: rgb(68, 30, 105);
+    background: rgba(170, 129, 235, 0.144);
     border-radius: 0px 0px 5px 0px;
     border-radius: 25px;
     /*box-shadow: 5px 5px 20px 10px rgba(0, 0, 0, 0.15);*/
-    box-shadow: -7px 5px 25px 0px rgba(0, 0, 0, 0.10);
+    /* box-shadow: -7px 5px 25px 0px rgba(0, 0, 0, 0.10); */
     border: 0px solid rgba(0, 0, 0, 0.021);
 
 }
@@ -62,10 +69,20 @@
     font-size: 13.5px;
 }
 
+.tab-icon-class-1 {
+    padding: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
 .tab-icon-class-1-selected {
-    background: linear-gradient(90deg, pink 0% 50%, wheat 50% 100%);
+    /* background: linear-gradient(90deg, pink 0% 50%, wheat 50% 100%); */
     /* background: rgb(122, 26, 233); */
-    background-clip: text;
+    /* background-clip: text; */
+    background: rgb(68, 30, 105);
+    /* color: pink; */
 }
 
 .mail-tab-class-1:hover {
@@ -100,7 +117,7 @@
 .tab-class-1:hover {
     cursor: pointer;
     background-color: rgba(0, 0, 0, 0.062);
-    border-bottom-right-radius: 5px;
+    /* border-bottom-right-radius: 5px; */
 }
 
 .tab-class-2 {
@@ -146,6 +163,7 @@
 
 .tab-class-1-selected:hover {
     background-color: rgb(71, 0, 112);
+    background: rgba(170, 129, 235, 0.356);
 }
 
 .tab-class-2-selected:hover {

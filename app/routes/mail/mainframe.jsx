@@ -14,6 +14,12 @@ import { emailPat, testHTML } from "../../constants";
 
 import "../../styles/mainframe.css";
 import "../../styles/inbox.css";
+import "../../styles/lightminiscreen.css"
+
+import SputhMail from "../../assets/images/sputh-mail-snake-choker-2.svg";
+import SputhMailLotus from "../../assets/images/sputh-mail-lotus.svg";
+import SputhMailSnake from "../../assets/images/sputh-mail-snake.svg";
+import Ribbons from "../../assets/images/ribbons-1.svg";
 
 export function meta({}) {
   return [
@@ -212,7 +218,7 @@ class Home extends Component {
       
       <Phone style={{left: this.state.phoneShowing? "0px" : "-500px"}} ref={this.phone} onBlur={() => this.setState({phoneShowing: false})}/>
 
-      <Fab onClick={() => this.setState({phoneShowing: true}, () => this.phone.current.focus())}/>
+      {/* <Fab onClick={() => this.setState({phoneShowing: true}, () => this.phone.current.focus())}/> */}
 
       <div className="compose-box column">
         <div className="column" style={{gap: "5px", display: this.state.composing? "flex" : "none"}}>
@@ -312,12 +318,20 @@ class Home extends Component {
         </div>
       </div>
       <div className="mainhead">
-        <div className="c0-holder"></div>
-        <div className="row-center" style={{gap: "70px", height: "100%", padding: "7px 0px 7px 0px"}}>
-          <p style={{}} className="app-name">Sputh Mail</p>
-          <InputClass1 icon={"search"} placeholder={"Search"} className={"search-input"} placeholderClassName={"search-input-placeholder"}/>
+        {/* <div className="c0-holder"></div> */}
+        <div className="row-center" style={{gap: "70px", height: "100%", padding: "0px 0px 0px 0px"}}>
+          <div className="row-center" style={{gap: "0px", height: "100%"}}>
+            <img src={SputhMail} className="header-logo-icon clickable"/>
+            <p style={{}} className="app-name">sputh</p>
+          </div>
+          <div className="row-center" style={{height: "100%", padding: "7px 0px"}}>
+            <InputClass1 icon={"search"} placeholder={"Search"} className={"search-input"} placeholderClassName={"search-input-placeholder"}/>
+          </div>
         </div>
         <div className="row-center control-holder">
+          <div className="row-center">
+              <span className="material-symbols-outlined settings-icon" style={{}}>settings</span>
+          </div>
           <div style={{height: "100%"}}>
             <img src="https://cdn-icons-png.freepik.com/512/168/168720.png" className="header-avatar"/>
           </div>
@@ -332,6 +346,50 @@ class Home extends Component {
             <Tab name={"Draft"} icon={"draft"} selected={this.props.params.folder === 'draft'}/>
             <Tab name={"Spam"} icon={"report"} selected={this.props.params.folder === 'spam'}/>
             <Tab name={"Recycle bin"} icon={"delete"} selected={this.props.params.folder === 'bin'} link={"/bin"}/>
+          </div>
+          <div className="column light-screen">
+
+            <div className="column" style={{width: "100%", position: "relative"}}>
+              
+              <div className="column-center" style={{padding: "12px 5px", width: "fit-content", gap: "0px", width: "100%"}}>
+                <p className="light-time-scr">12:06</p>
+                <p className="light-date-scr">Thu, Apr 7</p>
+              </div>
+              <div className="column-center notif-center-mini-light">
+                <div className="mini-light-notif column">
+                  <div className="row-center" style={{gap: "4px"}}>
+                    <span className="material-symbols-outlined notif-mini-light-icon">inbox</span>
+                    <p className="notif-mini-app-title">New mail from <b>Sayu</b></p>
+                  </div>
+                  <div className="column" style={{gap: "3px"}}>
+                    <div className="row-center" style={{padding: ""}}>
+                      <p style={{fontWeight: "700", fontSize: "14px", color: "rebeccapurple"}}>Regarding our meet</p>
+                    </div>
+                    <div className="row-center" style={{padding: "0px 0px"}}>
+                      <p style={{fontWeight: "400", fontSize: "11px", color: "rebeccapurple"}}>Hi I think we should meet soon...</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="mini-light-notif column">
+                  <div className="row-center" style={{gap: "4px"}}>
+                    <span className="material-symbols-outlined notif-mini-light-icon">chat</span>
+                    <p className="notif-mini-app-title">New message from <b>Sputh</b></p>
+                  </div>
+                  <div className="column" style={{gap: "3px"}}>
+                    <div className="row-center" style={{padding: "0px 0px"}}>
+                      <p style={{fontWeight: "500", fontSize: "11px", color: "rebeccapurple"}}>Hi im coming to u by flying</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="column" style={{position: "absolute", top: "-80px", left: "-50px"}}>
+                <img src={Ribbons} style={{opacity: .7, height: "200px", transform: "rotate(180deg)"}}/>
+              </div>
+
+            </div>
+
           </div>
         </div>
         <div style={{width: "100%"}} className="row">
@@ -441,6 +499,9 @@ class Home extends Component {
 
                     </div>
                   </div>
+                </div>
+                <div className="column" style={{position: "absolute", bottom: "-60px", right: "-100px"}}>
+                  <img src={Ribbons} style={{opacity: .5, height: "400px"}}/>
                 </div>
                 <div className="column letter-attachment-view" ref={this.attachmentView} tabIndex={1} onBlur={() => this.setState({attachmentShowing: false})}  style={{bottom: this.state.attachmentShowing? "0px" : "-150px"}}>
                   <div className="row-center">

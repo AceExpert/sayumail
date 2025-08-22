@@ -36,6 +36,10 @@ body {
   overflow: hidden;
 }
 
+.clickable:hover {
+  cursor: pointer;
+}
+
 .hover-ptr:hover {
   cursor: pointer;
 }

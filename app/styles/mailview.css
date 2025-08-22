@@ -22,6 +22,7 @@
     bottom: 30px;
     align-self: center;
     gap: 25px;
+    /* gap: 0px; */
     padding: 6px 8px;
     border: 1px solid rgba(255, 255, 255, 0.699);
     border-radius: 40px;
@@ -34,7 +35,7 @@
     background: rgb(255, 255, 255);
     border: 0px solid rgba(176, 80, 255, 0.164);
     padding: 10px 25px;
-    border-radius: 30px;
+    border-radius: 40px;
     font-size: 15px;
     font-weight: 500;
     color: rgba(0, 0, 0, 0.897);
