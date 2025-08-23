@@ -16,10 +16,14 @@ import "../../styles/mainframe.css";
 import "../../styles/inbox.css";
 import "../../styles/lightminiscreen.css"
 
-import SputhMail from "../../assets/images/sputh-mail-snake-choker-2.svg";
+import SputhMail from "../../assets/images/sputh-mail-butter.svg";
 import SputhMailLotus from "../../assets/images/sputh-mail-lotus.svg";
 import SputhMailSnake from "../../assets/images/sputh-mail-snake.svg";
-import Ribbons from "../../assets/images/ribbons-1.svg";
+import Ribbons from "../../assets/images/pride-flag-2.svg";
+import MiniRibbons from "../../assets/images/ribbon-3-full.svg";
+import Sputh from "../../assets/images/sputh-couple-red.svg";
+import Branch from "../../assets/images/only-flowers.svg";
+import TransFlag from "../../assets/images/trans-flag.svg";
 
 export function meta({}) {
   return [
@@ -208,6 +212,9 @@ class Home extends Component {
 
   render = () =>
     <div style={{width: "100%", height: "100%", display: "flex", flexDirection: "column"}}>
+      <div className="column" style={{position: "absolute", bottom: "-180px", left: "-100px"}}>
+        <img src={Ribbons} style={{opacity: .25, transform: "rotate(90deg)", height: "700px"}}/>
+      </div>
       <div className="notification-panel column">
         {this.state.notifications.map(
           ({id, title, description, fired, display}) => {
@@ -351,7 +358,7 @@ class Home extends Component {
 
             <div className="column" style={{width: "100%", position: "relative"}}>
               
-              <div className="column-center" style={{padding: "12px 5px", width: "fit-content", gap: "0px", width: "100%"}}>
+              <div className="column-center" style={{padding: "12px 5px", width: "fit-content", gap: "0px", width: "100%", zIndex: 1}}>
                 <p className="light-time-scr">12:06</p>
                 <p className="light-date-scr">Thu, Apr 7</p>
               </div>
@@ -384,8 +391,12 @@ class Home extends Component {
                 </div>
               </div>
 
-              <div className="column" style={{position: "absolute", top: "-80px", left: "-50px"}}>
-                <img src={Ribbons} style={{opacity: .7, height: "200px", transform: "rotate(180deg)"}}/>
+              <div className="column" style={{position: "absolute", top: "-50px", left: "-140px"}}>
+                <img src={TransFlag} style={{opacity: .4, height: "300px", transform: "rotate(170deg)"}}/>
+              </div>
+
+              <div className="column" style={{position: "absolute", top: "-30px", left: "-50px", display: "none"}}>
+                <img src={Branch} style={{opacity: .4, height: "200px", transform: "rotate(0deg)"}}/>
               </div>
 
             </div>
@@ -500,8 +511,14 @@ class Home extends Component {
                     </div>
                   </div>
                 </div>
-                <div className="column" style={{position: "absolute", bottom: "-60px", right: "-100px"}}>
-                  <img src={Ribbons} style={{opacity: .5, height: "400px"}}/>
+                <div className="column" style={{position: "absolute", bottom: "-150px", right: "-0px"}}>
+                  <img src={MiniRibbons} style={{opacity: .3, transform: "rotate(10deg)", height: "400px"}}/>
+                </div>
+                <div className="column" style={{position: "absolute", right: "-0px", top: "-20px", zIndex: -1}}>
+                  <img src={Branch} style={{opacity: .4, height: "200px", transform: "rotate(270deg)"}}/>
+                </div>
+                <div className="column" style={{position: "absolute", left: "10px", bottom: "0px", zIndex: -1}}>
+                  <img src={Sputh} style={{opacity: .5, height: "100px", transform: "rotate(-10deg)"}}/>
                 </div>
                 <div className="column letter-attachment-view" ref={this.attachmentView} tabIndex={1} onBlur={() => this.setState({attachmentShowing: false})}  style={{bottom: this.state.attachmentShowing? "0px" : "-150px"}}>
                   <div className="row-center">
