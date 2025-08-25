@@ -1,12 +1,15 @@
 import "../encrypter/bundle2";
 
-const connection = { server: null }
+import { loginForToken } from "./login";
+
+const connection = { server: null, accessToken: null }
 
 class EmailSender extends WebSocket {
 
     constructor(url, onEnd, onOpen) {
         super(url);
         this.connUrl = url;
+        this.accessToken = null;
         this.promises = {
             sendQueue: [],
             newChannel: null,
@@ -184,8 +187,25 @@ class EmailSender extends WebSocket {
         })
     }
 
-    authorize(user, pswd) {
-        return ecc.encrypt(JSON.stringify({action: 1, user, pswd}), this.currentKey).then(
+    login() {
+        if(!this.accessToken && connection.accessToken) {
+            this.accessToken = connection.accessToken
+        }
+        if(!this.accessToken) {
+            return loginForToken().then(v => {
+                if(!v.error) {
+                    this.accessToken = v.token;
+                    connection.accessToken = v.token;
+                    return v.error
+                } else {
+                    return v.error
+                }
+            })
+        } else return new Promise(resolve => resolve(0))
+    }
+
+    authorize() {
+        return ecc.encrypt(JSON.stringify({action: 1, token: this.accessToken}), this.currentKey).then(
             enc => {
                 let res;
                 let prom = new Promise(resolve => res = resolve);

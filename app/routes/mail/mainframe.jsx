@@ -1,5 +1,5 @@
 import { Component, createRef } from "react";
-import { Outlet, useNavigate } from "react-router";
+import { Outlet, redirect, useNavigate } from "react-router";
 
 import InputClass1, { SelectInputClass1 } from "../../components/input";
 import SelectClass1 from "../../components/select";
@@ -19,11 +19,12 @@ import "../../styles/lightminiscreen.css"
 import SputhMail from "../../assets/images/sputh-mail-butter.svg";
 import SputhMailLotus from "../../assets/images/sputh-mail-lotus.svg";
 import SputhMailSnake from "../../assets/images/sputh-mail-snake.svg";
-import Ribbons from "../../assets/images/pride-flag-2.svg";
+import Ribbons from "../../assets/images/ribbons-tog.svg";
 import MiniRibbons from "../../assets/images/ribbon-3-full.svg";
-import Sputh from "../../assets/images/sputh-couple-red.svg";
+import Sputh from "../../assets/images/sputh-l-couple-2.svg";
 import Branch from "../../assets/images/only-flowers.svg";
 import TransFlag from "../../assets/images/trans-flag.svg";
+import PrideFlag from "../../assets/images/pride-flag-2.svg";
 
 export function meta({}) {
   return [
@@ -64,6 +65,7 @@ class Home extends Component {
       _loaderprom: new Promise(res => _loaderres = res),
       attachmentShowing: false,
       phoneShowing: false,
+      userIndex: 0
     };
     this.phone = createRef();
     this.attachmentView = createRef();
@@ -96,14 +98,21 @@ class Home extends Component {
   connect(EmailSender, connection) {
     if(!connection.server || connection.server.readyState !== WebSocket.OPEN) {
       this.sender = EmailSender.start('ws://cybertron:3008/mail', () => this.connect(EmailSender, connection), () => {
-        this.sender.openChannel().then(() => {
+        this.sender.openChannel(this.state.userIndex).then(() => {
           console.log("opened");
-          this.sender.authorize("anshul", "Anshul@7329").then(() => {
-            console.log("Authorized");
-            this.state._loaderres({
-              showMail: this.showMail.bind(this)
-            })
-          });
+          this.sender.login(this.state.userIndex).then(err => {
+            if(!err) {
+              this.sender.authorize().then(() => {
+                console.log("Authorized");
+                this.state._loaderres({
+                  showMail: this.showMail.bind(this)
+                })
+              });
+            } else {
+              redirect("http://cybertron:3500/?continue=http://cybertron:4000/inbox")
+            }
+          })
+          
         })
       })
       connection.server = this.sender;
@@ -212,8 +221,8 @@ class Home extends Component {
 
   render = () =>
     <div style={{width: "100%", height: "100%", display: "flex", flexDirection: "column"}}>
-      <div className="column" style={{position: "absolute", bottom: "-180px", left: "-100px"}}>
-        <img src={Ribbons} style={{opacity: .25, transform: "rotate(90deg)", height: "700px"}}/>
+      <div className="column" style={{position: "absolute", bottom: "-10px", left: "-200px"}}>
+        <img src={MiniRibbons} style={{opacity: .5, transform: "rotate(80deg)", height: "600px"}}/>
       </div>
       <div className="notification-panel column">
         {this.state.notifications.map(
@@ -391,8 +400,8 @@ class Home extends Component {
                 </div>
               </div>
 
-              <div className="column" style={{position: "absolute", top: "-50px", left: "-140px"}}>
-                <img src={TransFlag} style={{opacity: .4, height: "300px", transform: "rotate(170deg)"}}/>
+              <div className="column" style={{position: "absolute", top: "-100px", left: "-90px"}}>
+                <img src={PrideFlag} style={{opacity: .4, height: "300px", transform: "rotate(180deg)"}}/>
               </div>
 
               <div className="column" style={{position: "absolute", top: "-30px", left: "-50px", display: "none"}}>
@@ -511,14 +520,17 @@ class Home extends Component {
                     </div>
                   </div>
                 </div>
-                <div className="column" style={{position: "absolute", bottom: "-150px", right: "-0px"}}>
-                  <img src={MiniRibbons} style={{opacity: .3, transform: "rotate(10deg)", height: "400px"}}/>
+                <div className="column" style={{position: "absolute", bottom: "-110px", right: "-50px"}}>
+                  <img src={Ribbons} style={{opacity: .5, transform: "rotate(20deg)", height: "400px"}}/>
                 </div>
                 <div className="column" style={{position: "absolute", right: "-0px", top: "-20px", zIndex: -1}}>
                   <img src={Branch} style={{opacity: .4, height: "200px", transform: "rotate(270deg)"}}/>
                 </div>
-                <div className="column" style={{position: "absolute", left: "10px", bottom: "0px", zIndex: -1}}>
-                  <img src={Sputh} style={{opacity: .5, height: "100px", transform: "rotate(-10deg)"}}/>
+                <div className="column" style={{position: "absolute", left: "15px", bottom: "10px", zIndex: -1, display: "none"}}>
+                  <img src={Sputh} style={{opacity: .5, height: "80px", transform: "rotate(-0deg)"}}/>
+                </div>
+                <div className="column" style={{position: "absolute", bottom: "15px", left: "15px", zIndex: -1}}>
+                  <img src={SputhMailLotus} style={{opacity: .5, height: "50px", transform: "rotate(-0deg)"}}/>
                 </div>
                 <div className="column letter-attachment-view" ref={this.attachmentView} tabIndex={1} onBlur={() => this.setState({attachmentShowing: false})}  style={{bottom: this.state.attachmentShowing? "0px" : "-150px"}}>
                   <div className="row-center">
