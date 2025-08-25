@@ -63,6 +63,25 @@ function loginForToken(user = 0, retry = 0) {
     }))
 }
 
+function authorize(retry = 0) {
+    return _sessionCheck(() => fetch(URL('auth'), {
+        method: 'POST',
+        credentials: 'include'
+    }).then(res => {
+        if(res.ok) {
+            return res.text().then(v => {
+                let data = JSON.parse(decrypt(v, connection.private_key));
+
+                if(data.auth === false) {
+                    return null;
+                } else {
+                    return data;
+                }
+            })
+        }
+    }))
+}
+
 export {
-    startSession, loginForToken
+    startSession, loginForToken, authorize
 }

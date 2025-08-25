@@ -1,8 +1,8 @@
 import "../encrypter/bundle2";
 
-import { loginForToken } from "./login";
+import { loginForToken, authorize } from "./login";
 
-const connection = { server: null, accessToken: null }
+const connection = { server: null, accessToken: null, user_ids: [] }
 
 class EmailSender extends WebSocket {
 
@@ -33,6 +33,23 @@ class EmailSender extends WebSocket {
         super.onclose = this.onClose.bind(this);
         super.onerror = this.onError.bind(this);
         this.closeConnection = this.closeConnection.bind(this);
+    }
+    
+    static checkLogin() {
+        let res = null;
+        let prom = new Promise(resolv => res = resolv);
+        if(connection.user_ids?.length) {
+            res(connection.user_ids)
+        }
+        authorize().then(v => {
+            if(v) {
+                connection.user_ids.push(...v);
+                res(connection.user_ids);
+            } else {
+                res(null);
+            }
+        })
+        return prom;
     }
 
     static start(...args) {

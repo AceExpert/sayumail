@@ -5,7 +5,7 @@ import InputClass1 from "../components/input";
 import "../styles/login.css";
 
 export async function clientLoader(params) {
-    return redirect("http://cybertron:3500/?continue=http://cybertron:4000/inbox")
+    return redirect("https://mail.sayutel.com/u/0/inbox")
 }
 
 export default function LoginView({}) {

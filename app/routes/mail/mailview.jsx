@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useLocation, useOutletContext } from "react-router";
+import { useLocation, useOutletContext, useNavigate } from "react-router";
 
 import { MailTab, Tab2 } from "../../components/tab";
 import CheckBox from "../../components/checkbox";
@@ -9,6 +9,7 @@ import "../../styles/mailview.css";
 export default function MailView({ params }) {
 
     let location = useLocation();
+    let navigate = useNavigate();
 
     let {loader} = useOutletContext();
 
@@ -42,7 +43,7 @@ export default function MailView({ params }) {
             })
         })
 
-        setMail([{from_name: "anshul", subject: "Regarding your order", body: "Your order is here"}, {from_name: "IIT Kharagpur", subject: "Regarding your marks", body: "Your CGPA is posted in the erp"}, {from_name: "joe", subject: "Regarding your photos", body: "check out the attachments"}, {from_name: "anshul", subject: "Regarding your order", body: "Your order is here"}, {from_name: "IIT Kharagpur", subject: "Regarding your marks", body: "Your CGPA is posted in the erp"}, {from_name: "joe", subject: "Regarding your photos", body: "check out the attachments"}, {from_name: "anshul", subject: "Regarding your order", body: "Your order is here"}, {from_name: "IIT Kharagpur", subject: "Regarding your marks", body: "Your CGPA is posted in the erp"}, {from_name: "joe", subject: "Regarding your photos", body: "check out the attachments"}]);
+        // setMail([{from_name: "anshul", subject: "Regarding your order", body: "Your order is here"}, {from_name: "IIT Kharagpur", subject: "Regarding your marks", body: "Your CGPA is posted in the erp"}, {from_name: "joe", subject: "Regarding your photos", body: "check out the attachments"}, {from_name: "anshul", subject: "Regarding your order", body: "Your order is here"}, {from_name: "IIT Kharagpur", subject: "Regarding your marks", body: "Your CGPA is posted in the erp"}, {from_name: "joe", subject: "Regarding your photos", body: "check out the attachments"}, {from_name: "anshul", subject: "Regarding your order", body: "Your order is here"}, {from_name: "IIT Kharagpur", subject: "Regarding your marks", body: "Your CGPA is posted in the erp"}, {from_name: "joe", subject: "Regarding your photos", body: "check out the attachments"}]);
     }, [])
 
     useEffect(() => {
@@ -64,20 +65,24 @@ export default function MailView({ params }) {
         }
     }
 
+    let changeCateg = categ => {
+        navigate(`/u/${params.uindex}/${params.folder}/${categ}`)
+    }
+
     return (
     <div style={{width: "100%", height: "100%", padding: "20px 0px 0px 0px", position: "relative"}} className="column">
 
         <div className="mail-type-float-con row-center" style={{}}>
-            <div className="mail-type-tab row-center mail-tab-selected">
-                <span className={"material-symbols-outlined mail-tab-selected-icon"} style={{fontSize: "18px", color: "rebeccapurple"}}>inbox</span>
+            <div className={"mail-type-tab row-center " + ((!params.type || params.type === 'primary') ? "mail-tab-selected" : "")} onClick={() => changeCateg("primary")}>
+                <span className={"material-symbols-outlined " + ((!params.type || params.type === 'primary') ? "mail-tab-selected-icon" : "")} style={{fontSize: "18px", color: "rebeccapurple"}}>inbox</span>
                 Primary
             </div>
-            <div className="mail-type-tab row-center">
-                <span className={"material-symbols-outlined"} style={{fontSize: "18px", color: "rebeccapurple"}}>groups</span>
+            <div className={"mail-type-tab row-center " + ((params.type === 'social') ? "mail-tab-selected" : "")} onClick={() => changeCateg("social")}>
+                <span className={"material-symbols-outlined " + ((params.type === 'social') ? "mail-tab-selected-icon" : "")} style={{fontSize: "18px", color: "rebeccapurple"}}>groups</span>
                 Social
             </div>
-            <div className="mail-type-tab row-center">
-                <span className={"material-symbols-outlined"} style={{fontSize: "18px", color: "rebeccapurple"}}>update</span>
+            <div className={"mail-type-tab row-center " + ((params.type === 'updates') ? "mail-tab-selected" : "")} onClick={() => changeCateg("updates")}>
+                <span className={"material-symbols-outlined " + ((params.type === 'updates') ? "mail-tab-selected-icon" : "")} style={{fontSize: "18px", color: "rebeccapurple"}}>update</span>
                 Updates
             </div>
         </div>

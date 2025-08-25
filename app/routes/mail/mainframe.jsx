@@ -40,6 +40,7 @@ class Home extends Component {
     this.props = props;
     let _loaderres;
     this.state = {
+      userIds: [],
       composing: false,
       toAddr: 'very.anshul@gmail.com',
       ccAddr: [],
@@ -61,11 +62,11 @@ class Home extends Component {
         tls: true,
         body: '<div style="padding: 10px 20px;"><div>Dear sir</br></br>I am Anshul Singh, roll number 24IM10016 from the Department of Industrial and Systems Engineering. I request you to grant me leave for 12th, 13th, 14th and 15th of July as I was unable to attend classes that day due to the opening ceremony of Cytroid.</br></br>I hope that you will grant me leave for the same as well give blessings for my company.</br></br>Thank you</br></br>Yours Sincerely</br>Anshul Singh</br></br><p style="color: mediumpurple; margin:5px 0px;">Sent using SayuMail by Sayutel</p></div></div>'
       },
-      showingMail: true,
+      showingMail: false,
       _loaderprom: new Promise(res => _loaderres = res),
       attachmentShowing: false,
       phoneShowing: false,
-      userIndex: 0
+      userIndex: Number.parseInt(this.props.params.uindex) || 0
     };
     this.phone = createRef();
     this.attachmentView = createRef();
@@ -84,7 +85,15 @@ class Home extends Component {
   componentDidMount() {
     //let [_, folder, type] = /\/([^\/]+)(?:\/([^\/]+))?\/*/i.exec(window.location.pathname);
     import("../../sender/index").then(({ EmailSender, connection }) => {
-      this.connect(EmailSender, connection)
+      EmailSender.checkLogin().then(v => {
+        if(v?.length) {
+          this.setState({userIds: [...v], fromDomain: [v[this.state.userIndex].split('@')[1]], sign: [v[this.state.userIndex].split('@')[1]]}, () => {
+            this.connect(EmailSender, connection)
+          });
+        } else {
+          redirect("https://accounts.sayutel.com/login?continue="+window.location.href);
+        }
+      })
     })
     
     let parser = new DOMParser();
@@ -97,7 +106,7 @@ class Home extends Component {
 
   connect(EmailSender, connection) {
     if(!connection.server || connection.server.readyState !== WebSocket.OPEN) {
-      this.sender = EmailSender.start('ws://cybertron:3008/mail', () => this.connect(EmailSender, connection), () => {
+      this.sender = EmailSender.start('wss://mail.sayutel.com:3008/mail', () => this.connect(EmailSender, connection), () => {
         this.sender.openChannel(this.state.userIndex).then(() => {
           console.log("opened");
           this.sender.login(this.state.userIndex).then(err => {
@@ -109,7 +118,7 @@ class Home extends Component {
                 })
               });
             } else {
-              redirect("http://cybertron:3500/?continue=http://cybertron:4000/inbox")
+              redirect("https://accounts.sayutel.com/login?continue="+window.location.href)
             }
           })
           
