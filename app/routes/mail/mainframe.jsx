@@ -91,7 +91,7 @@ class Home extends Component {
             this.connect(EmailSender, connection)
           });
         } else {
-          redirect("https://accounts.sayutel.com/login?continue="+window.location.href);
+          window.location = "https://accounts.sayutel.com/login?continue="+window.location.href;
         }
       })
     })
@@ -118,7 +118,7 @@ class Home extends Component {
                 })
               });
             } else {
-              redirect("https://accounts.sayutel.com/login?continue="+window.location.href)
+              window.location = "https://accounts.sayutel.com/login?continue="+window.location.href;
             }
           })
           
