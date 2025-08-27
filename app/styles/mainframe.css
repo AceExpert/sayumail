@@ -49,11 +49,11 @@
 
 .header-avatar {
     height: 100%;
-    border-radius: 50%;
+    border-radius: 30%;
 }
 
 .search-input {
-    border-radius: 25px;
+    border-radius: 25px !important;
 }
 
 .close-button {
@@ -115,6 +115,32 @@
     justify-content: space-between;
 }
 
+.compose-bu {
+    background: rgb(228, 214, 255);
+    padding: 12px 20px 12px 15px;
+    /* width: calc(100% - 30px); */
+    justify-content: center;
+    color: rebeccapurple;
+    border-radius: 0px 40px 40px 0px;
+    gap: 7px;
+    align-self: flex-start;
+    margin-left: 0px;
+}
+
+.compose-text {
+    font-weight: 600;
+    font-size: 15px;
+}
+
+.compose-icon {
+    font-size: 16px;
+}
+
+.compose-bu:hover {
+    cursor: pointer;
+    background: rgb(215, 195, 255);
+}
+
 .navil {
     gap: 5px;
     font-weight: 600;
@@ -133,10 +159,12 @@
     background: rgba(255, 255, 255, 0.541);
     background: none;
     padding: 10px 7px;
+    padding-top: 5px;
     box-shadow: none;
     width: calc(100% - 20px);
     width: 100%;
     backdrop-filter: blur(10px);
+    margin-top: 0px;
     /* margin-left: 10px; */
     /*border: 1px solid rgba(223, 94, 255, 0.438);
     background: linear-gradient(45deg, rgba(255, 223, 228, 0.658), rgba(236, 255, 236, 0.521));
@@ -175,13 +203,18 @@
     border-left: 0px solid black;
 }
 
+.mailview-outlet-con {
+    width: calc(100% - 20px);
+    /* width: 100%; */
+}
+
 .mail-type-con {
     width: 100%;
     gap: 15px;
     justify-content: start;
 }
 
-.compose-box {
+/* .compose-box {
     position: absolute;
     bottom: 30px;
     right: 30px;
@@ -189,7 +222,7 @@
     z-index: 5;
     border-radius: 10px;
     max-width: 600px;
-}
+} */
 
 .float-con {
     background-color: rgba(252, 247, 255, 0.514);
@@ -236,7 +269,7 @@
     min-width: 73px;
 }
 
-.compose-input {
+/* .compose-input {
     border-radius: 0px 10px 0px 10px;
     border: 1px solid rgba(106, 0, 206, 0.185);
     background-color: transparent;
@@ -246,21 +279,21 @@
     position: relative;
     right: -30px;
     border-radius: 5px 0px 0px 5px;
-    border-right: 0px;
+    border-right: 0px;*/
     /* display: none; */
-}
+/*} */
 
-.compose-input:hover {
+/* .compose-input:hover {
     cursor: pointer;
-}
+} */
 
-.compose-input-on {
+/* .compose-input-on {
     border: 1px solid rgba(0, 0, 0, 0.438);
     background: none;
     background-color: rgba(253, 249, 255, 0.486);
     box-shadow: 0px 3px 30px 10px rgb(0, 0, 0, 0.08);
     right: 0px;
-}
+} */
 
 .float-con:nth-child(1 of div.float-con) {
     border-bottom-left-radius: 0px;
@@ -721,6 +754,10 @@ span.letter-action-icon:hover {
 }
 
 @media (max-width: 1100px) {
+    .mailview-outlet-con {
+        width: 100%;
+    }
+
     .navil-con {
         display: none;
     }

@@ -8,6 +8,7 @@
     border-radius: 10px;
     /* margin-bottom: 5px; */
     width: 240px;
+    width: 200px;
     align-self: center;
     position: absolute;
     bottom: 5px;
@@ -45,6 +46,7 @@
     align-self: center;
     border-radius: 5px;
     gap: 5px;
+    display: none;
 }
 
 .mini-light-notif {

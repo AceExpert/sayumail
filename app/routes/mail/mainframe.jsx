@@ -9,12 +9,14 @@ import Attachment from "../../components/attachment";
 import Fab from "../../components/fab";
 
 import Phone from "../../miniscreens/phone";
+import Composer from "../../miniscreens/composer";
 
 import { emailPat, testHTML } from "../../constants";
 
 import "../../styles/mainframe.css";
+import "../../styles/compose.css";
 import "../../styles/inbox.css";
-import "../../styles/lightminiscreen.css"
+import "../../styles/lightminiscreen.css";
 
 import SputhMail from "../../assets/images/sputh-mail-butter.svg";
 import SputhMailLotus from "../../assets/images/sputh-mail-lotus.svg";
@@ -25,6 +27,20 @@ import Sputh from "../../assets/images/sputh-l-couple-2.svg";
 import Branch from "../../assets/images/only-flowers.svg";
 import TransFlag from "../../assets/images/trans-flag.svg";
 import PrideFlag from "../../assets/images/pride-flag-2.svg";
+
+import PFP1 from "../../assets/images/pfps/pfp-1.png"
+import PFP2 from "../../assets/images/pfps/pfp-2.png"
+import PFP3 from "../../assets/images/pfps/pfp-3.png"
+import PFP4 from "../../assets/images/pfps/pfp-4.png"
+import PFPD from "../../assets/images/pfps/pfp-d.png"
+import PFPOG from "../../assets/images/pfps/pfp-og.png"
+import PPFP1 from "../../assets/images/pfps/pride1.svg"
+import PPFP2 from "../../assets/images/pfps/pride2.png"
+import PPFP3 from "../../assets/images/pfps/pride3.png"
+import TPFP1 from "../../assets/images/pfps/trans1.png"
+import TPFP2 from "../../assets/images/pfps/trans2.png"
+import SW1 from "../../assets/images/pfps/sw1.png"
+import SW2 from "../../assets/images/pfps/sw2.png"
 
 export function meta({}) {
   return [
@@ -41,7 +57,7 @@ class Home extends Component {
     let _loaderres;
     this.state = {
       userIds: [],
-      composing: false,
+      composing: true,
       toAddr: 'very.anshul@gmail.com',
       ccAddr: [],
       bccAddr: [],
@@ -66,7 +82,8 @@ class Home extends Component {
       _loaderprom: new Promise(res => _loaderres = res),
       attachmentShowing: false,
       phoneShowing: false,
-      userIndex: Number.parseInt(this.props.params.uindex) || 0
+      userIndex: Number.parseInt(this.props.params.uindex) || 0,
+      curTime: new Date,
     };
     this.phone = createRef();
     this.attachmentView = createRef();
@@ -84,16 +101,17 @@ class Home extends Component {
 
   componentDidMount() {
     //let [_, folder, type] = /\/([^\/]+)(?:\/([^\/]+))?\/*/i.exec(window.location.pathname);
+    setInterval(() => this.setState({curTime: new Date}), 1000)
     import("../../sender/index").then(({ EmailSender, connection }) => {
-      EmailSender.checkLogin().then(v => {
+      /*EmailSender.checkLogin().then(v => {
         if(v?.length) {
           this.setState({userIds: [...v], fromDomain: [v[this.state.userIndex].split('@')[1]], sign: [v[this.state.userIndex].split('@')[1]]}, () => {
             this.connect(EmailSender, connection)
           });
         } else {
-          window.location = "https://accounts.sayutel.com/login?continue="+window.location.href;
+          window.location = "https://accounts.sayutel.com/login?continue="+encodeURI(window.location.href);
         }
-      })
+      })*/
     })
     
     let parser = new DOMParser();
@@ -118,7 +136,7 @@ class Home extends Component {
                 })
               });
             } else {
-              window.location = "https://accounts.sayutel.com/login?continue="+window.location.href;
+              window.location = "https://accounts.sayutel.com/login?continue="+encodeURI(window.location.href);
             }
           })
           
@@ -140,8 +158,8 @@ class Home extends Component {
   sendMail() {
     this.resetCompose()
     this.setState({composing: false})
-    this.fireNotification({title: "Email sent", description: <p>Email to <b style={{color: "purple"}}>very.anshul@gmail.com</b> sent</p>})
-    /*
+    // this.fireNotification({title: "Email sent", description: <p>Email to <b style={{color: "purple"}}>very.anshul@gmail.com</b> sent</p>})
+    
     this.sender.sendMail({
       toAddr: this.state.toAddr,
       ccAddr: this.state.ccAddr,
@@ -149,15 +167,13 @@ class Home extends Component {
       subject: this.state.subject,
       content: this.state.content,
       html: this.state.html,
-      fromDomain: this.state.fromDomain,
-      sign: this.state.sign,
       id: Math.random().toString(),
     }).then(({error}) => {
       if(!error) {
         this.resetCompose()
         this.setState({composing: false})
       }
-    })*/
+    })
   }
 
   showMail(mail) {
@@ -245,103 +261,10 @@ class Home extends Component {
 
       {/* <Fab onClick={() => this.setState({phoneShowing: true}, () => this.phone.current.focus())}/> */}
 
-      <div className="compose-box column">
-        <div className="column" style={{gap: "5px", display: this.state.composing? "flex" : "none"}}>
-          <div className="row-center" style={{height: "35px", gap: "5px"}}>
-            <div className="row-center float-con">To</div>
-            <div className="row-center float-con" style={{fontWeight: "500", gap: "5px"}} contentEditable={false} ref={this.toInputCon}>
-              <div style={{outline: "none"}} className="chip-class-1" contentEditable="true" spellCheck={false} ref={this.toInput}
-                onInput={({target}) => {
-                  this.state.toAddr = target.innerText.trim();
-                  if(!emailPat.test(this.state.toAddr)) {
-                    this.toInputCon.current.style.borderColor = 'red';
-                    this.toInputCon.current.style.borderWidth = '2px';
-                  } else {
-                    this.toInputCon.current.style.borderColor = 'rgb(83, 0, 161)'
-                    this.toInputCon.current.style.borderWidth = '1px';
-                  }
-                }}
-              >{'very.anshul@gmail.com'}</div>
-            </div>
-          </div>
-          <div className="row-center" style={{minHeight: "35px", gap: "5px"}}>
-            <div className="row-center float-con" style={{height: "35px"}}>CC</div>
-            <SelectInputClass1 className="cc-bcc-input" defaults={this.state.ccAddr} ref={this.ccInput}
-              onInput={(data) => {
-                this.state.ccAddr = data;
-            }}/>
-          </div>
-          <div className="row-center" style={{gap: "5px", justifyContent: "space-between"}}>
-            <div className="row-center" style={{gap: "5px"}}>
-              <div className="row-center float-con" style={{height: "35px"}}>BCC</div>
-              <SelectInputClass1 className="cc-bcc-input" defaults={this.state.bccAddr} ref={this.bccInput}
-                onInput={(data) => {
-                  this.state.bccAddr = data;
-              }}/>
-            </div>
-            <div className="row-center" style={{gap: "5px", paddingRight: "5px"}}>
-              <span className="material-symbols-outlined close-button" style={{}} onClick={this.saveDraft.bind(this)}>close</span>
-            </div>
-          </div>
-        </div>
-        <div style={{gap: "5px", marginTop: "-7px"}} className="column">
-          <div className="row-center" style={{minHeight: "45px", gap: "5px", display: this.state.composing? "flex" : "none", justifyContent: "space-between"}}>
-            <InputClass1 placeholder={"Subject"} className={"float-con subject-con"} placeholderClassName={"subject-input-placeholder"} inputClassName={"subject-input-placeholder"} 
-                         onInput={(target, text) => {
-                          this.setState({subject: text});
-                         }}
-                         ref={this.subjectInput}
-                         />
-            <div className="row-center" style={{gap: "5px"}}>
-                <span className="material-symbols-outlined send-button hover-ptr" style={{}} onClick={this.sendMail.bind(this)}>send</span>
-            </div>
-          </div>
-          <InputClass1 
-            icon={this.state.composing? undefined : "edit"} placeholder={"Compose"} 
-            className={"compose-input " + (this.state.composing? " compose-input-on": "")} textArea={true} 
-            style={{minHeight: this.state.composing? "200px" : "50px", minWidth: this.state.composing? "600px" : "140px", display: "none"}} 
-            enabled={this.state.composing}
-            ref={this.composeInput}
-            onClick={() => {
-              this.setState({composing: true}); 
-              return 600;
-            }}
-            onInput={({target}, text) => {
-              this.setState({
-                content: text, html: target.innerHTML.trim()
-              })
-            }}
-          />
-          <div className="row-center" style={{minHeight: "45px", gap: "5px", display: this.state.composing? "flex" : "none", justifyContent: "space-between", position: "relative", top: "-7px", zIndex: "-1", alignItems: "flex-start"}}>
-            <div>
-
-            </div>
-            <div className="row-center float-con float-con-2">
-              <div className="row-center">
-                  <span className="material-symbols-outlined " style={{fontSize: "25px", color: "rgba(77, 17, 105, 0.8)"}}>attach_file_add</span>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="row-center" style={{height: "35px", gap: "10px", justifyContent: "space-between", display: this.state.composing? "flex" : "none"}}>
-          <div className="row-center" style={{height: "100%", gap: "5px"}}>
-            <div className="row-center float-con">From</div>
-            <SelectClass1 label={"cytroid.in"} defaultValue={this.state.fromDomain} values={{'cytroid.in': 'cytroid.in', 'sayutel.com': 'sayutel.com'}} required={true}
-              onSelect = {(values) => {
-                this.state.fromDomain = values;
-              }}
-            />
-          </div>
-          <div className="row-center" style={{height: "100%", gap: "5px"}}>
-            <div className="row-center float-con">Sign</div>
-            <SelectClass1 label={"cytroid.in"} defaultValue={this.state.sign} values={{'cytroid.in': 'cytroid.in', 'sayutel.com': 'sayutel.com'}} required={true} multi={true}
-              onSelect={(values) => {
-                this.state.sign = values;
-              }}
-            />
-          </div>
-        </div>
+      <div className="compose-main-con column">
+        <Composer show={this.state.composing}/>
       </div>
+      
       <div className="mainhead">
         {/* <div className="c0-holder"></div> */}
         <div className="row-center" style={{gap: "70px", height: "100%", padding: "0px 0px 0px 0px"}}>
@@ -358,27 +281,37 @@ class Home extends Component {
               <span className="material-symbols-outlined settings-icon" style={{}}>settings</span>
           </div>
           <div style={{height: "100%"}}>
-            <img src="https://cdn-icons-png.freepik.com/512/168/168720.png" className="header-avatar"/>
+            <img src={TPFP1} className="header-avatar clickable"/>
           </div>
         </div>
       </div>
       <div style={{width: "100%", height: "100%"}} className="row">
         <div style={{}} className="column navil-con">
-          <div className="column navil" >
-            <Tab name={"Inbox"} icon={"inbox"} selected={this.props.params.folder === 'inbox'}/>
-            <Tab name={"Sent"} icon={"send"} selected={this.props.params.folder === 'sent'}/>
-            <Tab name={"Chat"} icon={"chat"} selected={this.props.params.folder === 'chat'}/>
-            <Tab name={"Draft"} icon={"draft"} selected={this.props.params.folder === 'draft'}/>
-            <Tab name={"Spam"} icon={"report"} selected={this.props.params.folder === 'spam'}/>
-            <Tab name={"Recycle bin"} icon={"delete"} selected={this.props.params.folder === 'bin'} link={"/bin"}/>
+          <div className="column-center" style={{width: "100%", gap: "10px"}}>
+            <div className="compose-con-bu column-center" style={{width: "100%"}}>
+              <div className="compose-bu row-center" onClick={() => {
+                this.setState({composing: !this.state.composing});
+              }}>
+                <span className="material-symbols-outlined compose-icon">edit</span>
+                <p className="compose-text no-select">Compose</p>
+              </div>
+            </div>
+            <div className="column navil">
+              <Tab name={"Inbox"} icon={"inbox"} selected={this.props.params.folder === 'inbox'} link={`/u/${this.state.userIndex}/inbox`}/>
+              <Tab name={"Sent"} icon={"send"} selected={this.props.params.folder === 'sent'} link={`/u/${this.state.userIndex}/sent`}/>
+              <Tab name={"Chat"} icon={"chat"} selected={!this.props.params.folder} link={`/u/${this.state.userIndex}/chat`}/>
+              <Tab name={"Draft"} icon={"draft"} selected={this.props.params.folder === 'draft'} link={`/u/${this.state.userIndex}/draft`}/>
+              <Tab name={"Spam"} icon={"report"} selected={this.props.params.folder === 'spam'} link={`/u/${this.state.userIndex}/spam`}/>
+              <Tab name={"Recycle bin"} icon={"delete"} selected={this.props.params.folder === 'bin'} link={`/u/${this.state.userIndex}/bin`}/>
+            </div>
           </div>
           <div className="column light-screen">
 
             <div className="column" style={{width: "100%", position: "relative"}}>
               
               <div className="column-center" style={{padding: "12px 5px", width: "fit-content", gap: "0px", width: "100%", zIndex: 1}}>
-                <p className="light-time-scr">12:06</p>
-                <p className="light-date-scr">Thu, Apr 7</p>
+                <p className="light-time-scr">{((this.state.curTime.getHours() < 10) ? ('0' + this.state.curTime.getHours()) : this.state.curTime.getHours()) + ':' + ((this.state.curTime.getMinutes() < 10) ? ('0' + this.state.curTime.getMinutes()) : this.state.curTime.getMinutes())}</p>
+                <p className="light-date-scr">{this.state.curTime.toDateString().slice(0, -4).trim()}</p>
               </div>
               <div className="column-center notif-center-mini-light">
                 <div className="mini-light-notif column">
@@ -422,7 +355,7 @@ class Home extends Component {
           </div>
         </div>
         <div style={{width: "100%"}} className="row">
-          <div style={{width: "calc(100% - 20px)", gap: "0px", boxShadow: '10px 20px 20px 0px rgba(0, 0, 0, 0.05)' && 'none', display: !this.state.showingMail? "flex" : this.state.mailFullScreen === true? "none" : undefined}} className={"column mailview-main-no-show " + this.state.showingMail?  'mailview-main-no-show' : ''}>
+          <div style={{gap: "0px", boxShadow: '10px 20px 20px 0px rgba(0, 0, 0, 0.05)' && 'none', display: !this.state.showingMail? "flex" : this.state.mailFullScreen === true? "none" : undefined}} className={"column mailview-outlet-con " + (this.state.showingMail?  'mailview-main-no-show' : '')}>
             <Outlet context={{loader: this.state._loaderprom}}/>
           </div>
           <div className="column-center" style={{width: "100%", height: "100%", borderLeft: "0px solid rgba(0, 0, 0, 0.5)", padding: "20px 30px", display: this.state.showingMail? "flex" : "none", gap: "0px"}}>
