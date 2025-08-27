@@ -103,7 +103,7 @@ class Home extends Component {
     //let [_, folder, type] = /\/([^\/]+)(?:\/([^\/]+))?\/*/i.exec(window.location.pathname);
     setInterval(() => this.setState({curTime: new Date}), 1000)
     import("../../sender/index").then(({ EmailSender, connection }) => {
-      /*EmailSender.checkLogin().then(v => {
+      EmailSender.checkLogin().then(v => {
         if(v?.length) {
           this.setState({userIds: [...v], fromDomain: [v[this.state.userIndex].split('@')[1]], sign: [v[this.state.userIndex].split('@')[1]]}, () => {
             this.connect(EmailSender, connection)
@@ -111,7 +111,7 @@ class Home extends Component {
         } else {
           window.location = "https://accounts.sayutel.com/login?continue="+encodeURI(window.location.href);
         }
-      })*/
+      })
     })
     
     let parser = new DOMParser();
