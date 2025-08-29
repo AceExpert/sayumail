@@ -290,7 +290,6 @@ class EmailSender {
                 } else {
                     mails[i] = mail
                 }
-                i++;
             }
         }
         return mails.length? (new Promise(resolve => resolve(mails))) : null;
