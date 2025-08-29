@@ -59,7 +59,7 @@ class Home extends Component {
     let _loaderres;
     this.state = {
       userIds: [],
-      composing: true,
+      composing: false,
       toAddr: 'very.anshul@gmail.com',
       ccAddr: [],
       bccAddr: [],
@@ -104,6 +104,7 @@ class Home extends Component {
   componentDidMount() {
     //let [_, folder, type] = /\/([^\/]+)(?:\/([^\/]+))?\/*/i.exec(window.location.pathname);
     setInterval(() => this.setState({curTime: new Date}), 1000)
+
     import("../../sender/index").then(({ startServer }) => {
       startServer(this.state.userIndex, this.props.params).then(v => {
         if(v?.length) {
@@ -219,7 +220,7 @@ class Home extends Component {
   }
 
   render = () =>
-    <div style={{width: "100%", height: "100%", display: "flex", flexDirection: "column"}}>
+    <div style={{width: "100%", display: "flex", height: "100%", flexDirection: "column", overflow: "hidden"}}>
       <div className="column" style={{position: "absolute", bottom: "-10px", left: "-200px"}}>
         <img src={MiniRibbons} style={{opacity: .5, transform: "rotate(80deg)", height: "600px"}}/>
       </div>
@@ -261,7 +262,7 @@ class Home extends Component {
           </div>
         </div>
       </div>
-      <div style={{width: "100%", height: "100%"}} className="row">
+      <div style={{width: "100%", height: "calc(100vh - 53px)"}} className="row">
         <div style={{}} className="column navil-con">
           <div className="column-center" style={{width: "100%", gap: "10px"}}>
             <div className="compose-con-bu column-center" style={{width: "100%"}}>
@@ -335,7 +336,7 @@ class Home extends Component {
             <Outlet context={{loader: this.state._loaderprom}}/>
           </div>
           <div className="column-center" style={{width: "100%", height: "100%", borderLeft: "0px solid rgba(0, 0, 0, 0.5)", padding: "20px 30px", display: this.state.showingMail? "flex" : "none", gap: "0px"}}>
-            <div className="letter-action-bar column-center" style={{display: "none", margin: "0px 0px 0px 15px", borderRadius: "7px 7px 0px 0px"}}>
+            <div className="letter-action-bar column-center" style={{margin: "0px 0px 0px 15px", borderRadius: "7px 7px 0px 0px"}}>
               <div className="row-center letter-actions" style={{gap: "10px"}}>
                 <span className="material-symbols-outlined letter-action-icon" style={{fontSize: "22px", color: "black"}}>star</span>
                 <div style={{}} className="divider-class-2 display-none"></div>
@@ -366,7 +367,7 @@ class Home extends Component {
                     <span className="material-symbols-outlined window-ctrl-icon" style={{fontSize: "16px", color: "rgba(172, 0, 120, 0.9)"}}>open_in_new</span>
                   </div>
                 </div>
-                <div className="letter-action-bar column-center">
+                <div className="letter-action-bar column-center" style={{display: "none"}}>
                   <div className="row-center letter-actions" style={{gap: "10px", display: "flex"}}>
                     <span className="material-symbols-outlined letter-action-icon" style={{fontSize: "22px", color: "black"}}>star</span>
                     <div style={{}} className="divider-class-2 display-none"></div>
@@ -381,7 +382,7 @@ class Home extends Component {
                     <span className="material-symbols-outlined letter-action-icon" style={{fontSize: "20px", color: "black"}}>label_important</span>
                   </div>
                 </div>
-                <div className="letter-padded-block column" style={{marginTop: "7px"}}>
+                <div className="letter-padded-block column" style={{marginTop: "22px"}}>
                   <p className="letter-subject">{this.state.viewMail?.subject}</p>
                   <div className="row-center" style={{alignSelf: "center", gap: "5px"}}>
                     <span className="material-symbols-outlined" style={{fontSize: "15px", color: "rebeccapurple", textShadow: "0px 0px 0px rgba(199, 0, 199, 0.36)", userSelect: "none"}}>lock</span>

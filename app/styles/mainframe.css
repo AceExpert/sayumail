@@ -584,7 +584,8 @@
     box-shadow: -3px 3px 5px 0px rgba(67, 0, 129, 0.1); /*.08 -> .13*/
     background-color: rgb(255, 255, 255);
     background-color: rgba(240, 232, 255, 0.623);
-    background-color: rgba(236, 236, 236, 0.568);
+    background-color: rgba(215, 193, 255, 0.384);
+    /* background-color: rgba(236, 236, 236, 0.568); */
 
     margin-left: 10px;
 
@@ -598,17 +599,17 @@
 
     box-shadow: none;
     /* border-width: 0px; */
-    background-color: rgba(0, 0, 0, 0.637);
+    /* background-color: rgba(0, 0, 0, 0.637); */
 
 }
 
 .letter-action-icon {
-    padding: 4px 6px;
+    padding: 4px 5px;
     color: rgb(8, 8, 8) !important;
     height: 100%;
     font-variation-settings:
         'FILL' 0,
-        'wght' 300,
+        'wght' 400,
         'GRAD' 0,
         'opsz' 0;
     color: rgb(17, 17, 17) !important;
@@ -617,6 +618,7 @@
     border-bottom: 0px;
     border-radius: 3px 3px 0px 0px;
     border-radius: 0px;
+    font-size: 20px !important;
 }
 
 .display-none {
@@ -638,47 +640,47 @@
 :nth-child(1 of span.letter-action-icon) {
     color: white !important;
     color: rgba(255, 65, 185, 0.979) !important;
-    color: rgba(255, 135, 211, 0.979) !important;
-    border-radius: 7px 0px 0px 7px;
+    /* color: rgba(255, 135, 211, 0.979) !important; */
+    border-radius: 7px 0px 0px 0px;
 }
 
 :nth-child(2 of span.letter-action-icon) {
     color: white !important;
     color: mediumpurple !important;
-    color: rgb(195, 166, 252) !important;
+    /* color: rgb(195, 166, 252) !important; */
 }
 
 :nth-child(3 of span.letter-action-icon) {
     color: white !important;
     color: mediumaquamarine !important;
-    color: rgb(112, 253, 206) !important;
-    color: rgb(63, 223, 169) !important;
+    /* color: rgb(112, 253, 206) !important; */
+    /* color: rgb(63, 223, 169) !important; */
 
 }
 
 :nth-child(4 of span.letter-action-icon) {
     color: white !important;
     color: mediumorchid !important;
-    color: rgb(232, 142, 255) !important;
+    /* color: rgb(232, 142, 255) !important; */
 
 }
 
 :nth-child(5 of span.letter-action-icon) {
     color: white !important;
     color: mediumturquoise !important;
-    color: rgb(108, 218, 214) !important;
+    /* color: rgb(108, 218, 214) !important; */
 
 }
 
 :nth-child(6 of span.letter-action-icon) {
     color: white !important;
     color: orange !important;
-    color: rgb(255, 194, 82) !important;
+    /* color: rgb(255, 194, 82) !important; */
 }
 
 
 :nth-last-child(1 of span.letter-action-icon) {
-    border-radius: 0px 7px 7px 0px;
+    border-radius: 0px 7px 0px 0px;
 }
 
 span.letter-action-icon {
@@ -686,7 +688,7 @@ span.letter-action-icon {
 }
 
 span.letter-action-icon:hover {
-    background-color: black !important;
+    background-color: rebeccapurple !important;
     color: white !important;
     cursor: pointer;
 }

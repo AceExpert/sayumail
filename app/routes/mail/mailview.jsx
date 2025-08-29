@@ -8,6 +8,8 @@ import { connection } from "../../globalstate/ws";
 
 import "../../styles/mailview.css";
 
+import SputhP from "../../assets/images/Sputh-p.svg"
+
 export function clientLoader({ params }) {
     
 }
@@ -45,8 +47,8 @@ export default function MailView({ params }) {
             setLoaded(data)
         })
 
-        // setMail([{from_name: "anshul", subject: "Regarding your order", body: "Your order is here"}, {from_name: "IIT Kharagpur", subject: "Regarding your marks", body: "Your CGPA is posted in the erp"}, {from_name: "joe", subject: "Regarding your photos", body: "check out the attachments"}, {from_name: "anshul", subject: "Regarding your order", body: "Your order is here"}, {from_name: "IIT Kharagpur", subject: "Regarding your marks", body: "Your CGPA is posted in the erp"}, {from_name: "joe", subject: "Regarding your photos", body: "check out the attachments"}, {from_name: "anshul", subject: "Regarding your order", body: "Your order is here"}, {from_name: "IIT Kharagpur", subject: "Regarding your marks", body: "Your CGPA is posted in the erp"}, {from_name: "joe", subject: "Regarding your photos", body: "check out the attachments"}]);
-
+        //setMail([{from_name: "anshul", subject: "Regarding your order", body: "Your order is here"}, {from_name: "IIT Kharagpur", subject: "Regarding your marks", body: "Your CGPA is posted in the erp"}, {from_name: "joe", subject: "Regarding your photos", body: "check out the attachments"}, {from_name: "anshul", subject: "Regarding your order", body: "Your order is here"}, {from_name: "IIT Kharagpur", subject: "Regarding your marks", body: "Your CGPA is posted in the erp"}, {from_name: "joe", subject: "Regarding your photos", body: "check out the attachments"}, {from_name: "anshul", subject: "Regarding your order", body: "Your order is here"}, {from_name: "IIT Kharagpur", subject: "Regarding your marks", body: "Your CGPA is posted in the erp"}, {from_name: "joe", subject: "Regarding your photos", body: "check out the attachments"}]);
+        // setMail([{from_name: "anshul", subject: "Regarding your order", body: "Your order is here"}, {from_name: "IIT Kharagpur", subject: "Regarding your marks", body: "Your CGPA is posted in the erp"}, {from_name: "joe", subject: "Regarding your photos", body: "check out the attachments"}, {from_name: "anshul", subject: "Regarding your order", body: "Your order is here"}, {from_name: "IIT Kharagpur", subject: "Regarding your marks", body: "Your CGPA is posted in the erp"}, {from_name: "joe", subject: "Regarding your photos", body: "check out the attachments"}, {from_name: "anshul", subject: "Regarding your order", body: "Your order is here"}, {from_name: "IIT Kharagpur", subject: "Regarding your marks", body: "Your CGPA is posted in the erp"}, {from_name: "joe", subject: "Regarding your photos", body: "check out the attachments"}, {from_name: "joe", subject: "Regarding your photos", body: "check out the attachments"}, {from_name: "joe", subject: "Regarding your photos", body: "check out the attachments"}, {from_name: "joe", subject: "Regarding your photos", body: "check out the attachments"}, {from_name: "joe", subject: "Regarding your photos", body: "check out the attachments"}, {from_name: "joe", subject: "Regarding your photos", body: "check out the attachments"}, {from_name: "joe", subject: "Regarding your photos", body: "check out the attachments"}, {from_name: "joe", subject: "Regarding your photos", body: "check out the attachments"}, {from_name: "joe", subject: "Regarding your photos", body: "check out the attachments"}, {from_name: "joe", subject: "Regarding your photos", body: "check out the attachments"}, {from_name: "joe", subject: "Regarding your photos", body: "check out the attachments"}, {from_name: "joe", subject: "Regarding your photos", body: "check out the attachments"}, {from_name: "joe", subject: "Regarding your photos", body: "check out the attachments"}, {from_name: "joe", subject: "Regarding your photos", body: "check out the attachments"}, {from_name: "joe", subject: "Regarding your photos", body: "check out the attachments"}, {from_name: "joe", subject: "Regarding your photos", body: "check out the attachments"}, {from_name: "joe", subject: "Regarding your photos", body: "check out the attachments"}, {from_name: "joe", subject: "Regarding your photos", body: "check out the attachments"}, {from_name: "joe", subject: "Regarding your photos", body: "check out the attachments"}, {from_name: "joe", subject: "Regarding your photos", body: "check out the attachments"}, {from_name: "joe", subject: "Regarding your photos", body: "check out the attachments"}, {from_name: "joe", subject: "Regarding your photos", body: "check out the attachments"}, {from_name: "joe", subject: "Regarding your photos", body: "check out the attachments"}, {from_name: "joe", subject: "Regarding your photos", body: "check out the attachments"}, {from_name: "joe", subject: "Regarding your photos", body: "check out the attachments"}, {from_name: "joe", subject: "Regarding your photos", body: "check out the attachments"}, {from_name: "joe", subject: "Regarding your photos", body: "check out the attachments"}, {from_name: "joe", subject: "Regarding your photos", body: "check out the attachments"}, {from_name: "joe", subject: "Regarding your photos", body: "check out the attachments"}, {from_name: "joe", subject: "Regarding your photos", body: "check out the attachments"}, {from_name: "joe", subject: "Regarding your photos", body: "check out the attachments"}, {from_name: "joe", subject: "Regarding your photos", body: "check out the attachments"}, {from_name: "joe", subject: "Regarding your photos", body: "check out the attachments"}]);
         // setMail([]);
     }, []);
 
@@ -114,7 +116,7 @@ export default function MailView({ params }) {
                     </div>
                 </div>
             </div>
-            <div style={{width: "100%", overflowY: "auto", overflowX: "visible", height: "calc(100% - 65px - 65px)", marginTop: "0px", scrollbarWidth: "thin"}}>
+            <div style={{width: "100%", overflowY: "auto", height: "calc(100% - 64px)", marginTop: "0px"}} className="mails-con-scroller">
                 <div style={{...(mails?.length? {} : {height: "100%", boxShadow: "none"})}} className="mails-con column">
                     <div className="column" style={{width: "100%", height: mails?.length? undefined : "100%"}}>
                         {mails?.length? 
@@ -133,11 +135,13 @@ export default function MailView({ params }) {
                         }) :
                         mails?.length === 0?
                         <div className="no-mails-class-1 column-center">
-                            <p style={{fontSize: "25px", letterSpacing: "0px", fontWeight: "700"}}>Your mailbox is empty</p>
-                            <p style={{}} className="emptybox-tagline">Don't like the emptiness? Invite your <span style={{color: "rebeccapurple"}}>friends</span> and enjoy an end to end encrypted chatting and mailing experience without the worry of strangers trying to break into your chats!</p>
+                            <img src={SputhP} style={{height: "200px", marginTop: "-150px"}}/>
+                            <p style={{fontSize: "25px", letterSpacing: "0px", fontWeight: "700", marginTop: "15px"}}>Mailbox empty</p>
+                            <p style={{width: "calc(100% - 30px)"}} className="emptybox-tagline">Sputh got no mails from your friends. Invite your <span style={{color: "rebeccapurple"}}>friends</span> and enjoy an end to end encrypted, real-time chatting and mailing experience with them.<br></br>Without having to worry about spoofed or fake emails.</p>
                         </div> : 
-                        <div className="no-mails-class-1 column-center">
-                            <p style={{fontSize: "30px", letterSpacing: "0px", fontWeight: "700", color: "rgba(114, 64, 160, 0.45)"}}>Loading...</p>
+                        <div className="no-mails-class-1 column-center" style={{gap: "80px"}}>
+                            <img src={SputhP} style={{}} className="sputh-loader"/>
+                            <p style={{fontSize: "20px", letterSpacing: "0px", fontWeight: "700", color: "rgba(114, 64, 160, 0.44)", userSelect: "none"}}>Sputh is bringing your mails</p>
                         </div>
                         }
                     </div>

@@ -86,6 +86,40 @@
     cursor: pointer;
 }
 
+.mails-con-scroller {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(192, 158, 255, 0.445) rgba(255, 255, 255, 0.548);
+    border-radius: 0px 0px 10px 10px;
+}
+
+.sputh-loader {
+    height: 180px;
+    margin-top: -50px;
+    animation: sputh-load-anim 2s ease-in-out infinite alternate;
+}
+
+@keyframes sputh-load-anim {
+    0% {
+        transform: translate(-200px, -60px) rotate(15deg);
+    }
+
+    /* 25% {
+        transform: translate(-150px, -60px);
+    } */
+
+    50% {
+        transform: translate(0px, 0px);
+    }
+
+    /* 75% {
+        transform: translate(150px, -60px);
+    } */
+
+    100% {
+        transform: translate(200px, -60px)  rotate(-15deg);
+    }
+}
+
 @media (max-width: 1100px) {
     .mail-categ-button {
         width: fit-content;
