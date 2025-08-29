@@ -4,7 +4,7 @@ import ArrayInput from "../components/inputc2";
 
 import TransFlag from "../assets/images/new-ribbon.svg";
 
-export default function Composer({className, style, show = false, ...props}) {
+export default function Composer({className, style, onClose, show = false, ...props}) {
 
     let subjectInput = useRef();
 
@@ -17,6 +17,12 @@ export default function Composer({className, style, show = false, ...props}) {
     let [ccAddr, setCcAddr] = useState([]);
     let [bccAddr, setBccAddr] = useState([]);
 
+    let [showCompose, setSC] = useState(show);
+
+    useEffect(() => {
+        setSC(show)
+    }, [show]);
+
     useEffect(() => {
         if(isSubjectEnter) {
             subjectInput.current.focus();
@@ -24,8 +30,22 @@ export default function Composer({className, style, show = false, ...props}) {
     }, [isSubjectEnter])
 
     return (
-        <div className={"compose-con column " + (className ?? '')} style={{display: show? "flex" : "none"}}>
+        <div className={"compose-con column " + (className ?? '')} style={{display: showCompose? "flex" : "none"}}>
                    
+            <div className="row-center compose-window-controls">
+                <div className="row-center" style={{flexDirection: "row-reverse", gap: "9px"}}>
+                    <span className="material-symbols-outlined compose-window-control-icon" onClick={() => {
+                        setSC(false);
+                        onClose?.();
+                    }}>close</span>
+                    <span className="material-symbols-outlined compose-window-control-icon compose-window-fullscreen">check_box_outline_blank</span>
+                    <span className="material-symbols-outlined compose-window-control-icon compose-window-newscreen">open_in_new</span>
+                </div>
+                <div style={{fontSize: "13px", color: "#66339942", fontWeight: "600", userSelect: "none"}}>
+                    Composer
+                </div>
+            </div>
+
             <div className="composer column">
             
             <img src={TransFlag} style={{position: "absolute", left: "-100px", bottom: "-100px", height: "300px", zIndex: -1, transform: "rotate(-180deg)", opacity: .1}}/> 
@@ -33,7 +53,7 @@ export default function Composer({className, style, show = false, ...props}) {
             <div className="compose-subject row-center" onClick={() => {
                 setISE(true);
             }}>
-                <div className="row-center" style={{display: isSubjectEnter? "none" : "flex"}}>
+                <div className="row-center" style={{display: isSubjectEnter? "none" : "flex", userSelect: "none"}}>
                     <span className="material-symbols-outlined compose-subj-add row-center">add</span>
                     Subject
                 </div>

@@ -23,7 +23,7 @@ export default function NotificationClass1({
             <div className="notification-action-grid-class-1">
                 <div className="notification-action row-center">
                     <div className="row-center">
-                        <span className={"material-symbols-outlined notification-action-text"} style={{}}>{"check"}</span>
+                        <span className={"material-symbols-outlined notification-action-text"} style={{fontSize: "20px"}}>{"check"}</span>
                     </div>
                 </div>
                 <div className="notification-action row-center">

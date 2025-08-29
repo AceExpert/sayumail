@@ -11,6 +11,8 @@ import Fab from "../../components/fab";
 import Phone from "../../miniscreens/phone";
 import Composer from "../../miniscreens/composer";
 
+import { connection } from "../../globalstate/ws";
+
 import { emailPat, testHTML } from "../../constants";
 
 import "../../styles/mainframe.css";
@@ -102,15 +104,16 @@ class Home extends Component {
   componentDidMount() {
     //let [_, folder, type] = /\/([^\/]+)(?:\/([^\/]+))?\/*/i.exec(window.location.pathname);
     setInterval(() => this.setState({curTime: new Date}), 1000)
-    import("../../sender/index").then(({ EmailSender, connection }) => {
-      EmailSender.checkLogin().then(v => {
+    import("../../sender/index").then(({ startServer }) => {
+      startServer(this.state.userIndex, this.props.params).then(v => {
         if(v?.length) {
-          this.setState({userIds: [...v], fromDomain: [v[this.state.userIndex].split('@')[1]], sign: [v[this.state.userIndex].split('@')[1]]}, () => {
-            this.connect(EmailSender, connection)
-          });
-        } else {
-          window.location = "https://accounts.sayutel.com/login?continue="+encodeURI(window.location.href);
-        }
+          this.setState({userIds: [...v], fromDomain: [v[this.state.userIndex].split('@')[1]], sign: [v[this.state.userIndex].split('@')[1]]})
+          connection.server.addEventListener("authorized", () => {
+            this.state._loaderres({
+              showMail: this.showMail.bind(this)
+            })
+          })
+        };
       })
     })
     
@@ -122,35 +125,6 @@ class Home extends Component {
     this.letterContent.current.style.cssText = body.style.cssText;
   }
 
-  connect(EmailSender, connection) {
-    if(!connection.server || connection.server.readyState !== WebSocket.OPEN) {
-      this.sender = EmailSender.start('wss://mail.sayutel.com:3008/mail', () => this.connect(EmailSender, connection), () => {
-        this.sender.openChannel(this.state.userIndex).then(() => {
-          console.log("opened");
-          this.sender.login(this.state.userIndex).then(err => {
-            if(!err) {
-              this.sender.authorize().then(() => {
-                console.log("Authorized");
-                this.state._loaderres({
-                  showMail: this.showMail.bind(this)
-                })
-              });
-            } else {
-              window.location = "https://accounts.sayutel.com/login?continue="+encodeURI(window.location.href);
-            }
-          })
-          
-        })
-      })
-      connection.server = this.sender;
-    } else {
-      this.sender = connection.server
-      this.state._loaderres({
-        showMail: this.showMail.bind(this)
-      })
-    }
-  }
-
   saveDraft() {
     this.setState({composing: false});
   }
@@ -160,7 +134,7 @@ class Home extends Component {
     this.setState({composing: false})
     // this.fireNotification({title: "Email sent", description: <p>Email to <b style={{color: "purple"}}>very.anshul@gmail.com</b> sent</p>})
     
-    this.sender.sendMail({
+    connection.server.sendMail({
       toAddr: this.state.toAddr,
       ccAddr: this.state.ccAddr,
       bccAddr: this.state.bccAddr,
@@ -262,7 +236,9 @@ class Home extends Component {
       {/* <Fab onClick={() => this.setState({phoneShowing: true}, () => this.phone.current.focus())}/> */}
 
       <div className="compose-main-con column">
-        <Composer show={this.state.composing}/>
+        <Composer show={this.state.composing} onClose={() => {
+          this.setState({composing: false});
+        }}/>
       </div>
       
       <div className="mainhead">
@@ -290,7 +266,7 @@ class Home extends Component {
           <div className="column-center" style={{width: "100%", gap: "10px"}}>
             <div className="compose-con-bu column-center" style={{width: "100%"}}>
               <div className="compose-bu row-center" onClick={() => {
-                this.setState({composing: !this.state.composing});
+                this.setState({composing: true});
               }}>
                 <span className="material-symbols-outlined compose-icon">edit</span>
                 <p className="compose-text no-select">Compose</p>

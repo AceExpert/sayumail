@@ -17,10 +17,91 @@
     /* box-shadow: -0px -0px 30px 0px rgba(88, 0, 139, 0.048); */
     background: white;
     border-radius: 10px;
+    border-radius: 0px 0px 10px 10px;
     /* padding: 7px 7px; */
     gap: 6px;
     position: relative;
     overflow: clip;
+}
+
+.compose-window-controls {
+    position: absolute;
+    /* display: none; */
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    top: -33px;
+    top: -1px;
+    right: -1px;
+    border-radius: 5px 10px 5px 5px;
+    border-radius: 8px 8px 0px 0px;
+    gap: 5px;
+    gap: 6px;
+    gap: 9px;
+    z-index: 5;
+    background: rgb(255, 255, 255);
+    /* background: rgba(246, 235, 255, 0.822); */
+    backdrop-filter: blur(25px);
+    box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.08);
+    box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 0.12);
+    padding: 6px 6px 10px 8px;
+    padding: 9px 9px 10px 11px;
+    padding: 7px 6px 7px 9px;
+    padding: 6px;
+    padding-left: 8px;
+    /* border-radius: 5px 10px 5px 5px; */
+    /* border-radius: 20px 10px 20px 20px;
+    border-radius: 20px 20px 0px 20px; */
+    box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.03);
+    box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.0);
+    right: 0px;
+    top: -34px;
+    top: -30px;
+    width: 100%;
+    /* border-bottom: 1px solid rgba(213, 170, 255, 0.116); */
+}
+
+.compose-con:hover {
+
+    .compose-window-controls {
+        display: flex;
+    }
+}
+
+.compose-window-control-icon {
+    font-size: 13px;
+    color: rebeccapurple;
+    border-radius: 50%;
+    padding: 3px;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    background-color: rgba(228, 201, 255, 0.438);
+    background-color: rgba(228, 201, 255, 0.815);
+    backdrop-filter: blur(5px);
+    aspect-ratio: 1;
+}
+
+.compose-window-fullscreen {
+    color: rgb(143, 28, 91);
+    background: rgba(255, 172, 190, 0.616);
+}
+
+.compose-window-newscreen {
+    color: rgb(143, 28, 143);
+    background: rgba(255, 172, 255, 0.616);
+}
+
+.compose-window-control-icon:hover {
+    cursor: pointer;
+    background-color: rgb(216, 177, 255);
+}
+
+.compose-window-fullscreen:hover {
+    background: rgba(255, 156, 177, 0.932);
+}
+
+.compose-window-newscreen:hover {
+    background: rgba(255, 141, 255, 0.89);
 }
 
 .compose-subject {
@@ -29,7 +110,7 @@
     padding: 6px 9px;
     padding: 12px 17px;
     padding: 8px 10px;
-    padding: 8px 0px;
+    padding: 6px 0px;
     font-size: 15px;
     font-size: 15px;
     font-weight: 700;
@@ -43,7 +124,7 @@
     background: rgba(242, 225, 255, 0.726); */
     border-radius: 6px;
     /* border-radius: 7px 5px 6px 0px; */
-    margin: 8px 14px 0px 14px;
+    margin: 5px 14px 0px 14px;
     /* padding-bottom: 5px; */
 }
 

@@ -2,12 +2,11 @@ import "../encrypter/bundle2";
 
 import { loginForToken, authorize } from "./login";
 
-const connection = { server: null, accessToken: null, user_ids: [] }
+import { connection } from "../globalstate/ws";
 
-class EmailSender extends WebSocket {
+class EmailSender {
 
-    constructor(url, onEnd, onOpen) {
-        super(url);
+    constructor(url) {
         this.connUrl = url;
         this.accessToken = null;
         this.promises = {
@@ -17,21 +16,16 @@ class EmailSender extends WebSocket {
             custom: [],
         }
         this.eventListeners = {
-            'newMail': []
+            'newMail': [],
+            'authorized': [],
         }
         this.mailData = {}
-        this.onEnd = onEnd;
-        this.onOpenCB = onOpen;
         this.hbTimer = null;
         this.hbSendTimer = null;
         this.currentKey = null;
         this.privKey = null;
         this.authorized = false;
         this.sessionToken = null;
-        super.onopen = this.onOpen.bind(this);
-        super.onmessage = this.onMessage.bind(this);
-        super.onclose = this.onClose.bind(this);
-        super.onerror = this.onError.bind(this);
         this.closeConnection = this.closeConnection.bind(this);
     }
     
@@ -56,13 +50,36 @@ class EmailSender extends WebSocket {
         return new EmailSender(...args);
     }
 
+    connect(userIndex) {
+        this.userIndex = userIndex;
+        this.ws = new WebSocket(this.connUrl);
+        this.ws.onopen = this.onOpen.bind(this);
+        this.ws.onmessage = this.onMessage.bind(this);
+        this.ws.onclose = this.onClose.bind(this);
+        this.ws.onerror = this.onError.bind(this);
+        this.begin(this.userIndex);
+    }
+
+    begin(userIndex) {
+        this.openChannel().then(() => {
+            this.login(userIndex).then(err => {
+                if(!err) {
+                    this.authorize().then(() => {
+                        this.fetchMails("inbox", "all")
+                    })
+                } else {
+                    window.location = "https://accounts.sayutel.com/login?continue=" + encodeURI(window.location.href);
+                }
+            })
+        })
+    }
+
     onOpen() {
         let info;
         while(info = this.promises.sendQueue.shift()) {
             this.send(info[0]);
             info[1]();
         };
-        this.onOpenCB?.();
         this.hbSendTimer = setInterval(() => {
             try {
                 this.send(".");
@@ -74,7 +91,7 @@ class EmailSender extends WebSocket {
     }
 
     closeConnection() {
-        this.close()
+        this.ws.close()
     }
 
     onMessage(msg) {
@@ -100,6 +117,11 @@ class EmailSender extends WebSocket {
                                 this.sessionToken = fdata.token;
                                 this.hbTimer = setTimeout(this.closeConnection, 150000)
                             }
+                            for(let authCb of this.eventListeners['authorized']) {
+                                try {
+                                    authCb(this.authorized)
+                                } catch (e) {}
+                            }
                         } else {
                             this.onData(fdata);
                         }
@@ -116,31 +138,45 @@ class EmailSender extends WebSocket {
             this.clearCustomPromise(data.resp, data)
         }
         if(Object.keys(data).includes('mails')) {
-            if(!this.mailData[data.folder]) {
-                this.mailData[data.folder] = {'all': []}
+            if(!connection.mailData[data.folder]) {
+                connection.mailData[data.folder] = {'all': []}
             }
             for(let i = 0; i < data.count; i++) {
                 if(data.category === 'all') {
-                    this.mailData[data.folder]['all'][data.offset + i] = data.mails[i]
+                    connection.mailData[data.folder]['all'][data.offset + i] = data.mails[i]
                 }
             }
             this.clearCustomPromise(data.fetch_id, data.mails)
         }
         if(data.event === 1) {
             if (data.category) {
-                this.mailData[data.folder][data.category].unshift(data.mail);
+                connection.mailData[data.folder][data.category].unshift(data.mail);
             }
 
-            this.mailData[data.folder]['all'].unshift(data.mail);
+            connection.mailData[data.folder]['all'].unshift(data.mail);
 
 
             for(let cb of this.eventListeners.newMail) {
                 if(cb.folder === data.folder && (cb.category === data.category || cb.category === 'all')) {
-                    cb.callback(data.mail);
-                    break;
+                    try {
+                        cb.callback(data.mail);
+                    } catch (e) {
+
+                    }
                 }
             }
         }
+    }
+
+    addEventListener(event, cb) {
+        if(this.authorized && event === 'authorized') {
+            cb(true);
+        }
+        this.eventListeners[event].push(cb);
+    }
+
+    removeEventListener(event, cb) {
+        this.eventListeners[event] = this.eventListeners[event].filter(callback => callback !== cb);
     }
 
     onNewMail({folder, category, id = Math.random()}, callback) {
@@ -150,11 +186,17 @@ class EmailSender extends WebSocket {
         return id;
     }
 
-    removeNewMail(id) {
+    removeNewMail(id, callback) {
         for(let i = 0; i < this.eventListeners.newMail.length; i++) {
-            if(this.eventListeners.newMail[i].id === id) {
-                this.eventListeners.newMail.splice(i, 1);
-                break;
+            if(id) {
+                if (this.eventListeners.newMail[i].id === id) {
+                    this.eventListeners.newMail.splice(i, 1);
+                    break;
+                }
+            } else if (callback) {
+                if (this.eventListeners.newMail[i].callback === callback) {
+                    this.eventListeners.newMail.splice(i, 1);
+                }
             }
         }
     }
@@ -175,6 +217,7 @@ class EmailSender extends WebSocket {
         this.promises.auth = null;
         this.promises.newChannel = null;
         this.promises.newMail = null;
+        this.promises.sendQueue = [];
         this.authorized = false;
         if(this.hbSendTimer) {
             clearInterval(this.hbSendTimer);
@@ -184,11 +227,15 @@ class EmailSender extends WebSocket {
             clearTimeout(this.hbTimer);
             this.hbTimer = null;
         }
-        this.onEnd?.();
+        this.onEnd();
     };
 
     onError(err) {
-        this.close();
+        this.ws.close();
+    }
+
+    onEnd() {
+        this.connect(this.userIndex);
     }
 
     openChannel() {
@@ -204,12 +251,12 @@ class EmailSender extends WebSocket {
         })
     }
 
-    login() {
+    login(userIndex) {
         if(!this.accessToken && connection.accessToken) {
             this.accessToken = connection.accessToken
         }
         if(!this.accessToken) {
-            return loginForToken().then(v => {
+            return loginForToken(userIndex).then(v => {
                 if(!v.error) {
                     this.accessToken = v.token;
                     connection.accessToken = v.token;
@@ -235,9 +282,9 @@ class EmailSender extends WebSocket {
 
     getMailFromCache(folder, category, limit, offset) {
         let mails = []
-        if(this.mailData[folder]?.[category]) {
+        if(connection.mailData[folder]?.[category]?.length) {
             for(let i = 0; i < limit; i++) {
-                let mail = this.mailData[folder][category][offset + i];
+                let mail = connection.mailData[folder][category][offset + i];
                 if(!mail) {
                     break;
                 } else {
@@ -246,7 +293,7 @@ class EmailSender extends WebSocket {
                 i++;
             }
         }
-        return mails.length? new Promise(resolve => resolve(mails)) : null;
+        return mails.length? (new Promise(resolve => resolve(mails))) : null;
     }
 
     fetchMails(folder, category, limit = 50, offset = 0, id = Math.random().toString()) {
@@ -265,7 +312,7 @@ class EmailSender extends WebSocket {
         let fdata = JSON.stringify(data);
         let res;
         let promise = new Promise(resolve => res = resolve);
-        if(this.readyState != WebSocket.OPEN) {
+        if(this.ws.readyState != WebSocket.OPEN) {
             this.promises.sendQueue.push([fdata, res]);
         } else {
             this.send(fdata);
@@ -287,4 +334,32 @@ class EmailSender extends WebSocket {
     }
 }
 
-export {EmailSender, connection}
+function startServer(userIndex = 0, params = {}) {
+    if(!connection.user_ids.length) {
+        return EmailSender.checkLogin().then(v => {
+            if(v?.length) {
+                if(userIndex > (v.length - 1)) {
+                    window.location = "https://mail.sayutel.com/u/0/" + (params.folder ?? 'inbox');
+                } else {
+                    try {
+                        if(connection.server) {
+                            connection.server.onEnd = () => {};
+                            connection.server.ws.close();
+                        }
+                    } catch (e) {
+
+                    }
+                    connection.server = EmailSender.start("wss://mail.sayutel.com:3008/mail");
+                    connection.server.connect(userIndex);
+                    return v
+                }
+            } else {
+                window.location = "https://accounts.sayutel.com/login?continue=" + encodeURI(window.location.href);
+            }
+        })
+    } else {
+        return new Promise(resolve => resolve(connection.user_ids));
+    }
+}
+
+export {EmailSender, startServer}

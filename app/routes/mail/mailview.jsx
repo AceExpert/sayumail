@@ -4,7 +4,13 @@ import { useLocation, useOutletContext, useNavigate } from "react-router";
 import { MailTab, Tab2 } from "../../components/tab";
 import CheckBox from "../../components/checkbox";
 
+import { connection } from "../../globalstate/ws";
+
 import "../../styles/mailview.css";
+
+export function clientLoader({ params }) {
+    
+}
 
 export default function MailView({ params }) {
 
@@ -15,7 +21,6 @@ export default function MailView({ params }) {
 
     let [mails, setMail] = useState(null);
     let [loaded, setLoaded] = useState({});
-    let [connection, setConnection] = useState({});
     let [callbackIds, setCBIds] = useState({});
 
     let loadMails = () => {
@@ -24,8 +29,8 @@ export default function MailView({ params }) {
                 connection.server.removeNewMail(callbackIds.newMail);
             }
             setCBIds({newMail: connection.server.onNewMail({ folder: params.folder, category: 'all'}, mail => {
-                setMail(mails => {
-                    let latest_mails = [mail, ...mails];
+                setMail(oldMails => {
+                    let latest_mails = [mail, ...oldMails];
                     return latest_mails
                 })
             })});
@@ -36,15 +41,14 @@ export default function MailView({ params }) {
     }
 
     useEffect(() => {
-        import("../../sender/index").then(({connection: conn}) => {
-            setConnection(conn)
-            loader.then(data => {
-                setLoaded(data)
-            })
+        loader.then(data => {
+            setLoaded(data)
         })
 
         // setMail([{from_name: "anshul", subject: "Regarding your order", body: "Your order is here"}, {from_name: "IIT Kharagpur", subject: "Regarding your marks", body: "Your CGPA is posted in the erp"}, {from_name: "joe", subject: "Regarding your photos", body: "check out the attachments"}, {from_name: "anshul", subject: "Regarding your order", body: "Your order is here"}, {from_name: "IIT Kharagpur", subject: "Regarding your marks", body: "Your CGPA is posted in the erp"}, {from_name: "joe", subject: "Regarding your photos", body: "check out the attachments"}, {from_name: "anshul", subject: "Regarding your order", body: "Your order is here"}, {from_name: "IIT Kharagpur", subject: "Regarding your marks", body: "Your CGPA is posted in the erp"}, {from_name: "joe", subject: "Regarding your photos", body: "check out the attachments"}]);
-    }, [])
+
+        // setMail([]);
+    }, []);
 
     useEffect(() => {
         loadMails()
@@ -120,7 +124,7 @@ export default function MailView({ params }) {
                             let content = parsed.querySelector("body")
                             
                             return (
-                                <MailTab from={mail.from_name || mail.from_addr.split("@")[0]} subject={mail.subject} key={mail.message_id} content={content.innerText} className={"mail-select-tab"} dateClassName={"mail-date-select"} onClick={() => {
+                                <MailTab from={mail.from_name || mail.from_addr.split("@")[0]} subject={mail.subject} key={Math.random()} content={content.innerText} className={"mail-select-tab"} dateClassName={"mail-date-select"} onClick={() => {
                                     if(loaded.showMail) {
                                         loaded.showMail({...mail, body: content.innerHTML});
                                     }
@@ -129,11 +133,11 @@ export default function MailView({ params }) {
                         }) :
                         mails?.length === 0?
                         <div className="no-mails-class-1 column-center">
-                            <p style={{fontSize: "50px", letterSpacing: "5px", fontWeight: "700"}}>Your mailbox is empty</p>
-                            <p style={{}} className="emptybox-tagline">Don't like the emptiness? Invite your <span style={{color: "purple"}}>friends</span> and enjoy an end to end encrypted chatting and mailing experience without the worry of strangers trying to break into your chats!</p>
+                            <p style={{fontSize: "25px", letterSpacing: "0px", fontWeight: "700"}}>Your mailbox is empty</p>
+                            <p style={{}} className="emptybox-tagline">Don't like the emptiness? Invite your <span style={{color: "rebeccapurple"}}>friends</span> and enjoy an end to end encrypted chatting and mailing experience without the worry of strangers trying to break into your chats!</p>
                         </div> : 
                         <div className="no-mails-class-1 column-center">
-                            <p style={{fontSize: "50px", letterSpacing: "5px", fontWeight: "700", color: "gray"}}>Loading...</p>
+                            <p style={{fontSize: "30px", letterSpacing: "0px", fontWeight: "700", color: "rgba(114, 64, 160, 0.45)"}}>Loading...</p>
                         </div>
                         }
                     </div>
