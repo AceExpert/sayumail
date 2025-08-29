@@ -77,12 +77,12 @@ class EmailSender {
     onOpen() {
         let info;
         while(info = this.promises.sendQueue.shift()) {
-            this.send(info[0]);
+            this.ws.send(info[0]);
             info[1]();
         };
         this.hbSendTimer = setInterval(() => {
             try {
-                this.send(".");
+                this.ws.send(".");
             } catch {
                 clearInterval(this.hbSendTimer);
                 this.hbSendTimer = null;
@@ -315,7 +315,7 @@ class EmailSender {
         if(this.ws.readyState != WebSocket.OPEN) {
             this.promises.sendQueue.push([fdata, res]);
         } else {
-            this.send(fdata);
+            this.ws.send(fdata);
             res();
         }
         return promise;
