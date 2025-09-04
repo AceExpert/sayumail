@@ -59,7 +59,7 @@ class Home extends Component {
     let _loaderres;
     this.state = {
       userIds: [],
-      composing: true,
+      composing: false,
       toAddr: 'very.anshul@gmail.com',
       ccAddr: [],
       bccAddr: [],
