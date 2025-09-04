@@ -321,7 +321,7 @@ class EmailSender {
     }
 
     sendMail(data) {
-        ecc.encrypt(JSON.stringify({action: 2, data}), this.currentKey).then(
+        return ecc.encrypt(JSON.stringify({action: 2, data}), this.currentKey).then(
             enc => {
                 let res;
                 let prom = new Promise(resolve => res = resolve);
