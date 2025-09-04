@@ -464,7 +464,7 @@ class Home extends Component {
                     <div className="attachment-con row-center">
                       {this.state.viewMail.attachments?.map?.(attach => {
                         return (
-                          <Attachment filename={attach.filename} filesize={attach.size} attachment = {attach}/>
+                          <Attachment filename={attach.filename} filesize={attach.size} attachment = {attach} url={`https://mail-cdn.sayutel.com/mail/u/${this.state.userIndex}/${this.state.viewMail.mail_id}/${attach.attachment_id}?file=${attach.filename}`}/>
                         )
                       })}
                     </div>
