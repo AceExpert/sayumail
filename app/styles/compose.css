@@ -24,6 +24,84 @@
     overflow: clip;
 }
 
+.compose-focus-overlay {
+    position: absolute;
+    height: calc(100% + 30px);
+    height: 100%;
+    background: rgba(49, 0, 71, 0.151);
+    top: -30px;
+    top: 0px;
+    border-radius: 8px 8px 10px 10px;
+    border-radius: 0px 0px 10px 10px;
+    z-index: 6;
+    width: 100%;
+    justify-content: center;
+    overflow: hidden;
+    /* backdrop-filter: blur(10px); */
+}
+
+.confirm-box-compose {
+    background: rgba(255, 255, 255, 0.801);
+    backdrop-filter: blur(10px);
+    width: 300px;
+    border-radius: 10px;
+    z-index: 5;
+    padding: 8px 8px;
+    gap: 15px;
+    /* box-shadow: 0px 10px 40px 0px rgba(0, 0, 0, 0.089); */
+}
+
+.confirm-box-button {
+    width: 50%;
+    justify-content: center;
+    background: rgb(144, 81, 207);
+    color: white;
+    font-weight: 500;
+    padding: 7px;
+    padding: 8px;
+    border-radius: 5px;
+    font-size: 13px;
+    gap: 5px;
+}
+
+.recheck-button {
+    background: rgba(158, 0, 87, 1);
+}
+
+.confirm-box-button:hover {
+    cursor: pointer;
+    background: rgb(157, 94, 221);
+}
+
+.recheck-button:hover {
+    background: rgb(192, 0, 106);
+}
+
+.anim-send-con {
+    color: rgb(88, 0, 110);
+    color: rebeccapurple;
+    font-size: 100px;
+    animation: compose-send-anim 2s ease-in-out infinite;
+}
+
+@keyframes compose-send-anim {
+    /* 0% {
+        transform: translate(-350px, 350px) rotate(-45deg);
+    }
+
+    100% {
+        transform: translate(350px, -350px) rotate(-45deg);
+    } */
+
+    0% {
+        transform: translate(-400px, 0px);
+    }
+
+    100% {
+        transform: translate(400px, 0px);
+    }
+}
+
 .compose-window-controls {
     position: absolute;
     /* display: none; */
@@ -48,6 +126,7 @@
     padding: 7px 6px 7px 9px;
     padding: 6px;
     padding-left: 8px;
+    padding-bottom: 4px;
     /* border-radius: 5px 10px 5px 5px; */
     /* border-radius: 20px 10px 20px 20px;
     border-radius: 20px 20px 0px 20px; */
@@ -56,6 +135,7 @@
     right: 0px;
     top: -34px;
     top: -30px;
+    top: -29px;
     width: 100%;
     /* border-bottom: 1px solid rgba(213, 170, 255, 0.116); */
 }

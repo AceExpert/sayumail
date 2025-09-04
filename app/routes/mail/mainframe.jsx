@@ -59,7 +59,7 @@ class Home extends Component {
     let _loaderres;
     this.state = {
       userIds: [],
-      composing: false,
+      composing: true,
       toAddr: 'very.anshul@gmail.com',
       ccAddr: [],
       bccAddr: [],
@@ -78,11 +78,13 @@ class Home extends Component {
         sign: 'sayutel.com',
         subject: 'Leave Application due to release of Cytroid [24IM10016]',
         tls: true,
-        body: '<div style="padding: 10px 20px;"><div>Dear sir</br></br>I am Anshul Singh, roll number 24IM10016 from the Department of Industrial and Systems Engineering. I request you to grant me leave for 12th, 13th, 14th and 15th of July as I was unable to attend classes that day due to the opening ceremony of Cytroid.</br></br>I hope that you will grant me leave for the same as well give blessings for my company.</br></br>Thank you</br></br>Yours Sincerely</br>Anshul Singh</br></br><p style="color: mediumpurple; margin:5px 0px;">Sent using SayuMail by Sayutel</p></div></div>'
+        body: '<div style="padding: 10px 20px;"><div>Dear sir</br></br>I am Anshul Singh, roll number 24IM10016 from the Department of Industrial and Systems Engineering. I request you to grant me leave for 12th, 13th, 14th and 15th of July as I was unable to attend classes that day due to the opening ceremony of Cytroid.</br></br>I hope that you will grant me leave for the same as well give blessings for my company.</br></br>Thank you</br></br>Yours Sincerely</br>Anshul Singh</br></br><p style="color: mediumpurple; margin:5px 0px;">Sent using SayuMail by Sayutel</p></div></div>',
+        attachments: [{filename: "sputh.png", size: 1000422}]
       },
       showingMail: false,
       _loaderprom: new Promise(res => _loaderres = res),
       attachmentShowing: false,
+      attachmentInView: false,
       phoneShowing: false,
       userIndex: Number.parseInt(this.props.params.uindex) || 0,
       curTime: new Date,
@@ -117,6 +119,15 @@ class Home extends Component {
         };
       })
     })
+
+    window.addEventListener("click", evt => {
+      if(this.state.attachmentInView) {
+        let rect = this.attachmentView.current.getBoundingClientRect();
+        if(evt.pageX < rect.left || evt.pageX > (rect.left + rect.width) || evt.pageY > (rect.top + rect.height) || evt.pageY < rect.top) {
+          this.setState({attachmentShowing: false, attachmentInView: false});
+        }
+      }
+    })
     
     let parser = new DOMParser();
     let html = parser.parseFromString(testHTML && this.state.viewMail.body, "text/html");
@@ -130,24 +141,25 @@ class Home extends Component {
     this.setState({composing: false});
   }
 
-  sendMail() {
-    this.resetCompose()
-    this.setState({composing: false})
+  sendMail(toAddr, ccAddr, bccAddr, subject, content, html, cb) {
+    //this.resetCompose()
+    //this.setState({composing: false})
     // this.fireNotification({title: "Email sent", description: <p>Email to <b style={{color: "purple"}}>very.anshul@gmail.com</b> sent</p>})
     
     connection.server.sendMail({
-      toAddr: this.state.toAddr,
-      ccAddr: this.state.ccAddr,
-      bccAddr: this.state.bccAddr,
-      subject: this.state.subject,
-      content: this.state.content,
-      html: this.state.html,
+      toAddr: toAddr,
+      ccAddr: ccAddr,
+      bccAddr: bccAddr,
+      subject: subject,
+      content: content,
+      html: html,
       id: Math.random().toString(),
     }).then(({error}) => {
       if(!error) {
         this.resetCompose()
         this.setState({composing: false})
       }
+      cb?.(error);
     })
   }
 
@@ -204,19 +216,6 @@ class Home extends Component {
   }
 
   resetCompose() {
-    this.toInput.current.innerHTML = 'user@email.com';
-    this.subjectInput.current[1]('');
-    this.composeInput.current[1]('');
-    this.ccInput.current[1]([])
-    this.bccInput.current[1]([])
-    this.setState({
-      toAddr: '  ',
-      ccAddr: [],
-      bccAddr: [],
-      subject: '',
-      content: '',
-      html: '',
-    });
   }
 
   render = () =>
@@ -237,7 +236,7 @@ class Home extends Component {
       {/* <Fab onClick={() => this.setState({phoneShowing: true}, () => this.phone.current.focus())}/> */}
 
       <div className="compose-main-con column">
-        <Composer show={this.state.composing} onClose={() => {
+        <Composer show={this.state.composing} mailSend = {this.sendMail.bind(this)} onClose={() => {
           this.setState({composing: false});
         }}/>
       </div>
@@ -451,21 +450,29 @@ class Home extends Component {
                 <div className="column" style={{position: "absolute", bottom: "15px", left: "15px", zIndex: -1}}>
                   <img src={SputhMailLotus} style={{opacity: .5, height: "50px", transform: "rotate(-0deg)"}}/>
                 </div>
-                <div className="column letter-attachment-view" ref={this.attachmentView} tabIndex={1} onBlur={() => this.setState({attachmentShowing: false})}  style={{bottom: this.state.attachmentShowing? "0px" : "-150px"}}>
+                <div className="column letter-attachment-view" ref={this.attachmentView} tabIndex={1} style={{bottom: this.state.attachmentShowing? "0px" : "-150px"}}
+                  onTransitionEnd={() => {
+                    if(this.state.attachmentShowing) {
+                      this.setState({attachmentInView: true});
+                    }}
+                  }
+                >
                   <div className="row-center">
                     <p style={{color: "rgba(0, 0, 0, 0.79)", fontWeight: "600", fontSize: "23px", paddingLeft: "10px", textShadow: "0px 0px 5px rgba(0, 0, 0, 0.08)"}}>Attachments</p>
                   </div>
                   <div className="column-center letter-attachments">
                     <div className="attachment-con row-center">
-                      <Attachment />
-                      <Attachment />
-                      <Attachment />
+                      {this.state.viewMail.attachments?.map?.(attach => {
+                        return (
+                          <Attachment filename={attach.filename} filesize={attach.size} attachment = {attach}/>
+                        )
+                      })}
                     </div>
                   </div>
                 </div>
                 <div className="letter-bottom-bar-con row-center" style={{display: this.state.attachmentShowing? "none" : "flex"}}>
                   <div className="row-center letter-bottom-bar">
-                    <span className="material-symbols-outlined row-center attach-open" style={{}} onClick={this.openAttachments.bind(this)}>attach_file</span>
+                    <span className="material-symbols-outlined row-center attach-open" style={{display: this.state.viewMail.attachments?.length? "flex" : "none"}} onClick={this.openAttachments.bind(this)}>attach_file</span>
                   </div>
                 </div>
               </div>

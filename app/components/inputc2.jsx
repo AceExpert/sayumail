@@ -1,18 +1,39 @@
 import { useState, useEffect, useRef } from "react";
 
-export default function ArrayInput({className, style, onInput, showAdd = false, ...props}) {
+export default function ArrayInput({className, style, onInput, showAdd = false, value, ...props}) {
 
     let toAddrInput = useRef();
 
-    let [toAddr, setToAddr] = useState([]);
+    let [toAddr, setToAddr] = useState(value ?? []);
     let [isEditing, setIE] = useState(false);
 
     useEffect(() => {
         if(toAddr.slice(-1)[0]?.[0] === '') {
             getToRef().slice(-1)[0]?.[0]?.focus();
         }
-        onInput?.(toAddr.map(v => v[0]));
-    }, [toAddr])
+        onInput?.(toAddr.map(v => v[0]), toAddr);
+    }, [toAddr]);
+
+    useEffect(() => {
+        if(Array.isArray(value)) {
+            /*let changed = false;
+            
+            if(value.length !== toAddr.length) changed = true;
+
+            if(!changed) {
+                let i = 0;
+                for(let val of value) {
+                    if(val[0] !== toAddr[i][0]) {
+                        changed = true;
+                        break;
+                    }
+                    i++;
+                }
+            };
+            if(changed)*/
+            setToAddr(value);
+        };
+    }, [value]);
 
     let getToRef = () => {
         if(!toAddrInput.current) {
@@ -20,8 +41,7 @@ export default function ArrayInput({className, style, onInput, showAdd = false, 
         }
 
         return toAddrInput.current
-    }
-
+    };
 
     return (
         <div className="compose-input-small row-center" style={{gap: "7px", flexWrap: "wrap"}}>

@@ -581,25 +581,28 @@
     align-self: flex-start;
     border: 0px dashed black;
     border: 0px solid rgba(146, 92, 255, 0.301);
+    border: 0px solid rgba(146, 92, 255, 0.212);
     box-shadow: -3px 3px 5px 0px rgba(67, 0, 129, 0.1); /*.08 -> .13*/
-    background-color: rgb(255, 255, 255);
-    background-color: rgba(240, 232, 255, 0.623);
-    background-color: rgba(215, 193, 255, 0.384);
-    /* background-color: rgba(236, 236, 236, 0.568); */
+    background-color: rgb(253, 251, 255);
+    /* background-color: rgba(240, 232, 255, 0.623); */
+    /* background-color: rgba(215, 193, 255, 0.384); */
+    background-color: rgba(236, 236, 236, 0.568);
+    background-color: rgb(232, 229, 233);
 
     margin-left: 10px;
 
     margin: 3px;
     /* align-self: center; */
     border-radius: 7px;
-    /* border-bottom-width: 1px; */
+    border-bottom-width: 0px;
     margin-bottom: 10px;
     /* position: relative;
     bottom: 10px; */
 
     box-shadow: none;
     /* border-width: 0px; */
-    /* background-color: rgba(0, 0, 0, 0.637); */
+    background-color: rgba(0, 0, 0, 0.637);
+    background-color: rgba(224, 224, 224, 0.788);
 
 }
 
