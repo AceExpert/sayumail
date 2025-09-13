@@ -83,7 +83,7 @@ class Home extends Component {
         body: '<div style="padding: 10px 20px;"><div>Dear sir</br></br>I am Anshul Singh, roll number 24IM10016 from the Department of Industrial and Systems Engineering. I request you to grant me leave for 12th, 13th, 14th and 15th of July as I was unable to attend classes that day due to the opening ceremony of Cytroid.</br></br>I hope that you will grant me leave for the same as well give blessings for my company.</br></br>Thank you</br></br>Yours Sincerely</br>Anshul Singh</br></br><p style="color: mediumpurple; margin:5px 0px;">Sent using SayuMail by Sayutel</p></div></div>',
         attachments: [{filename: "sputh.png", size: 1000422}]
       },
-      showingMail: true,
+      showingMail: false,
       _loaderprom: new Promise(res => _loaderres = res),
       attachmentShowing: false,
       attachmentInView: false,

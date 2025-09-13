@@ -82,6 +82,7 @@ export default function MailView({ params }) {
                     new_convos.push(conv);
                 }
             }
+            console.log(new_convos);
             setConvos(new_convos);
         };
     }
