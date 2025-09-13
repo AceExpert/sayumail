@@ -8,9 +8,9 @@ import { connection } from "../globalstate/ws";
 
 import "./styles/convo.css";
 
-export default function Conversation({className, messages, show, style, ref, ...props}) {
+export default function Conversation({className, messages = [], show, style, ref, ...props}) {
 
-    let [msgs, setMsgs] = useState(messages ?? []);
+    let [msgs, setMsgs] = useState(messages);
     let [toShow, setToShow] = useState(show);
 
     useEffect(() => {
