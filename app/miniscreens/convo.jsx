@@ -71,7 +71,7 @@ export default function Conversation({className, messages, show, style, ref, ...
                         let is_me = msgs[i].from_addr === 'anshul@sayutel.com';
 
                         chatowner_comps.push(
-                            <div className="convo-owner row" style={{flexDirection: is_me ? "row-reverse" : "row"}} key={`${msgs[i].mail_id || msgs[i].message_id}`}>
+                            <div className="convo-owner row" style={{flexDirection: is_me ? "row-reverse" : "row"}} key={msgs[i].mail_id || msgs[i].message_id}>
                                 <div className="convo-avatar-con">
                                     <Avatar letter={msgs[i].from_name[0].toUpperCase()}/>
                                 </div>
