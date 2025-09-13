@@ -27,7 +27,7 @@ export default function Conversation({className, messages = [], show, style, ref
         <div className="column conversation-screen" style={{display: toShow? "flex" : "none"}}>
 
             <div className="convo-card column">
-                <p className="convo-subject">{msgs[0].subject}</p>
+                <p className="convo-subject">{msgs[0]?.subject}</p>
                 <div className="convo-padded column">
                     <div className="convo-info-card column" style={{gap: "9px"}}>
                         <div className="row" style={{gap: "15px", width: "100%"}}>
@@ -75,7 +75,7 @@ export default function Conversation({className, messages = [], show, style, ref
                         chatowner_comps.push(
                             <div className="convo-owner row" style={{flexDirection: is_me ? "row-reverse" : "row"}} key={`${msgs[i].return_path}-${msgs[i].mail_id || msgs[i].message_id}`}>
                                 <div className="convo-avatar-con">
-                                    <Avatar letter={msgs[i].from_name[0].toUpperCase()}/>
+                                    <Avatar letter={msgs[i].from_name[0]?.toUpperCase()}/>
                                 </div>
                                 <div className="convo-chat-message-con column" style={{gap: "4px"}}>
                                     {(() => {
