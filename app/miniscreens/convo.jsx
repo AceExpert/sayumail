@@ -4,6 +4,8 @@ import Avatar from "../components/avatar";
 
 import { testMsgs } from "../constants";
 
+import { connection } from "../globalstate/ws";
+
 import "./styles/convo.css";
 
 export default function Conversation({className, messages, show, style, ref, ...props}) {
@@ -68,10 +70,10 @@ export default function Conversation({className, messages, show, style, ref, ...
                     for(let i = 0; i < msgs.length; i++) {
                         let current_owner = msgs[i].from_addr;
                         let current_i = i;
-                        let is_me = msgs[i].from_addr === 'anshul@sayutel.com';
+                        let is_me = msgs[i].return_path === connection.current_user;
 
                         chatowner_comps.push(
-                            <div className="convo-owner row" style={{flexDirection: is_me ? "row-reverse" : "row"}} key={msgs[i].mail_id || msgs[i].message_id}>
+                            <div className="convo-owner row" style={{flexDirection: is_me ? "row-reverse" : "row"}} key={`${msgs[i].return_path}-${msgs[i].mail_id || msgs[i].message_id}`}>
                                 <div className="convo-avatar-con">
                                     <Avatar letter={msgs[i].from_name[0].toUpperCase()}/>
                                 </div>

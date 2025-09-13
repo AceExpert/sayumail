@@ -1,4 +1,4 @@
-const connection = { server: null, accessToken: null, user_ids: [], mailData: {}, mailConvos: {}, chats: {} };
+const connection = { server: null, accessToken: null, user_ids: [], mailData: {}, mailConvos: {}, chats: {}, current_user: null };
 
 function getMailFromMessageID(message_id, folder = 'all', subcateg = 'all') {
     if(folder === 'all') {

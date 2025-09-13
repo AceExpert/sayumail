@@ -117,6 +117,7 @@ class Home extends Component {
       startServer(this.state.userIndex, this.props.params).then(v => {
         if(v?.length) {
           this.setState({userIds: [...v], fromDomain: [v[this.state.userIndex].split('@')[1]], sign: [v[this.state.userIndex].split('@')[1]]})
+          connection.current_user = v[this.state.userIndex];
           connection.server.addEventListener("authorized", () => {
             this.state._loaderres({
               showMail: this.showMail.bind(this)
