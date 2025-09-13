@@ -347,7 +347,7 @@ class Home extends Component {
           </div>
           <div className="column-center" style={{width: "100%", height: "100%", borderLeft: "0px solid rgba(0, 0, 0, 0.5)", padding: "20px 20px 20px 30px", display: this.state.showingMail? "flex" : "none", gap: "0px"}}>
             
-            <Conversation messages={this.state.viewMail?.is_convo? this.state.viewMail?.convos : null} show={this.state.viewMail?.is_convo? this.state.showingMail : false}/>
+            <Conversation messages={this.state.viewMail?.is_convo? this.state.viewMail?.convos : []} show={this.state.viewMail?.is_convo? this.state.showingMail : false}/>
             
             <div className="letter-action-bar column-center" style={{margin: "0px 0px 0px 15px", borderRadius: "7px 7px 0px 0px", display: this.state.viewMail?.is_convo? "none" : "flex"}}>
               <div className="row-center letter-actions" style={{gap: "10px"}}>
