@@ -45,6 +45,29 @@ const symmRev = {
 
 const emailPat =  /[a-zA-Z0-9\$%\-#&\.]+@(?:[a-zA-Z0-9\-]+\.)*[a-zA-Z0-9\-]+\.(?:[a-zA-Z0-9\-]+\.)?[a-zA-Z0-9\-]+/;
 
+const testMsgs = [
+    {   subject: "Regarding Book order",
+        html: `Dear sir,
+
+This is regarding the return of my product. Please return it. I am awaiting it from a long time.
+
+Thank you`, message_id: 32,
+        from_addr: "anshul@sayutel.com",
+        from_name: "Anshul Singh",
+        uid: 22,
+}, {
+        html: "Please reply sir.",
+        from_addr: "anshul@sayutel.com",
+        from_name: "Anshul Singh",
+        uid: 22,
+    }, {
+        html: "Ok sir, Replying",
+        from_name: "Joe Daniel",
+        from_addr: "joe@sayutel.com",
+        uid: 20,
+    },
+]
+
 const testHTML = `
 
 <!DOCTYPE html>
@@ -224,4 +247,4 @@ const testHTML = `
 </table>
 </body>`
 
-export {publicKey, symm, symmRev, emailPat, testHTML};
+export {publicKey, symm, symmRev, emailPat, testHTML, testMsgs};

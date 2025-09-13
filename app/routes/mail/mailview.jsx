@@ -4,6 +4,8 @@ import { useLocation, useOutletContext, useNavigate } from "react-router";
 import { MailTab, Tab2 } from "../../components/tab";
 import CheckBox from "../../components/checkbox";
 
+import { getConvos, sortConvos } from "../../utils/convos";
+
 import { connection } from "../../globalstate/ws";
 
 import "../../styles/mailview.css";
@@ -22,6 +24,8 @@ export default function MailView({ params }) {
     let {loader} = useOutletContext();
 
     let [mails, setMail] = useState(null);
+    let [convos, setConvos] = useState([]);
+
     let [loaded, setLoaded] = useState({});
     let [callbackIds, setCBIds] = useState({});
 
@@ -39,6 +43,11 @@ export default function MailView({ params }) {
             connection.server.fetchMails(params.folder, 'all').then(newMails => {
                 setMail(newMails);
             })
+            if(params.folder !== 'sent') {
+                connection.server.fetchMails('sent', 'all').then(newMails => {
+                    loadConvos([...mails, ...newMails]);
+                })
+            }
         }
     }
 
@@ -47,7 +56,7 @@ export default function MailView({ params }) {
             setLoaded(data)
         })
 
-        // setMail([{from_name: "anshul", subject: "Regarding your order", body: "Your order is here"}, {from_name: "IIT Kharagpur", subject: "Regarding your marks", body: "Your CGPA is posted in the erp"}, {from_name: "joe", subject: "Regarding your photos", body: "check out the attachments"}, {from_name: "anshul", subject: "Regarding your order", body: "Your order is here"}, {from_name: "IIT Kharagpur", subject: "Regarding your marks", body: "Your CGPA is posted in the erp"}, {from_name: "joe", subject: "Regarding your photos", body: "check out the attachments"}, {from_name: "anshul", subject: "Regarding your order", body: "Your order is here"}, {from_name: "IIT Kharagpur", subject: "Regarding your marks", body: "Your CGPA is posted in the erp"}, {from_name: "joe", subject: "Regarding your photos", body: "check out the attachments"}]);
+        //setMail([{from_name: "anshul", from_addr: "anshul@sayutel.com", subject: "Regarding your order", body: "sent it", message_id: 932, extras: {in_reply_to: 930}}, {from_name: "anshul", from_addr: "anshul@sayutel.com", subject: "Regarding your order", body: "Your order is here", message_id: 932, extras: {in_reply_to: 930}}, {from_name: "IIT Kharagpur", from_addr: "kgp@iitkgp.ac.in", subject: "Regarding your marks", body: "Your CGPA is posted in the erp 2", message_id: 930, extras: {in_reply_to: 935}}, {from_name: "joe", from_addr: "joe@sayutel.com", subject: "Regarding your photos", body: "yes sending", message_id: 939, extras: {in_reply_to: 935}}, {from_name: "joe", from_addr: "joe@sayutel.com", subject: "Regarding your photos", body: "check out the attachments", message_id: 935}, {from_name: "anshul", subject: "Regarding your order", body: "Your order is here", message_id: 830}, {from_name: "IIT Kharagpur", subject: "Regarding your marks", body: "Your CGPA is posted in the erp", message_id: 430}, {from_name: "joe", subject: "Regarding your photos", body: "check out the attachments", message_id: 230}, {from_name: "anshul", subject: "Regarding your order", body: "Your order is here", message_id: 130}, {from_name: "IIT Kharagpur", subject: "Regarding your marks", body: "Your CGPA is posted in the erp", message_id: 30}, {from_name: "joe", subject: "Regarding your photos", body: "check out the attachments", message_id: 400}]);
         // setMail([{from_name: "anshul", subject: "Regarding your order", body: "Your order is here"}, {from_name: "IIT Kharagpur", subject: "Regarding your marks", body: "Your CGPA is posted in the erp"}, {from_name: "joe", subject: "Regarding your photos", body: "check out the attachments"}, {from_name: "anshul", subject: "Regarding your order", body: "Your order is here"}, {from_name: "IIT Kharagpur", subject: "Regarding your marks", body: "Your CGPA is posted in the erp"}, {from_name: "joe", subject: "Regarding your photos", body: "check out the attachments"}, {from_name: "anshul", subject: "Regarding your order", body: "Your order is here"}, {from_name: "IIT Kharagpur", subject: "Regarding your marks", body: "Your CGPA is posted in the erp"}, {from_name: "joe", subject: "Regarding your photos", body: "check out the attachments"}, {from_name: "joe", subject: "Regarding your photos", body: "check out the attachments"}, {from_name: "joe", subject: "Regarding your photos", body: "check out the attachments"}, {from_name: "joe", subject: "Regarding your photos", body: "check out the attachments"}, {from_name: "joe", subject: "Regarding your photos", body: "check out the attachments"}, {from_name: "joe", subject: "Regarding your photos", body: "check out the attachments"}, {from_name: "joe", subject: "Regarding your photos", body: "check out the attachments"}, {from_name: "joe", subject: "Regarding your photos", body: "check out the attachments"}, {from_name: "joe", subject: "Regarding your photos", body: "check out the attachments"}, {from_name: "joe", subject: "Regarding your photos", body: "check out the attachments"}, {from_name: "joe", subject: "Regarding your photos", body: "check out the attachments"}, {from_name: "joe", subject: "Regarding your photos", body: "check out the attachments"}, {from_name: "joe", subject: "Regarding your photos", body: "check out the attachments"}, {from_name: "joe", subject: "Regarding your photos", body: "check out the attachments"}, {from_name: "joe", subject: "Regarding your photos", body: "check out the attachments"}, {from_name: "joe", subject: "Regarding your photos", body: "check out the attachments"}, {from_name: "joe", subject: "Regarding your photos", body: "check out the attachments"}, {from_name: "joe", subject: "Regarding your photos", body: "check out the attachments"}, {from_name: "joe", subject: "Regarding your photos", body: "check out the attachments"}, {from_name: "joe", subject: "Regarding your photos", body: "check out the attachments"}, {from_name: "joe", subject: "Regarding your photos", body: "check out the attachments"}, {from_name: "joe", subject: "Regarding your photos", body: "check out the attachments"}, {from_name: "joe", subject: "Regarding your photos", body: "check out the attachments"}, {from_name: "joe", subject: "Regarding your photos", body: "check out the attachments"}, {from_name: "joe", subject: "Regarding your photos", body: "check out the attachments"}, {from_name: "joe", subject: "Regarding your photos", body: "check out the attachments"}, {from_name: "joe", subject: "Regarding your photos", body: "check out the attachments"}, {from_name: "joe", subject: "Regarding your photos", body: "check out the attachments"}, {from_name: "joe", subject: "Regarding your photos", body: "check out the attachments"}, {from_name: "joe", subject: "Regarding your photos", body: "check out the attachments"}, {from_name: "joe", subject: "Regarding your photos", body: "check out the attachments"}, {from_name: "joe", subject: "Regarding your photos", body: "check out the attachments"}, {from_name: "joe", subject: "Regarding your photos", body: "check out the attachments"}]);
         // setMail([]);
     }, []);
@@ -59,6 +68,23 @@ export default function MailView({ params }) {
     useEffect(() => {
         loadMails()
     }, [location])
+
+    useEffect(() => {
+        //loadConvos(mails)
+    }, [mails]);
+
+    let loadConvos = (mls) => {
+        if(Array.isArray(mls)) {
+            let cvs = sortConvos(getConvos(mls), mls);
+            let new_convos = [];
+            for(let conv of Object.values(cvs)) {
+                if(conv.length > 1) {
+                    new_convos.push(conv);
+                }
+            }
+            setConvos(new_convos);
+        };
+    }
 
     let getBodyContent = element => {
         if(element.nodeName !== 'BODY') {
@@ -120,19 +146,51 @@ export default function MailView({ params }) {
                 <div style={{...(mails?.length? {} : {height: "100%", boxShadow: "none"})}} className="mails-con column">
                     <div className="column" style={{width: "100%", height: mails?.length? undefined : "100%"}}>
                         {mails?.length? 
-                        mails.map((mail, index) => {
-                            let parser = new DOMParser();
-                            let parsed = parser.parseFromString(mail.body, 'text/html');
-                            let content = parsed.querySelector("body")
-                            
-                            return (
-                                <MailTab from={mail.from_name || mail.from_addr.split("@")[0]} subject={mail.subject} key={Math.random()} content={content.innerText} className={"mail-select-tab"} dateClassName={"mail-date-select"} onClick={() => {
-                                    if(loaded.showMail) {
-                                        loaded.showMail({...mail, body: content.innerHTML});
+                        (() => {
+                            let mail_comps = [];
+                            let set_message_ids = [];
+                            let index = 0;
+
+                            for(let mail of mails) {
+                                let parser = new DOMParser();
+                                let parsed = parser.parseFromString(mail.body, 'text/html');
+                                let content = parsed.querySelector("body")
+
+                                if (set_message_ids.includes(mail.message_id)) {
+                                    index++;
+                                    continue;
+                                }
+
+                                let i = 0;
+                                for(let conv of convos) {
+                                    if(conv.length > 1) {
+                                        if (conv.some(v => v.message_id === mail.message_id)) {
+                                            set_message_ids.push(...conv.map(m => m.message_id));
+                                            mail_comps.push((
+                                                <MailTab from={[...(new Set(conv.map(c => c.from_name || c.from_addr.split('@')[0])))].join(", ")} subject={mail.subject} key={Math.random()} content={null} className={"mail-select-tab"} dateClassName={"mail-date-select"} onClick={() => {
+                                                    if(loaded.showMail) {
+                                                        loaded.showMail({is_convo: true, convos: conv});
+                                                    }
+                                                }}/>
+                                            ))
+                                        }
                                     }
-                                }}/>
-                            )
-                        }) :
+                                    i++;
+                                }
+                                set_message_ids.push(mail.message_id);
+                            
+                                mail_comps.push((
+                                    <MailTab from={mail.from_name || mail.from_addr.split("@")[0]} subject={mail.subject} key={Math.random()} content={content.innerText} className={"mail-select-tab"} dateClassName={"mail-date-select"} onClick={() => {
+                                        if(loaded.showMail) {
+                                            loaded.showMail({...mail, body: content.innerHTML});
+                                        }
+                                    }}/>
+                                ))
+                                index++;
+                            }
+
+                            return mail_comps;
+                        })() :
                         mails?.length === 0?
                         <div className="no-mails-class-1 column-center">
                             <img src={SputhP} style={{height: "200px", marginTop: "-150px"}}/>

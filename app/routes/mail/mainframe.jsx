@@ -10,6 +10,7 @@ import Fab from "../../components/fab";
 
 import Phone from "../../miniscreens/phone";
 import Composer from "../../miniscreens/composer";
+import Conversation from "../../miniscreens/convo";
 
 import { connection } from "../../globalstate/ws";
 
@@ -70,6 +71,7 @@ class Home extends Component {
       sign: ['cytroid.in'],
       notifications: [],
       viewMail: {
+        convo_mails: [],
         from_name: "Anshul Singh",
         from_addr: "anshul@sayutel.com",
         to_name: "Subhajit Sidhanta",
@@ -81,7 +83,7 @@ class Home extends Component {
         body: '<div style="padding: 10px 20px;"><div>Dear sir</br></br>I am Anshul Singh, roll number 24IM10016 from the Department of Industrial and Systems Engineering. I request you to grant me leave for 12th, 13th, 14th and 15th of July as I was unable to attend classes that day due to the opening ceremony of Cytroid.</br></br>I hope that you will grant me leave for the same as well give blessings for my company.</br></br>Thank you</br></br>Yours Sincerely</br>Anshul Singh</br></br><p style="color: mediumpurple; margin:5px 0px;">Sent using SayuMail by Sayutel</p></div></div>',
         attachments: [{filename: "sputh.png", size: 1000422}]
       },
-      showingMail: false,
+      showingMail: true,
       _loaderprom: new Promise(res => _loaderres = res),
       attachmentShowing: false,
       attachmentInView: false,
@@ -106,6 +108,10 @@ class Home extends Component {
   componentDidMount() {
     //let [_, folder, type] = /\/([^\/]+)(?:\/([^\/]+))?\/*/i.exec(window.location.pathname);
     setInterval(() => this.setState({curTime: new Date}), 1000)
+
+    /*this.state._loaderres({
+      showMail: this.showMail.bind(this)
+    })*/
 
     import("../../sender/index").then(({ startServer }) => {
       startServer(this.state.userIndex, this.props.params).then(v => {
@@ -164,13 +170,17 @@ class Home extends Component {
   }
 
   showMail(mail) {
-    this.letterContent.current.innerHTML = mail.body;
-    if(['gmail.com', 'sayutel.com', 'outlook.com', 'live.com', 'sst.scaler.com', 'iitkgp.ac.in'].some(v => mail.domain.includes(v))) {
-      this.letterContent.current.style.padding = "10px 20px";
+    if(mail.is_convo) {
+      this.setState({viewMail: mail, showingMail: true});
     } else {
-      this.letterContent.current.style.padding = "0px";
-    }
-    this.setState({viewMail: mail, showingMail: true})
+      this.letterContent.current.innerHTML = mail.body;
+      if(['gmail.com', 'sayutel.com', 'outlook.com', 'live.com', 'sst.scaler.com', 'iitkgp.ac.in'].some(v => mail.domain.includes(v))) {
+        this.letterContent.current.style.padding = "10px 20px";
+      } else {
+        this.letterContent.current.style.padding = "0px";
+      }
+      this.setState({viewMail: mail, showingMail: true})
+    };
   }
 
   openAttachments() {
@@ -334,8 +344,11 @@ class Home extends Component {
           <div style={{gap: "0px", boxShadow: '10px 20px 20px 0px rgba(0, 0, 0, 0.05)' && 'none', display: !this.state.showingMail? "flex" : this.state.mailFullScreen === true? "none" : undefined}} className={"column mailview-outlet-con " + (this.state.showingMail?  'mailview-main-no-show' : '')}>
             <Outlet context={{loader: this.state._loaderprom}}/>
           </div>
-          <div className="column-center" style={{width: "100%", height: "100%", borderLeft: "0px solid rgba(0, 0, 0, 0.5)", padding: "20px 30px", display: this.state.showingMail? "flex" : "none", gap: "0px"}}>
-            <div className="letter-action-bar column-center" style={{margin: "0px 0px 0px 15px", borderRadius: "7px 7px 0px 0px"}}>
+          <div className="column-center" style={{width: "100%", height: "100%", borderLeft: "0px solid rgba(0, 0, 0, 0.5)", padding: "20px 20px 20px 30px", display: this.state.showingMail? "flex" : "none", gap: "0px"}}>
+            
+            <Conversation messages={this.state.viewMail?.is_convo? this.state.viewMail?.convos : null} show={this.state.viewMail?.is_convo? this.state.showingMail : false}/>
+            
+            <div className="letter-action-bar column-center" style={{margin: "0px 0px 0px 15px", borderRadius: "7px 7px 0px 0px", display: this.state.viewMail?.is_convo? "none" : "flex"}}>
               <div className="row-center letter-actions" style={{gap: "10px"}}>
                 <span className="material-symbols-outlined letter-action-icon" style={{fontSize: "22px", color: "black"}}>star</span>
                 <div style={{}} className="divider-class-2 display-none"></div>
@@ -350,7 +363,7 @@ class Home extends Component {
                 <span className="material-symbols-outlined letter-action-icon" style={{fontSize: "20px", color: "black"}}>label_important</span>
               </div>
             </div>
-            <div className="letter-paper-class-1-con">
+            <div className="letter-paper-class-1-con" style={{display: this.state.viewMail?.is_convo? "none" : "flex"}}>
               <div className={"letter-paper-class-1 column-center " + (this.state.mailFullScreen? "letter-paper-fullscreen" : "")}>
                 <div className="letter-camera row-center">
                   <div className="letter-camera-eyes column-center">

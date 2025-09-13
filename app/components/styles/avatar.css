@@ -1,0 +1,15 @@
+.s-letter-avatar {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    background: rebeccapurple;
+    color: white;
+    border-radius: 50%;
+    justify-content: center;
+    font-size: 14px;
+    position: sticky;
+    user-select: none;
+}
+
+.s-letter-avatar:hover {
+    cursor: pointer;
+}
