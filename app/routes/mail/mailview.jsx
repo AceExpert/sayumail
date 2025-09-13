@@ -41,17 +41,13 @@ export default function MailView({ params }) {
                 })
             })});
             connection.server.fetchMails(params.folder, 'all').then(newMails => {
-                console.log("bye");
                 setMail(newMails);
+                if(params.folder !== 'sent') {
+                    connection.server.fetchMails('sent', 'all').then(sentMails => {
+                        loadConvos([...sentMails, ...newMails]);
+                    })
+                }
             })
-            if(params.folder !== 'sent') {
-                console.log("yes");
-                connection.server.fetchMails('sent', 'all').then(newMails => {
-                    console.log([...newMails]);
-                    console.log([...mails, ...newMails]);
-                    loadConvos([...mails, ...newMails]);
-                })
-            }
         }
     }
 
