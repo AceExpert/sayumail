@@ -91,7 +91,9 @@ export default function Conversation({className, messages, show, style, ref, ...
                                                         null
                                                     }
                                                     <p style={{fontSize: "14px", padding: "10px 10px 4px 10px"}} ref={elem => {
-                                                        elem.innerHTML = content.innerHTML;
+                                                        if(elem) {
+                                                            elem.innerHTML = content.innerHTML;
+                                                        };
                                                     }}></p>
                                                     <div className="row-center" style={{width: "100%", justifyContent: "flex-end", padding: "0px 8px 5px 5px", display: "flex"}}>
                                                         <p style={{fontSize: "11px", color: "mediumpurple", fontWeight: "600"}}>14:11</p>
