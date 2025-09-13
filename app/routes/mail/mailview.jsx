@@ -75,6 +75,7 @@ export default function MailView({ params }) {
 
     let loadConvos = (mls) => {
         if(Array.isArray(mls)) {
+            console.log(mls);
             let cvs = sortConvos(getConvos(mls), mls);
             let new_convos = [];
             for(let conv of Object.values(cvs)) {
