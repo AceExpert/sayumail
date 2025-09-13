@@ -8,7 +8,7 @@ function getConvos(md) {
         for(let k of Object.keys(convos)) {
             for(let imsg of convos[k]) {
                 if(!imsg.message_id && !msg.message_id) continue;
-                if((imsg.extras?.in_reply_to && imsg.extras?.in_reply_to === msg.message_id) || (imsg.extras?.in_reply_to && msg.extras?.in_reply_to && imsg.extras?.in_reply_to === msg.extras?.in_reply_to)) {
+                if((imsg.extras?.in_reply_to?.trim?.() && imsg.extras?.in_reply_to?.trim?.() === msg.message_id) || (imsg.extras?.in_reply_to?.trim?.() && msg.extras?.in_reply_to?.trim?.() && imsg.extras?.in_reply_to?.trim?.() === msg.extras?.in_reply_to?.trim?.())) {
                     added = true;
                     if(added_k !== null) {
                         convos[added_k] = [...(convos[added_k]), ...(convos[k])];
