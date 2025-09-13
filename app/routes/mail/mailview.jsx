@@ -44,6 +44,7 @@ export default function MailView({ params }) {
                 setMail(newMails);
             })
             if(params.folder !== 'sent') {
+                console.log("yes");
                 connection.server.fetchMails('sent', 'all').then(newMails => {
                     console.log([...newMails]);
                     console.log([...mails, ...newMails]);
