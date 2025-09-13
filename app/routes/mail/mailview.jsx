@@ -169,7 +169,7 @@ export default function MailView({ params }) {
                                         if (conv.some(v => v.message_id === mail.message_id)) {
                                             set_message_ids.push(...conv.map(m => m.message_id));
                                             mail_comps.push((
-                                                <MailTab from={[...(new Set(conv.map(c => c.from_name || c.from_addr.split('@')[0])))].join(", ")} subject={mail.subject} key={Math.random()} content={null} className={"mail-select-tab"} dateClassName={"mail-date-select"} onClick={() => {
+                                                <MailTab from={[...(new Set(conv.map(c => c.from_name || c.from_addr.split('@')[0])))].join(", ")} key={mail.mail_id || mail.message_id} subject={mail.subject} content={null} className={"mail-select-tab"} dateClassName={"mail-date-select"} onClick={() => {
                                                     if(loaded.showMail) {
                                                         loaded.showMail({is_convo: true, convos: conv});
                                                     }
@@ -182,7 +182,7 @@ export default function MailView({ params }) {
                                 set_message_ids.push(mail.message_id);
                             
                                 mail_comps.push((
-                                    <MailTab from={mail.from_name || mail.from_addr.split("@")[0]} subject={mail.subject} key={Math.random()} content={content.innerText} className={"mail-select-tab"} dateClassName={"mail-date-select"} onClick={() => {
+                                    <MailTab from={mail.from_name || mail.from_addr.split("@")[0]} subject={mail.subject} key={mail.mail_id || mail.message_id} content={content.innerText} className={"mail-select-tab"} dateClassName={"mail-date-select"} onClick={() => {
                                         if(loaded.showMail) {
                                             loaded.showMail({...mail, body: content.innerHTML});
                                         }

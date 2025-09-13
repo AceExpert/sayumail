@@ -71,7 +71,7 @@ export default function Conversation({className, messages, show, style, ref, ...
                         let is_me = msgs[i].from_addr === 'anshul@sayutel.com';
 
                         chatowner_comps.push(
-                            <div className="convo-owner row" style={{flexDirection: is_me ? "row-reverse" : "row"}} key={Math.random()}>
+                            <div className="convo-owner row" style={{flexDirection: is_me ? "row-reverse" : "row"}} key={`${msgs[i].mail_id || msgs[i].message_id}`}>
                                 <div className="convo-avatar-con">
                                     <Avatar letter={msgs[i].from_name[0].toUpperCase()}/>
                                 </div>
@@ -85,7 +85,7 @@ export default function Conversation({className, messages, show, style, ref, ...
                                             let content = parsed.querySelector("body")
 
                                             chatmsg_comps.push(
-                                                <div className="convo-chat-message" key={Math.random()} style={{background: is_me? "rgba(110, 67, 131, 0.18)" : ""}}>
+                                                <div className="convo-chat-message" key={`${msgs[i].mail_id || msgs[i].message_id}-content`} style={{background: is_me? "rgba(110, 67, 131, 0.18)" : ""}}>
                                                     {current_i === i? 
                                                         <p style={{fontSize: "13px", color: "rgba(104, 41, 141, 0.7)", fontWeight: "700", padding: "7px 10px 0px 10px", textAlign: is_me? "end" : "start"}}>{msgs[i].from_name}</p> :
                                                         null
