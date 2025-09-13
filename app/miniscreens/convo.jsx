@@ -90,7 +90,9 @@ export default function Conversation({className, messages, show, style, ref, ...
                                                         <p style={{fontSize: "13px", color: "rgba(104, 41, 141, 0.7)", fontWeight: "700", padding: "7px 10px 0px 10px", textAlign: is_me? "end" : "start"}}>{msgs[i].from_name}</p> :
                                                         null
                                                     }
-                                                    <p style={{fontSize: "14px", padding: "10px 10px 4px 10px"}}>{content.innerHTML}</p>
+                                                    <p style={{fontSize: "14px", padding: "10px 10px 4px 10px"}} ref={elem => {
+                                                        elem.innerHTML = content.innerHTML;
+                                                    }}></p>
                                                     <div className="row-center" style={{width: "100%", justifyContent: "flex-end", padding: "0px 8px 5px 5px", display: "flex"}}>
                                                         <p style={{fontSize: "11px", color: "mediumpurple", fontWeight: "600"}}>14:11</p>
                                                     </div>
