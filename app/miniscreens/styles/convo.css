@@ -60,7 +60,7 @@
 }
 
 .convo-owner {
-    min-height: 55px;
+    /* min-height: 55px; */
     height: auto;
     gap: 8px;
     width: 100%;
